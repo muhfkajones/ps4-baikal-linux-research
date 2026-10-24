@@ -6,13 +6,18 @@ param(
     [Parameter(Mandatory)]
     [string]$Image,
 
-    [string]$OutputJson
+    [string]$OutputJson,
+
+    [string]$ExtractDirectory
 )
 
 $ErrorActionPreference = 'Stop'
 $resolvedImage = (Resolve-Path -LiteralPath $Image).Path
 $imageBytes = [IO.File]::ReadAllBytes($resolvedImage)
 $magic = [byte[]](0x53, 0x4c, 0x42, 0x32)
+if ($ExtractDirectory) {
+    New-Item -ItemType Directory -Force -Path $ExtractDirectory | Out-Null
+}
 
 function Get-Sha256Hex {
     param([byte[]]$Bytes)
@@ -65,13 +70,19 @@ foreach ($containerOffset in (Find-MagicOffsets $imageBytes $magic)) {
         }
         $entryBytes = [byte[]]::new($byteCount)
         [Array]::Copy($imageBytes, $absoluteOffset, $entryBytes, 0, $byteCount)
+        $entryHash = Get-Sha256Hex $entryBytes
+        if ($ExtractDirectory) {
+            $containerName = '{0:x8}' -f $containerOffset
+            $entryPath = Join-Path $ExtractDirectory "$containerName--$name.bin"
+            [IO.File]::WriteAllBytes($entryPath, $entryBytes)
+        }
         $entries.Add([ordered]@{
             name = $name
             startSectorHex = ('0x{0:x}' -f $startSector)
             relativeOffsetHex = ('0x{0:x8}' -f $relativeOffset)
             absoluteOffsetHex = ('0x{0:x8}' -f $absoluteOffset)
             bytes = $byteCount
-            sha256 = (Get-Sha256Hex $entryBytes)
+            sha256 = $entryHash
         })
     }
     if ($valid) {

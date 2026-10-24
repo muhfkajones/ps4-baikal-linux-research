@@ -64,5 +64,8 @@ Inventory valid SLB2 containers and hash their entries without extracting or pub
 ```powershell
 .\scripts\Inspect-Slb2Containers.ps1 `
   -Image C:\private\sflash0s1.crypt.bin `
-  -OutputJson C:\private\sflash0s1-slb2-inventory.json
+  -OutputJson C:\private\sflash0s1-slb2-inventory.json `
+  -ExtractDirectory C:\private\slb2-entries
 ```
+
+Omit `-ExtractDirectory` for a hashes-only inventory. Extracted entry bytes are Sony-derived research inputs and must remain outside Git.
