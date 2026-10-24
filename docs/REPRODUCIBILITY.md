@@ -34,6 +34,8 @@ Build the provider-inventory diagnostic with:
 
 Do not execute a new inventory build on hardware until its linked ELF has completed the review below.
 
+Validate a retrieved inventory log with `scripts/Parse-SflashInventoryLog.ps1`. A `complete: true` result requires the expected 13.50 firmware marker, all nine provider records, no unexpected lines, and the payload's final completion marker.
+
 ## Required review before hardware execution
 
 1. Import the generated ELF into Ghidra.

@@ -1,0 +1,10 @@
+PS4 13.50 read-only SFLASH provider inventory v1
+01 initKernel ok
+02 initLibc ok
+03 initPthread ok
+04 is_jailbroken=0x0000000000000001
+05 jailbreak skipped
+06 firmware=0x0000000000000546
+DEVICE /dev/sflash0s1
+ open_fd=0x0000000000000007
+ media_ioctl=0x0000000000000000

@@ -13,3 +13,13 @@ It never opens any SFLASH device for writing. Its only writable path is `/data/p
 The inventory is intended to select a precisely identified acquisition target without running separate trial payloads for every child provider. A new binary must receive the same source review, reproducible-build check, and post-link Ghidra audit as the acquisition payload before hardware execution.
 
 The reviewed build record is in [`AUDIT.md`](AUDIT.md). Generated binaries, ELF files, Ghidra projects, and reports remain excluded from Git.
+
+After retrieving the log, parse and validate it with:
+
+```powershell
+.\scripts\Parse-SflashInventoryLog.ps1 `
+  -LogPath C:\private\sflash-provider-inventory-readonly.log `
+  -OutputJson C:\private\sflash-provider-inventory-result.json
+```
+
+The parser marks a run complete only when the firmware marker is 13.50, all nine expected providers appear exactly once, no unexpected lines are present, and the final completion marker exists.
