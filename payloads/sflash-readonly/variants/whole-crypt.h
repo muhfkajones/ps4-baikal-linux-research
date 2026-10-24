@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 PS4 Baikal Linux Research contributors
+ */
 #define LOG_PATH "/data/payloads/sflash-crypt-dumper-readonly.log"
 #define INPUT_PATH "/dev/sflash0.crypt"
 #define OUTPUT_PATH "/mnt/usb0/PS4/13.50/sflash0.crypt.bin"

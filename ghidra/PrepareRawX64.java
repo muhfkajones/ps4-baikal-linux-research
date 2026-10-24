@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 PS4 Baikal Linux Research contributors
+
 // Marks the first byte of a raw x86-64 payload as executable code so Ghidra's
 // normal analyzers can follow control flow and discover additional functions.
 

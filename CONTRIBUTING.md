@@ -14,3 +14,11 @@ Every hardware experiment should record:
 - observed failure mode and recovery outcome
 
 Do not submit copyrighted Sony binaries, console-unique secrets, credentials, or personal data.
+
+## Attribution and licensing
+
+- Credit every external project, author, and material source used by a contribution.
+- Record the canonical source URL, exact revision or release, role in the work, and license in `CREDITS.md`.
+- Preserve upstream copyright and license notices.
+- Do not copy code from a repository that lacks a redistribution license; link to it as a reference instead.
+- Do not assume that public availability or a GitHub repository grants redistribution rights.

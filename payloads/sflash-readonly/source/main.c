@@ -1,3 +1,9 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 PS4 Baikal Linux Research contributors
+ *
+ * Builds against Scene-Collective/ps4-payload-sdk. See CREDITS.md for the
+ * pinned revision, development lineage, and upstream licensing caveat.
+ */
 #include "ps4.h"
 
 #ifndef LOG_PATH

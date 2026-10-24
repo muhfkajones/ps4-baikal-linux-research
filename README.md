@@ -42,3 +42,5 @@ Current acquisition tools are designed for read-only access to PS4 flash devices
 ## License
 
 Original project code is released under `GPL-3.0-or-later`; third-party components retain their respective licenses.
+
+See [CREDITS.md](CREDITS.md) for authorship, exact upstream revisions, licenses, runtime-component acknowledgements, and non-redistribution boundaries.

@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 PS4 Baikal Linux Research contributors
+# Third-party build dependency provenance is documented in CREDITS.md.
+
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)]

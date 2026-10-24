@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 PS4 Baikal Linux Research contributors
+
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.listing.Data;
 import ghidra.program.model.listing.DataIterator;
