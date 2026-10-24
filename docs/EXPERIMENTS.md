@@ -64,3 +64,14 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Bank comparison: both one-entry containers differ; every corresponding entry in the two seven-entry containers also differs
 - Reference comparison: no exact entry SHA-256 matched the files in pinned `andy-man/ps4-ic-fw` revision `f669d6c8c583b3cae66a833d1604598907fb8a04`
 - Boundary: hashes and layout evidence are publishable; acquired and extracted Sony bytes remain private and excluded from Git
+
+## EXP-007 — Signed boot-module identification
+
+- Date: 2026-10-24
+- Input: private SLB2 entry set from EXP-006 and the privately acquired 13.50 Orbis kernel
+- Public reference: `Al-Azif/ps4-re-utilities` revision `241782df7b3d72b762e5c4c324537d0c868eeb8d`
+- Confirmed identities: `80000001` Secure Loader; `80010001` Secure Kernel; `80010002` Orbis kernel; `80010006` PUP update secure module; `80010008` AuthMgr secure module
+- Kernel evidence: `80010006` is spawned from the compiled `sbl/pup_update/pup_update.c` path; `80010008` is spawned from `sbl/authmgr/authmgr_secure_module.c`; update logic searches the small SLB2 banks for `80000001`
+- Container evidence: 14 of 16 extracted entries begin with little-endian `0x1d3d154f`, the magic checked by `_sceSblAuthMgrCheckSelfHeader`; both `80000001` entries use a different still-unclassified container header
+- Unresolved identities: `80010009`, `8001000A`, and `8001000B` are preserved as unknown secure modules until a primary source or code evidence identifies them
+- Conclusion: the on-flash entries are not the decrypted inputs required by the public 13.50 utilities. Future acquisition must capture decrypted runtime modules after the secure processor has authenticated and transformed them

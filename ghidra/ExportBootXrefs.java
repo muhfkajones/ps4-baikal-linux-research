@@ -21,7 +21,8 @@ public class ExportBootXrefs extends GhidraScript {
     private static final String[] TERMS = {
         "sflash", "slb2", "secure loader", "secure_loader", "samu",
         "baikal", "boot control", "bootparam", "boot parameter",
-        "emc", "syscon", "snvs", "authmgr", "signature"
+        "emc", "syscon", "snvs", "authmgr", "signature",
+        "secure module", "800000", "800100"
     };
 
     private static boolean matches(String value) {

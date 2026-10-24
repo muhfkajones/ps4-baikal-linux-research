@@ -14,6 +14,7 @@ Verified reference system:
 - Linux boot: working from external USB after HEN and Linux-loader payload
 
 See [docs/STATUS.md](docs/STATUS.md) for confirmed results and the current research boundary.
+See [docs/SECURE-BOOT-MODULE-MAP.md](docs/SECURE-BOOT-MODULE-MAP.md) for the evidence-backed map of the acquired signed boot modules and the next acquisition target.
 
 ## Repository policy
 

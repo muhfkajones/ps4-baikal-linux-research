@@ -84,6 +84,16 @@ These components enabled local testing or produced research inputs. They are not
 
 ## Reverse-engineering references
 
+### Al-Azif/ps4-re-utilities
+
+- Source: <https://github.com/Al-Azif/ps4-re-utilities>
+- Pinned revision: `241782df7b3d72b762e5c4c324537d0c868eeb8d`
+- Author: **Al Azif**.
+- Use here: authoritative role mapping for the `80000001`, `80010001`, `80010002`, and `80010008` boot entries, plus requirements analysis for future decrypted-runtime acquisition.
+- Firmware scope claimed upstream: the relevant extractors work through firmware 13.50.
+- License: GPL-3.0 at the pinned revision.
+- Distribution rule here: not vendored. The utilities require decrypted module inputs; no Sony-derived input, extracted key material, or utility output is committed to this repository.
+
 ### andy-man/ps4-ic-fw
 
 - Source: <https://github.com/andy-man/ps4-ic-fw>

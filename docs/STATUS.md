@@ -1,6 +1,6 @@
 # Verified status
 
-Last updated: 2026-10-23
+Last updated: 2026-10-24
 
 ## Confirmed
 
@@ -14,6 +14,8 @@ Last updated: 2026-10-23
 - Extracted EMC, EAP, and Torus containers match archived public firmware objects byte-for-byte.
 - Published Aeolia/Belize EMC/EAP keys do not decrypt the Baikal firmware objects.
 - Known public legacy key material was not found in the acquired Orbis kernel.
+- The decrypted system slice contains redundant signed boot banks with Secure Loader (`80000001`), Secure Kernel (`80010001`), Orbis kernel (`80010002`), PUP update (`80010006`), and AuthMgr (`80010008`) entries.
+- The extracted flash entries are still signed SELF containers, not the decrypted runtime images required for code-level analysis of the early secure boot stages.
 
 ## Current experiment
 
@@ -28,6 +30,8 @@ Offline inspection of the full decrypted slice found four valid SLB2 containers 
 ## Current research boundary
 
 No permanent or cold-boot Linux mechanism has been demonstrated. Evidence currently places the unresolved trust boundary below the ordinary Orbis kernel, involving Baikal/SAMU-mediated decryption and signed early-boot components.
+
+The next acquisition target is therefore the decrypted in-memory form of Secure Loader, Secure Kernel, and AuthMgr on the owned 13.50 console. Re-reading the same flash providers or rerunning the Linux loader cannot supply those runtime images. See [SECURE-BOOT-MODULE-MAP.md](SECURE-BOOT-MODULE-MAP.md).
 
 ## Success criteria
 
