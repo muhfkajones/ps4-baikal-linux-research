@@ -19,9 +19,9 @@ Last updated: 2026-10-23
 
 The first crypt-device acquisition used `/dev/sflash0.crypt`. It produced a complete 32 MiB result but did not expose recognizable plaintext at the flash header or known firmware boundaries.
 
-Kernel string and cross-reference analysis identifies `/dev/sflash0s1.crypt` and its child devices as the system-flash crypt provider used during boot. A corrected, read-only, resumable acquisition payload now targets `/dev/sflash0s1.crypt`. Its output has not yet been classified.
+Kernel string and cross-reference analysis identifies `/dev/sflash0s1.crypt` and its child devices as the system-flash crypt provider used during boot. A completed read-only runtime inventory confirms that `/dev/sflash0s1.crypt` is a 30 MiB view beginning with the Sony plaintext flash header. A corrected, read-only, resumable acquisition payload targets this provider; the full output has not yet been acquired or classified.
 
-The same kernel path inventory identifies child providers `/dev/sflash0s1.cryptx1`, `x2`, `x3`, `x2b`, `x3b`, `x39`, and `x40`. Their names alone do not establish which view contains a useful plaintext boot component. A single read-only inventory payload is built and post-link audited to record provider geometry and structural markers before selecting any additional acquisition target. Runtime results have not yet been collected.
+The same kernel path inventory identifies child providers `/dev/sflash0s1.cryptx1`, `x2`, `x3`, `x2b`, `x3b`, `x39`, and `x40`. The completed inventory found `SLB2` at the start of `x2`, `x2b`, `x3`, and `x3b`. The two `x2` views share a first-sector fingerprint; the two `x3` views do not. These are boot-container views, but a 512-byte probe is insufficient to establish full-content equivalence or select a modification target.
 
 ## Current research boundary
 

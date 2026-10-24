@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "consoleModel": "PS4 Pro CUH-7215B",
+  "southbridge": "Baikal B1",
+  "firmware": "13.50",
+  "payloadSha256": "1B4F84E06178EA6E2CD7BE648822132A9CCCC922248C5F90E3CD97B3C1AD4A03",
+  "retrievedLogSha256": "8CEC589893ABD0F965D6B08BF2CC1709A5BED656AD9CE5143FED8A41AD14FAA5",
+  "complete": true,
+  "providers": [
+    { "path": "/dev/sflash0s1", "sizeHex": "0x01e00000", "sectorSize": 512, "sampleFnv1a64": "197dce410ba8e80d", "marker": null },
+    { "path": "/dev/sflash0s1.crypt", "sizeHex": "0x01e00000", "sectorSize": 512, "sampleFnv1a64": "cd3eb8d2d251c595", "marker": "SONY COMPUTER ENTERTAINMENT INC." },
+    { "path": "/dev/sflash0s1.cryptx1", "sizeHex": "0x00080000", "sectorSize": 512, "sampleFnv1a64": "744bfa0ce4735266", "marker": null },
+    { "path": "/dev/sflash0s1.cryptx2", "sizeHex": "0x0003e000", "sectorSize": 512, "sampleFnv1a64": "421ed1aa3e24ae50", "marker": "SLB2" },
+    { "path": "/dev/sflash0s1.cryptx3", "sizeHex": "0x00cc0000", "sectorSize": 512, "sampleFnv1a64": "014285f305aa76e1", "marker": "SLB2" },
+    { "path": "/dev/sflash0s1.cryptx2b", "sizeHex": "0x0003e000", "sectorSize": 512, "sampleFnv1a64": "421ed1aa3e24ae50", "marker": "SLB2" },
+    { "path": "/dev/sflash0s1.cryptx3b", "sizeHex": "0x00cc0000", "sectorSize": 512, "sampleFnv1a64": "98788a18dc14f6b7", "marker": "SLB2" },
+    { "path": "/dev/sflash0s1.cryptx39", "sizeHex": "0x00080000", "sectorSize": 512, "sampleFnv1a64": "2dad9b7b369098f7", "marker": null },
+    { "path": "/dev/sflash0s1.cryptx40", "sizeHex": "0x002c0000", "sectorSize": 512, "sampleFnv1a64": "3edf6a739d4b67c8", "marker": null }
+  ]
+}
