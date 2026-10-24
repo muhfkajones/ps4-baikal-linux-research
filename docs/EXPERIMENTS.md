@@ -25,7 +25,10 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Date: 2026-10-23
 - Input: `/dev/sflash0s1.crypt`, opened read-only
 - Tool: `sflash-s1-crypt-dumper-readonly`
-- Status: target confirmed; full acquisition/classification pending
+- Status: complete
+- Output bytes: `31457280`
+- Output SHA-256: `A6C4E5B897A129AFFEF8EA1F8FE168F70D916C71D20901B9D8CD1DC0E1AEDCB0`
+- Classification: `structured-plaintext-candidate`
 - Basis: device name and boot-time references recovered from the 13.50 Orbis kernel, followed by EXP-005 confirming a 30 MiB view whose first sector begins with the Sony plaintext flash header
 
 ## EXP-004 — SFLASH provider inventory, first build
@@ -47,3 +50,17 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Finding: `cryptx2`, `cryptx2b`, `cryptx3`, and `cryptx3b` begin with `SLB2`
 - Finding: `cryptx2` and `cryptx2b` have the same size and first-sector fingerprint; `cryptx3` and `cryptx3b` have the same size but different first-sector fingerprints
 - Decision: retain `/dev/sflash0s1.crypt` as the next full read-only acquisition target; treat child providers as separate boot-container views requiring independent hashes before drawing equivalence conclusions
+
+## EXP-006 — Decrypted system-slice classification
+
+- Date: 2026-10-24
+- Input: completed 30 MiB `/dev/sflash0s1.crypt` acquisition from EXP-003
+- SHA-256: `A6C4E5B897A129AFFEF8EA1F8FE168F70D916C71D20901B9D8CD1DC0E1AEDCB0`
+- Completion marker: present
+- Structural markers: Sony plaintext header at `0x0`; `SLB2` at `0x4000`
+- Comparison: zero matching 64 KiB blocks against both the raw system-slice view and the corresponding portion of `/dev/sflash0.crypt`
+- Classification: `structured-plaintext-candidate`
+- SLB2 inventory: four valid containers at `0x4000`, `0x42000`, `0x1c0000`, and `0xe80000`; 16 entries total
+- Bank comparison: both one-entry containers differ; every corresponding entry in the two seven-entry containers also differs
+- Reference comparison: no exact entry SHA-256 matched the files in pinned `andy-man/ps4-ic-fw` revision `f669d6c8c583b3cae66a833d1604598907fb8a04`
+- Boundary: hashes and layout evidence are publishable; acquired and extracted Sony bytes remain private and excluded from Git

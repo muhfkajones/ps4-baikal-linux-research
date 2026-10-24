@@ -58,3 +58,11 @@ Keep private dump bytes outside the repository. After acquisition, generate a pu
 ```
 
 Review the JSON before copying any result into `docs/` or `manifests/`. Publish hashes and classification evidence only—never the dump, local paths, console identifiers, keys, or unique plaintext.
+
+Inventory valid SLB2 containers and hash their entries without extracting or publishing the entry bytes:
+
+```powershell
+.\scripts\Inspect-Slb2Containers.ps1 `
+  -Image C:\private\sflash0s1.crypt.bin `
+  -OutputJson C:\private\sflash0s1-slb2-inventory.json
+```

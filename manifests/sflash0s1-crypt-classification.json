@@ -1,0 +1,19 @@
+{
+  "schema": "ps4-baikal-sflash0s1-classification-v1",
+  "bytes": 31457280,
+  "sha256": "A6C4E5B897A129AFFEF8EA1F8FE168F70D916C71D20901B9D8CD1DC0E1AEDCB0",
+  "completeMarkerPresent": true,
+  "chunkAligned16k": true,
+  "markers": {
+    "sonyHeaderAt0": true,
+    "slb2At0": false,
+    "slb2At0x4000": true,
+    "elfAt0": false
+  },
+  "comparisons": {
+    "rawSystemSlice": { "blockBytes": 65536, "matchingBlocks": 0, "differentBlocks": 480 },
+    "wholeCryptSystemSlice": { "blockBytes": 65536, "matchingBlocks": 0, "differentBlocks": 480 }
+  },
+  "meanSampleEntropyBitsPerByte": 7.980159,
+  "classification": "structured-plaintext-candidate"
+}

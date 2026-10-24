@@ -19,9 +19,11 @@ Last updated: 2026-10-23
 
 The first crypt-device acquisition used `/dev/sflash0.crypt`. It produced a complete 32 MiB result but did not expose recognizable plaintext at the flash header or known firmware boundaries.
 
-Kernel string and cross-reference analysis identifies `/dev/sflash0s1.crypt` and its child devices as the system-flash crypt provider used during boot. A completed read-only runtime inventory confirms that `/dev/sflash0s1.crypt` is a 30 MiB view beginning with the Sony plaintext flash header. A corrected, read-only, resumable acquisition payload targets this provider; the full output has not yet been acquired or classified.
+Kernel string and cross-reference analysis identifies `/dev/sflash0s1.crypt` and its child devices as the system-flash crypt provider used during boot. The complete 30 MiB read-only acquisition has SHA-256 `A6C4E5B897A129AFFEF8EA1F8FE168F70D916C71D20901B9D8CD1DC0E1AEDCB0` and classifies as a structured plaintext candidate. It begins with the Sony plaintext flash header, contains an `SLB2` container at `0x4000`, and has no matching 64 KiB blocks against either the raw slice or the earlier whole-device crypt-node view.
 
 The same kernel path inventory identifies child providers `/dev/sflash0s1.cryptx1`, `x2`, `x3`, `x2b`, `x3b`, `x39`, and `x40`. The completed inventory found `SLB2` at the start of `x2`, `x2b`, `x3`, and `x3b`. The two `x2` views share a first-sector fingerprint; the two `x3` views do not. These are boot-container views, but a 512-byte probe is insufficient to establish full-content equivalence or select a modification target.
+
+Offline inspection of the full decrypted slice found four valid SLB2 containers and 16 entries. Corresponding A/B-bank entry hashes differ throughout. No entry exactly matches the pinned public `ps4-ic-fw` archive, so component identity must be established from structure and code analysis rather than filename or archive-hash assumptions.
 
 ## Current research boundary
 
