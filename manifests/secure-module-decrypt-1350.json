@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-24",
+  "hardwareExecuted": false,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1"
+  },
+  "toolchain": {
+    "zigVersion": "0.17.0",
+    "ghidraVersion": "12.1.4 PUBLIC",
+    "sdkRepository": "https://github.com/Scene-Collective/ps4-payload-sdk",
+    "sdkRevision": "b7326416c23ce14639e9180a24093bdc5eedb579"
+  },
+  "sources": [
+    {
+      "path": "payloads/secure-module-decrypt/source/main.c",
+      "sha256": "2A4169CD50EF59B6254F94CEFF74A3C86C99559960556EC43F0BCF23491208CE"
+    },
+    {
+      "path": "scripts/Build-SecureModuleDecrypt.ps1",
+      "sha256": "20756DF3A35EE495E0F6D86DE8C24B339B85FEC20094F22F9FEB59884985AECB"
+    },
+    {
+      "path": "scripts/Prepare-SecureModuleUsb.ps1",
+      "sha256": "5CBCA2148ECC2D59936ADFF5A6E9EB0851EE38870E6A03141D2A2A178B9600BD"
+    }
+  ],
+  "buildOutputs": {
+    "elf": {
+      "bytes": 39832,
+      "sha256": "9DD503027E90428CFF6C1FB97D7B77DF6B6F0CDCD27060195F220A5C7276E32A",
+      "relocations": 0
+    },
+    "flatBinary": {
+      "bytes": 15108,
+      "sha256": "AF4C84DBFA288F71926F7544200AF124D1A4684870E1D6C13A9512C8B510FF73"
+    }
+  },
+  "audit": {
+    "consecutiveMatchingBuilds": 2,
+    "ghidraFunctionsFound": 30,
+    "ghidraFunctionsDecompiled": 30,
+    "compiledDevPaths": 0,
+    "persistentWriteRoot": "/mnt/usb0/ps4-re-output"
+  }
+}

@@ -94,6 +94,23 @@ These components enabled local testing or produced research inputs. They are not
 - License: GPL-3.0 at the pinned revision.
 - Distribution rule here: not vendored. The utilities require decrypted module inputs; no Sony-derived input, extracted key material, or utility output is committed to this repository.
 
+### AlexAltea/orbital
+
+- Source: <https://github.com/AlexAltea/orbital>
+- Inspected revision: `cc408367da6a6ebbf5ac1ac559fefeadc73b2831`
+- Author and copyright: **Alexandro Sanchez**, copyright © 2017.
+- Use here: reference for the AuthMgr-backed SELF segment-decryption flow and the distinction between signed containers and reconstructed executable segments.
+- License: MIT at the inspected revision.
+- Distribution rule here: not vendored; no Orbital source or console-derived output is redistributed.
+
+### Scene-Collective/ps4-module-dumper
+
+- Source: <https://github.com/Scene-Collective/ps4-module-dumper>
+- Inspected revision: `b430dce264821be4bd4103e5ba6f84742e4a1e08`
+- Use here: reference confirming the public runtime workflow for dumping decrypted modules through firmware support supplied by the Scene-Collective SDK.
+- License status: no `LICENSE`, `COPYING`, or equivalent file was present in the inspected repository tree.
+- Distribution rule here: **reference only**. No source was copied and no upstream binary is redistributed.
+
 ### andy-man/ps4-ic-fw
 
 - Source: <https://github.com/andy-man/ps4-ic-fw>

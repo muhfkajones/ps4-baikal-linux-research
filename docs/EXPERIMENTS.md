@@ -75,3 +75,20 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Container evidence: 14 of 16 extracted entries begin with little-endian `0x1d3d154f`, the magic checked by `_sceSblAuthMgrCheckSelfHeader`; both `80000001` entries use a different still-unclassified container header
 - Unresolved identities: `80010009`, `8001000A`, and `8001000B` are preserved as unknown secure modules until a primary source or code evidence identifies them
 - Conclusion: the on-flash entries are not the decrypted inputs required by the public 13.50 utilities. Future acquisition must capture decrypted runtime modules after the secure processor has authenticated and transformed them
+
+## EXP-008 — Targeted Secure Kernel and AuthMgr decryptor, offline audit
+
+- Date: 2026-10-24
+- Hardware status: not executed
+- Target firmware: exactly 13.50
+- Inputs: A/B copies of signed `80010001` and `80010008`, read only from `/mnt/usb0/ps4-re-input`
+- Outputs: reconstructed ELF32 program segments, log, and completion marker only under `/mnt/usb0/ps4-re-output`
+- Kernel action: the pinned SDK's volatile `mmap_patch`; no persistent kernel or flash modification
+- ELF build: 39,832 bytes; SHA-256 `9DD503027E90428CFF6C1FB97D7B77DF6B6F0CDCD27060195F220A5C7276E32A`
+- Flat payload: 15,108 bytes; SHA-256 `AF4C84DBFA288F71926F7544200AF124D1A4684870E1D6C13A9512C8B510FF73`
+- Reproducibility: two consecutive clean invocations produced identical sizes and hashes
+- Relocation audit: the linked ELF contains no relocation records
+- Ghidra audit: the flat payload was analyzed as x86-64; 30 functions were found and all 30 decompiled successfully
+- Compiled-path audit: all persistent paths are under the two declared USB directories; no `/dev/` path is present
+- Structural basis: both `80010001` copies contain two ordinary ELF32 load segments; both `80010008` copies contain three ordinary ELF32 load segments; no nested or special unencrypted program segment is present
+- Decision: retain as prepared but unexecuted until the reviewed source and audit record are committed and the transferred payload hash is reverified
