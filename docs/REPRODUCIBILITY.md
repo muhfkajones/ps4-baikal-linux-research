@@ -24,12 +24,22 @@ From PowerShell:
 
 The script returns the output path, byte length, and SHA-256 hash. Build products remain ignored by Git.
 
+Build the provider-inventory diagnostic with:
+
+```powershell
+.\scripts\Build-SflashInventory.ps1 `
+  -Zig C:\path\to\zig.exe `
+  -SdkRoot C:\path\to\ps4-payload-sdk
+```
+
+Do not execute a new inventory build on hardware until its linked ELF has completed the review below.
+
 ## Required review before hardware execution
 
 1. Import the generated ELF into Ghidra.
 2. Confirm all functions decompile or account for every failure.
 3. Confirm the selected input path is opened with `O_RDONLY`.
-4. Confirm writable paths are restricted to external USB and the diagnostic log.
+4. Confirm writable paths are restricted to the documented output files (external USB for acquisition payloads; the diagnostic log for the inventory payload).
 5. Record source revision, toolchain revisions, output length, and SHA-256.
 6. Upload the payload and download it again; require identical SHA-256 hashes before execution.
 

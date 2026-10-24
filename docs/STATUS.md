@@ -21,6 +21,8 @@ The first crypt-device acquisition used `/dev/sflash0.crypt`. It produced a comp
 
 Kernel string and cross-reference analysis identifies `/dev/sflash0s1.crypt` and its child devices as the system-flash crypt provider used during boot. A corrected, read-only, resumable acquisition payload now targets `/dev/sflash0s1.crypt`. Its output has not yet been classified.
 
+The same kernel path inventory identifies child providers `/dev/sflash0s1.cryptx1`, `x2`, `x3`, `x2b`, `x3b`, `x39`, and `x40`. Their names alone do not establish which view contains a useful plaintext boot component. A single read-only inventory payload is built and post-link audited to record provider geometry and structural markers before selecting any additional acquisition target. Runtime results have not yet been collected.
+
 ## Current research boundary
 
 No permanent or cold-boot Linux mechanism has been demonstrated. Evidence currently places the unresolved trust boundary below the ordinary Orbis kernel, involving Baikal/SAMU-mediated decryption and signed early-boot components.
