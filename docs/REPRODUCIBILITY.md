@@ -32,3 +32,17 @@ The script returns the output path, byte length, and SHA-256 hash. Build product
 4. Confirm writable paths are restricted to external USB and the diagnostic log.
 5. Record source revision, toolchain revisions, output length, and SHA-256.
 6. Upload the payload and download it again; require identical SHA-256 hashes before execution.
+
+## Classify an acquired SFLASH view
+
+Keep private dump bytes outside the repository. After acquisition, generate a publication-safe JSON report containing hashes, size, entropy samples, structural probes, and block-level comparisons:
+
+```powershell
+.\scripts\Classify-SflashDump.ps1 `
+  -Candidate C:\private\sflash0s1.crypt.bin `
+  -RawReference C:\private\sflash0-raw-reference.bin `
+  -WholeCryptReference C:\private\sflash0-crypt-node-reference.bin `
+  -OutputJson C:\private\sflash0s1-classification.json
+```
+
+Review the JSON before copying any result into `docs/` or `manifests/`. Publish hashes and classification evidence only—never the dump, local paths, console identifiers, keys, or unique plaintext.

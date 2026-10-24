@@ -21,3 +21,5 @@
 ## Artifact verification
 
 Binary artifacts remain outside Git. Their SHA-256 hashes, byte lengths, acquisition method, source-device description, and tool version may be recorded in `manifests/` after review for unique information.
+
+`scripts/Classify-SflashDump.ps1` emits only the candidate filename, length, SHA-256, coarse entropy samples, known-marker results, and block-level comparison statistics. Its JSON still requires human review before publication because filenames and hashes may reveal information about private research artifacts.
