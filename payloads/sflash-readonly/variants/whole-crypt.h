@@ -1,0 +1,6 @@
+#define LOG_PATH "/data/payloads/sflash-crypt-dumper-readonly.log"
+#define INPUT_PATH "/dev/sflash0.crypt"
+#define OUTPUT_PATH "/mnt/usb0/PS4/13.50/sflash0.crypt.bin"
+#define COMPLETE_PATH "/mnt/usb0/PS4/13.50/sflash0.crypt.complete"
+#define LOG_HEADER "PS4 13.50 read-only decrypted-sflash dumper v1\n"
+#define COMPLETE_TEXT "sflash0.crypt read-only dump complete\n"

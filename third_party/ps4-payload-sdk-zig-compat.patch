@@ -1,0 +1,61 @@
+diff --git a/libPS4/crt0.s b/libPS4/crt0.s
+index d422e2a..cab25d3 100644
+--- a/libPS4/crt0.s
++++ b/libPS4/crt0.s
+@@ -1,5 +1,5 @@
+ .intel_syntax noprefix
+-.text
++.section .text.start,"ax"
+ 
+ .global _start
+ _start:
+diff --git a/libPS4/include/payload_utils.h b/libPS4/include/payload_utils.h
+index 0d8f78b..28628cf 100644
+--- a/libPS4/include/payload_utils.h
++++ b/libPS4/include/payload_utils.h
+@@ -110,7 +110,7 @@ static inline __attribute__((always_inline)) uint64_t __readmsr(unsigned long __
+ 
+ static inline __attribute__((always_inline)) uint64_t readCr0(void) {
+   uint64_t cr0;
+-  __asm__ volatile("movq %0, %%cr0"
++  __asm__ volatile("mov %0, cr0"
+                    : "=r"(cr0)
+                    :
+                    : "memory");
+@@ -118,7 +118,7 @@ static inline __attribute__((always_inline)) uint64_t readCr0(void) {
+ }
+ 
+ static inline __attribute__((always_inline)) void writeCr0(uint64_t cr0) {
+-  __asm__ volatile("movq %%cr0, %0"
++  __asm__ volatile("mov cr0, %0"
+                    :
+                    : "r"(cr0)
+                    : "memory");
+diff --git a/libPS4/include/syscall.h b/libPS4/include/syscall.h
+index 4982af1..96bcd64 100644
+--- a/libPS4/include/syscall.h
++++ b/libPS4/include/syscall.h
+@@ -9,7 +9,7 @@
+   __asm__(".intel_syntax noprefix"); \
+   __asm__(".globl " #name "");       \
+   __asm__("" #name ":");             \
+-  __asm__("movq rax, " #number "");  \
++  __asm__("mov rax, " #number "");   \
+   __asm__("jmp syscall_macro");
+ 
+ unsigned long syscall(unsigned long n, ...);
+diff --git a/libPS4/source/syscall.s b/libPS4/source/syscall.s
+index 4171a2a..73d5149 100644
+--- a/libPS4/source/syscall.s
++++ b/libPS4/source/syscall.s
+@@ -22,8 +22,8 @@ _error:
+ 	call __error[rip]
+ 	pop rcx
+ 	mov [rax], ecx
+-	movq rax, -1
+-	movq rdx, -1
++	mov rax, -1
++	mov rdx, -1
+ 
+ _end:
+ 	ret

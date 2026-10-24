@@ -1,0 +1,48 @@
+# Never commit console-unique or Sony-owned material.
+*.bin
+*.elf
+*.self
+*.sprx
+*.pkg
+*.pup
+*.iso
+*.img
+*.img.*
+*.dump
+*.rom
+*.flash
+*.key
+*.pem
+*.der
+*.pfx
+*.zip
+*.7z
+*.rar
+
+# Analysis databases and generated output.
+*.gpr
+*.rep/
+ghidra-project*/
+ghidra-report*/
+build*/
+dist/
+artifacts/
+captures/
+dumps/
+private/
+.deps/
+.zig-cache/
+.zig-global/
+.zig-local/
+
+# Logs may contain console-unique information or local paths.
+*.log
+
+# Local/editor files.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.user
+*.suo
