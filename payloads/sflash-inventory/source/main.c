@@ -15,18 +15,6 @@
 /* FreeBSD DIOCGSECTORSIZE = _IOR('d', 128, unsigned int). */
 #define DIOCGSECTORSIZE 0x40046480UL
 
-static const char *const device_paths[] = {
-  "/dev/sflash0s1",
-  "/dev/sflash0s1.crypt",
-  "/dev/sflash0s1.cryptx1",
-  "/dev/sflash0s1.cryptx2",
-  "/dev/sflash0s1.cryptx3",
-  "/dev/sflash0s1.cryptx2b",
-  "/dev/sflash0s1.cryptx3b",
-  "/dev/sflash0s1.cryptx39",
-  "/dev/sflash0s1.cryptx40"
-};
-
 static size_t text_length(const char *text) {
   size_t length = 0;
   while (text[length] != '\0') {
@@ -183,10 +171,22 @@ int _main(struct thread *td) {
     return 0;
   }
 
-  for (size_t index = 0;
-       index < sizeof(device_paths) / sizeof(device_paths[0]); index++) {
-    probe_device(device_paths[index]);
-  }
+  /*
+   * Keep these as direct calls. The PS4 loader executes the flat binary made
+   * from this ELF and does not apply ELF data relocations; a global array of
+   * string pointers therefore does not survive binary extraction correctly.
+   * Direct literal references compile as position-independent code-relative
+   * references and have been confirmed in the linked-image audit.
+   */
+  probe_device("/dev/sflash0s1");
+  probe_device("/dev/sflash0s1.crypt");
+  probe_device("/dev/sflash0s1.cryptx1");
+  probe_device("/dev/sflash0s1.cryptx2");
+  probe_device("/dev/sflash0s1.cryptx3");
+  probe_device("/dev/sflash0s1.cryptx2b");
+  probe_device("/dev/sflash0s1.cryptx3b");
+  probe_device("/dev/sflash0s1.cryptx39");
+  probe_device("/dev/sflash0s1.cryptx40");
   append_text("PASS provider inventory complete\n");
   return 0;
 }
