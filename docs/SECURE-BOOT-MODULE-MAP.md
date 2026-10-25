@@ -35,6 +35,19 @@ The next useful evidence is the decrypted in-memory representation of:
 
 Acquisition must be read-only and occur after the secure processor has authenticated/decrypted each target. Before any hardware run, a proposed method must identify the exact address and lifetime of the plaintext, prove that all source reads are bounded, write only to external USB or a diagnostic log, and pass the same build/hash/Ghidra review used for the existing acquisition payloads.
 
+## Rejected acquisition path
+
+EXP-009 tested the ordinary AuthMgr-backed SELF segment mapping interface against hash-verified A/B copies of `80010001` and `80010008`. Firmware gating, jailbreak setup, and the volatile SDK mapping patch all succeeded, but every first program-segment request failed with `ENOEXEC` (`8`). The diagnostic revision removed incomplete output files and did not create a completion marker.
+
+Targeted analysis of the owned 13.50 kernel establishes a distinct path for secure modules:
+
+- `_sceSblAuthMgrSmStart` calls `sceSblServiceSpawn("80010008", ...)`;
+- ordinary AuthMgr operations exchange 128-byte requests through `sceSblServiceMailbox`;
+- the HEN fake-SELF hooks operate on GPU/CPU mapped buffers used for ordinary SELF blocks, not on the executable image of the AuthMgr secure module itself;
+- the secure-module service reads the signed object and passes it across the SAMU-facing service boundary.
+
+Therefore another userland `mmap` variant is not a valid next experiment. A future capture must first demonstrate a CPU-readable plaintext lifetime in the secure-module spawn/service or DMA path. If no such lifetime exists, acquisition requires a separate SAMU vulnerability or a bounded hardware observation method rather than an Orbis file-mapping change.
+
 ## What is not yet proved
 
 - No cold-boot Linux path has been demonstrated.

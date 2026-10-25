@@ -92,3 +92,18 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Compiled-path audit: all persistent paths are under the two declared USB directories; no `/dev/` path is present
 - Structural basis: both `80010001` copies contain two ordinary ELF32 load segments; both `80010008` copies contain three ordinary ELF32 load segments; no nested or special unencrypted program segment is present
 - Decision: retain as prepared but unexecuted until the reviewed source and audit record are committed and the transferred payload hash is reverified
+
+## EXP-009 — Secure Kernel and AuthMgr ordinary-mapper rejection
+
+- Date: 2026-10-24
+- Reference system: PS4 Pro CUH-7215B, firmware 13.50, Baikal B1
+- Inputs: hash-verified A/B signed SELF copies of `80010001` and `80010008` on external USB
+- v1 flat payload SHA-256: `AF4C84DBFA288F71926F7544200AF124D1A4684870E1D6C13A9512C8B510FF73`
+- Diagnostic v2 flat payload SHA-256: `2F1789C3F508E0787D18B8FF8F3A19F3B08D2A188984152A347DA30260893323`
+- Runtime preconditions: firmware check passed; jailbreak result `0`; volatile `mmap_patch` result `0`
+- Result: all four inputs failed on program segment zero with `mmap` errno `8` (`ENOEXEC`)
+- Output behavior: diagnostic v2 removed each incomplete output; no `.complete` marker was created
+- Repetition: a later diagnostic run produced a byte-identical log with SHA-256 `9F0B99949831B93C6AB70965DA38E429236EE663A4D793233D9C53543EC2FBA7`
+- Kernel trace: the 13.50 Orbis kernel starts AuthMgr with `sceSblServiceSpawn("80010008", ...)` and exchanges requests through `sceSblServiceMailbox`; this is separate from the ordinary x86 SELF mapping path used by v1/v2
+- Conclusion: the signed containers are readable and structurally valid, but the ordinary AuthMgr-backed executable mapper rejects their secure-module ELF machine/type. Retrying paths, flags, USB preparation, or the same mapper cannot expose their plaintext
+- Next target: trace the secure-module spawn/service path and SAMU-facing buffers without modifying flash; do not attempt another ordinary `mmap` decryptor revision

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-24",
+  "hardwareExecuted": true,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1"
+  },
+  "purpose": "Record the exact errno from the rejected ordinary SELF segment mapping path.",
+  "toolchain": {
+    "zigVersion": "0.17.0",
+    "ghidraVersion": "12.1.4 PUBLIC",
+    "sdkRepository": "https://github.com/Scene-Collective/ps4-payload-sdk",
+    "sdkRevision": "b7326416c23ce14639e9180a24093bdc5eedb579"
+  },
+  "sources": [
+    {
+      "path": "payloads/secure-module-decrypt-diagnostic/source/main.c",
+      "sha256": "E06C8D0994B2F29DAC6B4250B0A65093F5B49725D892B5BF087ECBAD287F8A07"
+    },
+    {
+      "path": "payloads/secure-module-decrypt-diagnostic/README.md",
+      "sha256": "F2B3BE9AFC64D890D1C26D52D0398125EE591B05618D3269A2DAAEAD6ACA1E78"
+    },
+    {
+      "path": "scripts/Build-SecureModuleDecryptDiagnostic.ps1",
+      "sha256": "5AAC044E9687F19FEC09DF410ED577847F5C9B9A155003D49AC5376777DB86D1"
+    }
+  ],
+  "buildOutputs": {
+    "elf": {
+      "bytes": 40064,
+      "sha256": "AB8027B163DAAF4D49B3DE798D50BFF7BB890262980DECBC834AAF5106225057",
+      "relocations": 0
+    },
+    "flatBinary": {
+      "bytes": 15364,
+      "sha256": "2F1789C3F508E0787D18B8FF8F3A19F3B08D2A188984152A347DA30260893323"
+    }
+  },
+  "audit": {
+    "consecutiveMatchingBuilds": 2,
+    "ghidraFunctionsFound": 30,
+    "ghidraFunctionsDecompiled": 30,
+    "compiledDevPaths": 0,
+    "persistentWriteRoot": "/mnt/usb0/ps4-re-output"
+  },
+  "runtimeResult": {
+    "inputsAttempted": 4,
+    "inputsCompleted": 0,
+    "failedSegmentIndex": 0,
+    "errno": 8,
+    "errnoName": "ENOEXEC",
+    "completionMarkerCreated": false,
+    "repeatedLogSha256": "9F0B99949831B93C6AB70965DA38E429236EE663A4D793233D9C53543EC2FBA7"
+  }
+}

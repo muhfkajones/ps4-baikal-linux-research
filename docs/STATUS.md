@@ -16,7 +16,8 @@ Last updated: 2026-10-24
 - Known public legacy key material was not found in the acquired Orbis kernel.
 - The decrypted system slice contains redundant signed boot banks with Secure Loader (`80000001`), Secure Kernel (`80010001`), Orbis kernel (`80010002`), PUP update (`80010006`), and AuthMgr (`80010008`) entries.
 - The extracted flash entries are still signed SELF containers, not the decrypted runtime images required for code-level analysis of the early secure boot stages.
-- A targeted 13.50 payload for reconstructing ELF32 program segments from the A/B Secure Kernel and AuthMgr SELF files has been built reproducibly and passed offline source, binary-string, relocation, and Ghidra review. It has not yet been executed on hardware.
+- The targeted 13.50 Secure Kernel/AuthMgr mapper and an errno-instrumented diagnostic revision were executed. All A/B inputs failed on segment zero with `ENOEXEC` (`8`), proving that the ordinary x86 SELF mapping path does not accept these secure-module executables.
+- Ghidra analysis of the privately acquired 13.50 kernel confirms that AuthMgr is started through `sceSblServiceSpawn("80010008", ...)` and communicates through `sceSblServiceMailbox`, a separate SAMU-facing service path.
 
 ## Current experiment
 
@@ -32,7 +33,7 @@ Offline inspection of the full decrypted slice found four valid SLB2 containers 
 
 No permanent or cold-boot Linux mechanism has been demonstrated. Evidence currently places the unresolved trust boundary below the ordinary Orbis kernel, involving Baikal/SAMU-mediated decryption and signed early-boot components.
 
-The next acquisition target is the decrypted form of Secure Kernel and AuthMgr on the owned 13.50 console using the audited USB-only decryptor. Secure Loader remains a later target because its container format differs. Re-reading the same flash providers or rerunning the Linux loader cannot supply those runtime images. See [SECURE-BOOT-MODULE-MAP.md](SECURE-BOOT-MODULE-MAP.md).
+The next acquisition target remains the decrypted form of Secure Kernel and AuthMgr, but EXP-009 ruled out the ordinary AuthMgr-backed SELF mapper. The next implementation must observe the secure-module spawn/service path or a SAMU-facing DMA buffer and prove that the candidate buffer actually contains plaintext before copying it. Secure Loader remains a later target because its container and boot stage differ. Re-reading flash providers, changing USB paths, or rerunning the rejected mapper cannot supply those runtime images. See [SECURE-BOOT-MODULE-MAP.md](SECURE-BOOT-MODULE-MAP.md).
 
 ## Success criteria
 
