@@ -38,7 +38,7 @@
     },
     {
       "path": "payloads/sm-service-snapshot-full/AUDIT.md",
-      "sha256": "C4A529137EB03321340E1D402FC15CC312A51DA891943A04572F3B02D062F51C"
+      "sha256": "D1AF75D99B21B5D7693F704E8FE44367F89A6D5EE1B17CE5F4B4145C7BFA5308"
     },
     {
       "path": "scripts/Build-SmServiceSnapshotFull.ps1",
@@ -65,7 +65,7 @@
     "ghidraFunctionsFound": 26,
     "ghidraFunctionsDecompiled": 26,
     "compiledDevPaths": 0,
-    "transferHashVerified": false
+    "transferHashVerified": true
   },
   "analysisRule": {
     "transferLengthOffset": "0x39C",

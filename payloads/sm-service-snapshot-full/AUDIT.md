@@ -25,4 +25,4 @@ This payload is restricted to the owned PS4 Pro CUH-7215B on firmware 13.50. It 
 
 ## Decision
 
-Approved for the documented read-only experiment after the transferred flat payload is retrieved from the console and its SHA-256 is verified against the audited value. Hardware execution is not yet recorded.
+The uploaded flat payload was retrieved from the console and matched the audited SHA-256 exactly. Approved for the documented read-only experiment. Hardware execution is not yet recorded.

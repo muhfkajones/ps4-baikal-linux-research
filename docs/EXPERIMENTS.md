@@ -138,7 +138,7 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 ## EXP-011 — Full bounded `sm_service` state snapshot
 
 - Date prepared: 2026-10-25
-- Hardware status: prepared and audited; not executed
+- Hardware status: prepared, audited, and transfer-verified; not executed
 - Target firmware: exactly 13.50
 - Read range: `kernel_base + 0x02680800`, exactly `0x1380` (4,992) bytes
 - Coverage: `0x3A0` bytes of control/request state plus the complete `0xFE0`-byte staging area
@@ -151,4 +151,4 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Ghidra audit: 26 functions found; all 26 decompiled successfully
 - Compiled-path audit: only the three declared external-USB output paths are present; no `/dev/` path is present
 - Analysis rule: only the declared transfer length at offset `0x39C` identifies current staging bytes; the remaining staging bytes are retained history
-- Execution gate: retrieve the uploaded payload through FTP and verify its SHA-256 before running it
+- Transfer verification: the uploaded payload was retrieved through FTP and its SHA-256 matched the audited build exactly
