@@ -45,6 +45,10 @@ Validate a retrieved inventory log with `scripts/Parse-SflashInventoryLog.ps1`. 
 5. Record source revision, toolchain revisions, output length, and SHA-256.
 6. Upload the payload and download it again; require identical SHA-256 hashes before execution.
 
+## Runtime transfer on the reference console
+
+For the recorded hardware experiments, start FTP from the installed **PS4-Xplorer 2.08** application. HEN Settings is not the FTP launcher in this workflow. The verified workstation transfer endpoint is the console's current LAN address on TCP port `21`; port `2121` may also be exposed while PS4-Xplorer is active. Payload Guest is used separately to launch the audited flat payload from `/data/payloads`.
+
 ## Classify an acquired SFLASH view
 
 Keep private dump bytes outside the repository. After acquisition, generate a publication-safe JSON report containing hashes, size, entropy samples, structural probes, and block-level comparisons:

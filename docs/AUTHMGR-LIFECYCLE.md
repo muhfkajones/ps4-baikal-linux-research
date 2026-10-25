@@ -44,3 +44,7 @@ To reduce unrelated secure-service activity between wake and capture:
 4. If Payload Guest resumes normally, immediately run `sm-service-snapshot-full-1350` once without opening another application first.
 
 This is a bounded observation, not proof that `80010008` will remain the last visible service record. Only the transfer-length field identifies current staging bytes; the rest remains scratch history. If HEN or Payload Guest does not survive resume, stop the experiment rather than inserting an unrecorded jailbreak or app-launch sequence.
+
+## Attempt result
+
+Payload Guest displayed an application error immediately after resume, before EXP-011 could be selected. The console was then accidentally restarted, so no post-resume snapshot exists. After HEN was restored, EXP-011 was run as a documented post-boot baseline instead. That baseline completed successfully but again observed service `8001000B`, not `80010008`.

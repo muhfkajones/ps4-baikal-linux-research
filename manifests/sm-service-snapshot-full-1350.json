@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "recordedDate": "2026-10-25",
-  "hardwareExecuted": false,
+  "hardwareExecuted": true,
   "target": {
     "console": "PS4 Pro CUH-7215B",
     "firmware": "13.50",
@@ -38,7 +38,7 @@
     },
     {
       "path": "payloads/sm-service-snapshot-full/AUDIT.md",
-      "sha256": "D1AF75D99B21B5D7693F704E8FE44367F89A6D5EE1B17CE5F4B4145C7BFA5308"
+      "sha256": "933EFFF28C75744AED1805ED88C890ED7F604B606A0660B28CAD21B31530BF43"
     },
     {
       "path": "scripts/Build-SmServiceSnapshotFull.ps1",
@@ -46,7 +46,7 @@
     },
     {
       "path": "scripts/Analyze-SmServiceSnapshot.py",
-      "sha256": "DBAE44A7DB708BF4921BFD878830E735B676C78BFEFC3E14582621633AD5A13A"
+      "sha256": "431949980B145E2CCC4B91809D73B84D319669651B8925FD35A4212039B003DE"
     }
   ],
   "buildOutputs": {
@@ -72,5 +72,30 @@
     "stagingOffset": "0x3A0",
     "classifyOnlyDeclaredLengthAsCurrent": true,
     "classifyRemainingBytesAsRetainedHistory": true
+  },
+  "hardwareResult": {
+    "runtimePass": true,
+    "payloadGuestHostErrorAfterOutput": true,
+    "snapshotBytes": 4992,
+    "snapshotSha256": "D2B9ED6590C783C1C0824145CF0470FFF8D8964A1C41EFEE2BA04A006C5250FD",
+    "completionMarkerPresent": true,
+    "observedServiceId": "8001000B",
+    "declaredRequestBytes": 4,
+    "currentTransferBytes": 4,
+    "currentTransferHex": "c4b6a361",
+    "scratchTailCleared": false,
+    "capturedStagingBytes": 4064,
+    "omittedStagingBytes": 0,
+    "retainedSignedInputMatch": {
+      "classification": "retained-stale-scratch",
+      "entry": "bank-a-8001000B",
+      "snapshotStart": "0x5E0",
+      "snapshotEndExclusive": "0x1380",
+      "entryStart": "0xC5E0",
+      "entryEndExclusive": "0xD380",
+      "bytes": 3488
+    },
+    "authMgrMatch": null,
+    "rawEvidenceCommitted": false
   }
 }

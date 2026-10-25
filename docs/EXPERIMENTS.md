@@ -138,7 +138,7 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 ## EXP-011 — Full bounded `sm_service` state snapshot
 
 - Date prepared: 2026-10-25
-- Hardware status: prepared, audited, and transfer-verified; not executed
+- Hardware status: executed on the owned reference console
 - Target firmware: exactly 13.50
 - Read range: `kernel_base + 0x02680800`, exactly `0x1380` (4,992) bytes
 - Coverage: `0x3A0` bytes of control/request state plus the complete `0xFE0`-byte staging area
@@ -153,3 +153,16 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Analysis rule: only the declared transfer length at offset `0x39C` identifies current staging bytes; the remaining staging bytes are retained history
 - Transfer verification: the uploaded payload was retrieved through FTP and its SHA-256 matched the audited build exactly
 - Lifecycle basis: the 13.50 kernel clears AuthMgr's started flag during suspend, while the inspected HEN source registers a resume-phase patch handler and documents Rest Mode support; the capture sequence is recorded in [AUTHMGR-LIFECYCLE.md](AUTHMGR-LIFECYCLE.md)
+- Rest-mode attempt: Payload Guest returned an application error immediately on resume, before this diagnostic was selected; no EXP-011 output was created by that attempt
+- Executed sequence: after the subsequent restart, HEN was restored and PS4-Xplorer supplied FTP; the full snapshot was then run as a post-boot baseline
+- Runtime log: firmware `0x546` (decimal 1350), kernel base `0xffffffffce774000`, bounded kernel read result `0`, file write result `0`, and final `PASS`
+- Payload Guest behavior: the host application displayed an error after the payload ran; the complete diagnostic output proves that this was not a payload failure
+- Snapshot: exactly 4,992 bytes; SHA-256 `D2B9ED6590C783C1C0824145CF0470FFF8D8964A1C41EFEE2BA04A006C5250FD`
+- Completion marker: present and contains `complete`
+- Observed service: `8001000B`
+- Declared request length: `4` bytes
+- Declared current transfer length: `4` bytes; current data `c4 b6 a3 61`
+- Full-buffer result: all `0xFE0` staging bytes were captured; no staging bytes are omitted
+- Exact private comparison: retained snapshot range `[0x5E0, 0x1380)` is identical to bank-A signed entry `8001000B` range `[0xC5E0, 0xD380)`, an exact 3,488-byte stale-history match
+- Cross-entry comparison: no meaningful current or retained-history match was found against either acquired `80010008` AuthMgr entry
+- Conclusion: completing the previously omitted tail strengthens the input-history classification but does not expose AuthMgr plaintext. Another delayed passive snapshot is not a useful repetition; further work must observe the `80010008` transaction closer to its spawn boundary

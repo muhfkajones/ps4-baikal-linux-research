@@ -12,6 +12,9 @@ from pathlib import Path
 
 
 STAGING_OFFSET = 0x3A0
+SERVICE_ID_OFFSET = 0x48
+SERVICE_ID_SIZE = 8
+REQUEST_SIZE_OFFSET = 0x384
 TRANSFER_SIZE_OFFSET = 0x39C
 EXPECTED_STAGING_SIZE = 0xFE0
 WINDOW_SIZES = (0xC00, 0x800, 0x400, 0x200, 0x100, 0x80, 0x40, 0x20)
@@ -124,6 +127,11 @@ def main() -> int:
     current_transfer_bytes = min(declared_transfer_bytes, len(staging))
     current_transfer = staging[:current_transfer_bytes]
     retained_history = staging[current_transfer_bytes:]
+    service_id_raw = snapshot[SERVICE_ID_OFFSET : SERVICE_ID_OFFSET + SERVICE_ID_SIZE]
+    service_id = service_id_raw.rstrip(b"\0").decode("ascii", errors="replace")
+    declared_request_bytes = int.from_bytes(
+        snapshot[REQUEST_SIZE_OFFSET : REQUEST_SIZE_OFFSET + 4], "little"
+    )
     results = {
         "snapshot": region_summary(snapshot),
         "controlRegion": region_summary(snapshot[:STAGING_OFFSET]),
@@ -132,6 +140,8 @@ def main() -> int:
         "expectedStagingBytes": EXPECTED_STAGING_SIZE,
         "capturedStagingBytes": len(staging),
         "missingStagingBytes": EXPECTED_STAGING_SIZE - len(staging),
+        "observedServiceId": service_id,
+        "declaredRequestBytes": declared_request_bytes,
         "declaredTransferBytes": declared_transfer_bytes,
         "currentTransferRegion": region_summary(current_transfer),
         "retainedHistoryRegion": region_summary(retained_history),

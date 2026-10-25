@@ -68,6 +68,14 @@ These components enabled local testing or produced research inputs. They are not
 - Origin credited upstream: **xvortex** and [xvortex/ps4-ftp-vtx](https://github.com/xvortex/ps4-ftp-vtx).
 - License status: no license file was present at the inspected revision. **Reference only; not redistributed here.**
 
+### Lapy055/PS4-Xplorer
+
+- Source: <https://github.com/Lapy055/PS4-Xplorer>
+- Inspected public-source revision: `98a603834e598ab7907015c2f935aadc42942508`
+- Developer: **Lapy** (`Lapy055`, `@Lapy05575948`).
+- Use here: the installed PS4-Xplorer 2.08 application supplied the active FTP service used for EXP-011 transfer and evidence retrieval. FTP was opened from PS4-Xplorer, not from HEN Settings.
+- License status: no license file was present at the inspected public-source revision. **Reference/runtime dependency only; PS4-Xplorer source and packages are not redistributed here.**
+
 ### Scene-Collective/ps4-kernel-dumper
 
 - Source: <https://github.com/Scene-Collective/ps4-kernel-dumper>

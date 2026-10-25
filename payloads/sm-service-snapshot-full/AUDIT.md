@@ -25,4 +25,4 @@ This payload is restricted to the owned PS4 Pro CUH-7215B on firmware 13.50. It 
 
 ## Decision
 
-The uploaded flat payload was retrieved from the console and matched the audited SHA-256 exactly. Approved for the documented read-only experiment. Hardware execution is not yet recorded.
+The uploaded flat payload was retrieved from the console and matched the audited SHA-256 exactly. It was then executed on the owned 13.50 reference console. The log recorded a successful bounded kernel read, a successful 4,992-byte file write, and final `PASS`; the completion marker and exact-size snapshot were present. Payload Guest displayed an application error afterward, but that host error occurred after the diagnostic output was complete.
