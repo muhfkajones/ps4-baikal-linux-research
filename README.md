@@ -16,6 +16,7 @@ Verified reference system:
 See [docs/STATUS.md](docs/STATUS.md) for confirmed results and the current research boundary.
 See [docs/SECURE-BOOT-MODULE-MAP.md](docs/SECURE-BOOT-MODULE-MAP.md) for the evidence-backed map of the acquired signed boot modules and the next acquisition target.
 See [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) for the hardware result from the audited secure-module mapper. The ordinary x86 SELF mapping path was tested and rejected all four Secure Kernel/AuthMgr inputs with `ENOEXEC`; current work has moved to tracing the distinct SAMU-facing secure-module service path.
+See [docs/AUTHMGR-LIFECYCLE.md](docs/AUTHMGR-LIFECYCLE.md) for the 13.50 suspend/resume evidence and the controlled EXP-011 capture sequence.
 
 ## Repository policy
 

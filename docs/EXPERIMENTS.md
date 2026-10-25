@@ -152,3 +152,4 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Compiled-path audit: only the three declared external-USB output paths are present; no `/dev/` path is present
 - Analysis rule: only the declared transfer length at offset `0x39C` identifies current staging bytes; the remaining staging bytes are retained history
 - Transfer verification: the uploaded payload was retrieved through FTP and its SHA-256 matched the audited build exactly
+- Lifecycle basis: the 13.50 kernel clears AuthMgr's started flag during suspend, while the inspected HEN source registers a resume-phase patch handler and documents Rest Mode support; the capture sequence is recorded in [AUTHMGR-LIFECYCLE.md](AUTHMGR-LIFECYCLE.md)
