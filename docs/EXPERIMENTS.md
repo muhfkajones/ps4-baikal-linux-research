@@ -108,10 +108,10 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Conclusion: the signed containers are readable and structurally valid, but the ordinary AuthMgr-backed executable mapper rejects their secure-module ELF machine/type. Retrying paths, flags, USB preparation, or the same mapper cannot expose their plaintext
 - Next target: trace the secure-module spawn/service path and SAMU-facing buffers without modifying flash; do not attempt another ordinary `mmap` decryptor revision
 
-## EXP-010 — Bounded `sm_service` state snapshot, offline audit
+## EXP-010 — Bounded `sm_service` state snapshot
 
 - Date: 2026-10-25
-- Hardware status: not executed
+- Hardware status: executed on the owned reference console
 - Target firmware: exactly 13.50
 - Read range: `kernel_base + 0x02680800`, exactly `0x1000` bytes
 - Basis: targeted Ghidra analysis places the `sm_service` control/request records and sector staging buffer inside this range
@@ -123,4 +123,12 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Relocation audit: the linked ELF contains zero `SHT_REL`/`SHT_RELA` sections
 - Ghidra audit: 26 functions found; all 26 decompiled successfully
 - Compiled-path audit: all persistent paths are below the declared external-USB output root; no `/dev/` path is present
-- Decision: commit the reviewed source and manifest before transfer; hardware execution remains pending a post-transfer hash match
+- Transfer verification: the FTP round-trip copy matched the audited flat-payload hash before execution
+- Runtime log: firmware `0x546` (decimal 1350), kernel base `0xffffffffdf46c000`, bounded kernel read result `0`, file write result `0`, and final `PASS`
+- Snapshot: exactly 4,096 bytes; SHA-256 `CBECE299A0B1845620B08D40BED0838394C5445239D9620A63675CAE11CFFCB2`
+- Completion marker: present and contains `complete`
+- Live service record: ASCII service identifier `8001000B` at snapshot offset `0x48`
+- Bound correction: the staging area begins at snapshot offset `0x3A0`; the 4 KiB snapshot therefore contains only `0xC60` (3,168) of its expected `0xFE0` (4,064) bytes and omits the final `0x380` (896) bytes
+- Exact private comparison: snapshot range `[0x5E0, 0x1000)` is identical to bank-A signed entry `8001000B` range `[0xC5E0, 0xD000)`, an exact 2,592-byte match
+- Cross-entry comparison: no meaningful 32-byte-or-larger match at a 16-byte-aligned snapshot offset was found against the other acquired signed bank entries, including `80010008`
+- Conclusion: the passive post-boot staging state retains signed/encrypted input from service `8001000B`; it did not yield an identifiable decrypted AuthMgr image. The next observation must be tied to the `80010008` load transaction rather than another late passive snapshot

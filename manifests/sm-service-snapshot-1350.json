@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "recordedDate": "2026-10-25",
-  "hardwareExecuted": false,
+  "hardwareExecuted": true,
   "target": {
     "console": "PS4 Pro CUH-7215B",
     "firmware": "13.50",
@@ -54,5 +54,24 @@
     "ghidraFunctionsFound": 26,
     "ghidraFunctionsDecompiled": 26,
     "compiledDevPaths": 0
+  },
+  "hardwareResult": {
+    "runtimePass": true,
+    "snapshotBytes": 4096,
+    "snapshotSha256": "CBECE299A0B1845620B08D40BED0838394C5445239D9620A63675CAE11CFFCB2",
+    "completionMarkerPresent": true,
+    "observedServiceId": "8001000B",
+    "capturedStagingBytes": 3168,
+    "expectedStagingBytes": 4064,
+    "omittedStagingBytes": 896,
+    "exactSignedInputMatch": {
+      "entry": "bank-a-8001000B",
+      "snapshotStart": "0x5E0",
+      "snapshotEndExclusive": "0x1000",
+      "entryStart": "0xC5E0",
+      "entryEndExclusive": "0xD000",
+      "bytes": 2592
+    },
+    "rawEvidenceCommitted": false
   }
 }
