@@ -111,8 +111,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     snapshot = args.snapshot.read_bytes()
-    if len(snapshot) != 0x1000:
-        raise SystemExit(f"snapshot must be exactly 0x1000 bytes, got 0x{len(snapshot):x}")
+    if len(snapshot) not in (0x1000, 0x1380):
+        raise SystemExit(
+            "snapshot must be exactly 0x1000 or 0x1380 bytes, "
+            f"got 0x{len(snapshot):x}"
+        )
 
     staging = snapshot[STAGING_OFFSET:]
     declared_transfer_bytes = int.from_bytes(

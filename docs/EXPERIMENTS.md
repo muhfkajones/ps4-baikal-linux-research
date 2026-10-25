@@ -134,3 +134,21 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Exact private comparison: snapshot range `[0x5E0, 0x1000)` is identical to bank-A signed entry `8001000B` range `[0xC5E0, 0xD000)`, an exact 2,592-byte retained-history match
 - Cross-entry comparison: no meaningful 32-byte-or-larger match at a 16-byte-aligned snapshot offset was found against the other acquired signed bank entries, including `80010008`
 - Conclusion: the passive post-boot staging state contains four current bytes plus uncleared history. The retained tail includes signed `8001000B` input, but the unmatched prefix is unclassified scratch history and is not evidence of SAMU output. No identifiable decrypted AuthMgr image was acquired. The next observation must distinguish the current transfer from retained history and be tied to the `80010008` lifecycle
+
+## EXP-011 — Full bounded `sm_service` state snapshot
+
+- Date prepared: 2026-10-25
+- Hardware status: prepared and audited; not executed
+- Target firmware: exactly 13.50
+- Read range: `kernel_base + 0x02680800`, exactly `0x1380` (4,992) bytes
+- Coverage: `0x3A0` bytes of control/request state plus the complete `0xFE0`-byte staging area
+- Persistent writes: uniquely named snapshot, log, and completion marker only under `/mnt/usb0/ps4-re-output`
+- Excluded actions: no flash access, kernel write, hook installation, secure-module respawn, or undocumented mailbox request
+- ELF build: 37,912 bytes; SHA-256 `9DCAE587AC477012C54202756D6BBDD2A36DD1FE9283FE5B455DA4EDD59BA8BA`
+- Flat payload: 15,556 bytes; SHA-256 `9B2472DC8018369E4691A347F7F5286A570AC27B9B636093F9926BA87E9DB19C`
+- Reproducibility: two consecutive build invocations produced identical sizes and hashes
+- Relocation audit: the linked ELF contains zero `SHT_REL`/`SHT_RELA` sections
+- Ghidra audit: 26 functions found; all 26 decompiled successfully
+- Compiled-path audit: only the three declared external-USB output paths are present; no `/dev/` path is present
+- Analysis rule: only the declared transfer length at offset `0x39C` identifies current staging bytes; the remaining staging bytes are retained history
+- Execution gate: retrieve the uploaded payload through FTP and verify its SHA-256 before running it

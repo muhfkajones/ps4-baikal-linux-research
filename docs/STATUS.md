@@ -37,6 +37,8 @@ The next acquisition target remains the decrypted form of Secure Kernel and Auth
 
 EXP-010 completed the first passive observation step. The observed `sm_service` record names service `8001000B`, but its current transfer-length field is only `4`. The staging area is not cleared between transfers: only its first four bytes are current, while the remainder is retained scratch history. A 2,592-byte tail matches bank-A signed `8001000B` input exactly, but that match is stale input history, not a live transaction or transformed output. The unmatched prefix is unclassified scratch history and is not evidence of SAMU output. No comparable aligned match was found to the acquired `80010008` AuthMgr entry, and no identifiable decrypted AuthMgr image was acquired. The original 4 KiB bound also omitted the final 896 bytes of the staging area. A useful next observation must record the full bounded area, interpret only the declared transfer length as current, and remain read-only until the `80010008` lifecycle and buffer ownership are established.
 
+EXP-011 is the prepared follow-up. Its separately named, firmware-locked payload passively reads exactly `0x1380` bytes so the complete staging area is captured. It has passed reproducible-build, zero-relocation, compiled-path, and 26/26 Ghidra decompilation checks. It remains unexecuted until the transferred payload hash is verified on the console.
+
 ## Success criteria
 
 The project goal is reached only when an owned reference console can boot a documented Linux environment after complete power loss without manually repeating the browser jailbreak and payload sequence, with a tested recovery procedure and independently reproducible build instructions.

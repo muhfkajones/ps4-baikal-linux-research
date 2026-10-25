@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-25",
+  "hardwareExecuted": false,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1"
+  },
+  "readBoundary": {
+    "relativeKernelOffset": "0x02680800",
+    "bytes": 4992,
+    "controlBytes": 928,
+    "completeStagingBytes": 4064,
+    "persistentWriteRoot": "/mnt/usb0/ps4-re-output"
+  },
+  "prohibitedActions": [
+    "flash access",
+    "kernel write",
+    "kernel hook",
+    "secure-module respawn",
+    "undocumented mailbox request"
+  ],
+  "toolchain": {
+    "zigVersion": "0.17.0",
+    "ghidraVersion": "12.1.4 PUBLIC",
+    "sdkRepository": "https://github.com/Scene-Collective/ps4-payload-sdk",
+    "sdkRevision": "b7326416c23ce14639e9180a24093bdc5eedb579"
+  },
+  "sources": [
+    {
+      "path": "payloads/sm-service-snapshot-full/source/main.c",
+      "sha256": "4F8AB6190E8AB94AE06C0593DF3C186D4569408F65FE457F145E8BF24EE59D32"
+    },
+    {
+      "path": "payloads/sm-service-snapshot-full/README.md",
+      "sha256": "5785BB408B3F2171C2CF6573F75116A21CE3921F16981AA24E6EB542C5E8E407"
+    },
+    {
+      "path": "payloads/sm-service-snapshot-full/AUDIT.md",
+      "sha256": "C4A529137EB03321340E1D402FC15CC312A51DA891943A04572F3B02D062F51C"
+    },
+    {
+      "path": "scripts/Build-SmServiceSnapshotFull.ps1",
+      "sha256": "E6EF520320F5BF1E4518087C42B9DC0BA8188F8B3779F70D6DE51F54E3F43920"
+    },
+    {
+      "path": "scripts/Analyze-SmServiceSnapshot.py",
+      "sha256": "DBAE44A7DB708BF4921BFD878830E735B676C78BFEFC3E14582621633AD5A13A"
+    }
+  ],
+  "buildOutputs": {
+    "elf": {
+      "bytes": 37912,
+      "sha256": "9DCAE587AC477012C54202756D6BBDD2A36DD1FE9283FE5B455DA4EDD59BA8BA",
+      "relocationSections": 0
+    },
+    "flatBinary": {
+      "bytes": 15556,
+      "sha256": "9B2472DC8018369E4691A347F7F5286A570AC27B9B636093F9926BA87E9DB19C"
+    }
+  },
+  "audit": {
+    "consecutiveMatchingBuilds": 2,
+    "ghidraFunctionsFound": 26,
+    "ghidraFunctionsDecompiled": 26,
+    "compiledDevPaths": 0,
+    "transferHashVerified": false
+  },
+  "analysisRule": {
+    "transferLengthOffset": "0x39C",
+    "stagingOffset": "0x3A0",
+    "classifyOnlyDeclaredLengthAsCurrent": true,
+    "classifyRemainingBytesAsRetainedHistory": true
+  }
+}
