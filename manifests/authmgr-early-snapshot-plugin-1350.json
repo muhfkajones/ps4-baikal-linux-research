@@ -46,7 +46,8 @@
     "prxPath": "/data/hen/plugins/authmgr-early-snapshot.prx",
     "configPath": "/data/hen/plugins.ini",
     "configSection": "AZIF00003",
-    "staged": false,
-    "roundTripVerified": false
+    "configSha256": "B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548",
+    "staged": true,
+    "roundTripVerified": true
   }
 }

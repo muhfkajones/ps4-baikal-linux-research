@@ -28,7 +28,11 @@ GitHub Actions run `40244433237` built the plugin twice from commit `9d17a176aa0
 
 The pre-deployment FTP check found `/data/hen/plugins.ini` absent and `/data/hen/plugins/` empty. Therefore rollback for this console is deletion of the newly created config and PRX, not restoration of a prior config file.
 
-The source and binary are approved for reversible staging only. Payload Guest must not be launched until the console-retrieved PRX and `plugins.ini` hashes match the audited local files.
+The PRX was staged at `/data/hen/plugins/authmgr-early-snapshot.prx` and retrieved through PS4-Xplorer FTP. Its round-trip SHA-256 is `82BC5D8039E854377DACE81C74BCEA3231C11D5F6D00E3112CED49F9405D57CE`, exactly matching the audited build.
+
+A new title-specific `/data/hen/plugins.ini` was staged and retrieved. Its SHA-256 is `B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548`, exactly matching the local two-line config. It contains only `[AZIF00003]` and the single plugin path; no `[all]` section exists.
+
+The source, binary, and configuration are approved for one hardware launch of Payload Guest. No payload selection is required: the HEN plugin loader should invoke and then unload the plugin automatically during application startup.
 
 ## Provenance
 

@@ -184,5 +184,8 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Callback audit: fixed firmware offsets and exactly two computed `copyout` calls—one 4,992-byte state read and one 8-byte kernel-base report; no other kernel call or write
 - Compiled-path audit: only the three declared external-USB output paths; no `/dev/` path
 - Configuration pre-state: `/data/hen/plugins.ini` absent and `/data/hen/plugins/` empty through PS4-Xplorer FTP
-- Current gate: hardware execution remains prohibited until the staged PRX and new title-specific config are retrieved from the console and match their audited local hashes
+- Staging: the PRX and new title-specific config were uploaded through PS4-Xplorer FTP, retrieved, and verified byte-for-byte
+- Round-trip PRX SHA-256: `82BC5D8039E854377DACE81C74BCEA3231C11D5F6D00E3112CED49F9405D57CE`
+- Round-trip config SHA-256: `B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548`
+- Current gate: approved for one Payload Guest launch; the plugin should execute automatically during startup, with no manual payload selection
 - Decision basis: EXP-011 proved that delayed post-launch snapshots only expose four current bytes plus retained signed `8001000B` input history; moving the same passive read to application start is the lowest-risk available timing improvement
