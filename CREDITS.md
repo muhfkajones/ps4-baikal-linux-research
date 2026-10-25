@@ -56,9 +56,17 @@ These components enabled local testing or produced research inputs. They are not
 
 - Source: <https://github.com/Scene-Collective/ps4-hen-plugins>
 - Inspected revision: `49534177d69d17609bcc09cd185c88df42fed8b5`
-- Use here: Payload Guest used to launch diagnostic payloads.
+- Use here: Payload Guest used to launch diagnostic payloads; its title-aware HEN plugin loader and syscall wrapper were studied for EXP-012. The fixed-arity syscall wrapper in this project is an adaptation of the MIT-licensed `common/syscall.c` pattern.
 - License: MIT; copyright © 2025 **illusiony**. The upstream license and copyright notice control.
 - Distribution rule here: not vendored; runtime packages are not redistributed.
+
+### john-tornblom/tiny-ps4-shell
+
+- Source: <https://github.com/john-tornblom/tiny-ps4-shell>
+- Referenced revision: `5ca90b7d2825e3e2c7f9fb1e81cf8949b37af563`
+- Author: **John Törnblom** and project contributors.
+- Use here: upstream origin credited by `Scene-Collective/ps4-hen-plugins` for the clang-compatible PS4 syscall pattern adapted into EXP-012.
+- Distribution rule here: no source or binary from tiny-ps4-shell is redistributed as a standalone component; the relevant lineage is preserved in source comments and this credit entry.
 
 ### Scene-Collective/ps4-ftp
 
@@ -146,6 +154,7 @@ These components enabled local testing or produced research inputs. They are not
 ## Analysis and build tools
 
 - [Ghidra](https://github.com/NationalSecurityAgency/ghidra), version 12.1.4 PUBLIC — reverse engineering framework maintained by the National Security Agency and contributors; Apache License 2.0. Ghidra itself is not redistributed here.
+- [OpenOrbis PS4 Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain), release `v0.5.3` — PRX compiler, linker support, headers, stubs, and `create-fself` used for EXP-012; GPL-3.0 at that release. The toolchain is downloaded during CI and is not committed.
 - [Zig](https://github.com/ziglang/zig), version 0.17.0 — compiler/toolchain used for the reproducible payload build; MIT License. Zig itself is not redistributed here.
 - FreeBSD device-interface definitions informed the documented `DIOCGMEDIASIZE` and `DIOCGSECTORSIZE` constants. See the [FreeBSD source tree](https://cgit.freebsd.org/src/) for authoritative source and applicable BSD licenses.
 

@@ -1,0 +1,64 @@
+name: Build AuthMgr early snapshot plugin
+
+on:
+  push:
+    paths:
+      - "payloads/authmgr-early-snapshot-plugin/**"
+      - ".github/workflows/build-authmgr-early-snapshot-plugin.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install compiler tools
+        run: sudo apt-get update && sudo apt-get install -y llvm lld unzip
+
+      - name: Download pinned OpenOrbis toolchain
+        run: |
+          curl --fail --location --remote-name \
+            https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/download/v0.5.3/toolchain-llvm-18.2.zip
+          unzip -q toolchain-llvm-18.2.zip
+          tar -xzf toolchain-llvm-18.tar.gz
+          echo "OO_PS4_TOOLCHAIN=$GITHUB_WORKSPACE/OpenOrbis/PS4Toolchain" >> "$GITHUB_ENV"
+
+      - name: Build pass one
+        run: |
+          make -C payloads/authmgr-early-snapshot-plugin clean all
+          mkdir -p artifacts/pass1
+          cp payloads/authmgr-early-snapshot-plugin/dist/* artifacts/pass1/
+
+      - name: Build pass two
+        run: |
+          make -C payloads/authmgr-early-snapshot-plugin clean all
+          mkdir -p artifacts/pass2
+          cp payloads/authmgr-early-snapshot-plugin/dist/* artifacts/pass2/
+
+      - name: Verify reproducibility and audit binaries
+        run: |
+          cmp artifacts/pass1/authmgr-early-snapshot.prx artifacts/pass2/authmgr-early-snapshot.prx
+          cmp artifacts/pass1/authmgr-early-snapshot.elf artifacts/pass2/authmgr-early-snapshot.elf
+          sha256sum artifacts/pass2/* | tee artifacts/SHA256SUMS.txt
+          llvm-readelf --file-header --sections --relocations --symbols \
+            artifacts/pass2/authmgr-early-snapshot.elf > artifacts/elf-audit.txt
+          llvm-objdump --disassemble --demangle \
+            artifacts/pass2/authmgr-early-snapshot.elf > artifacts/elf-disassembly.txt
+          strings -a artifacts/pass2/authmgr-early-snapshot.elf > artifacts/elf-strings.txt
+          if grep -F '/dev/' artifacts/elf-strings.txt; then
+            echo 'Unexpected device path found in plugin' >&2
+            exit 1
+          fi
+
+      - name: Upload audited build products
+        uses: actions/upload-artifact@v4
+        with:
+          name: authmgr-early-snapshot-${{ github.sha }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 30

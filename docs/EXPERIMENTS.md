@@ -166,3 +166,18 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Exact private comparison: retained snapshot range `[0x5E0, 0x1380)` is identical to bank-A signed entry `8001000B` range `[0xC5E0, 0xD380)`, an exact 3,488-byte stale-history match
 - Cross-entry comparison: no meaningful current or retained-history match was found against either acquired `80010008` AuthMgr entry
 - Conclusion: completing the previously omitted tail strengthens the input-history classification but does not expose AuthMgr plaintext. Another delayed passive snapshot is not a useful repetition; further work must observe the `80010008` transaction closer to its spawn boundary
+
+## EXP-012 — Payload Guest early-load `sm_service` snapshot plugin
+
+- Date prepared: 2026-10-25
+- Hardware status: not executed
+- Target firmware: exactly 13.50
+- Target application: Payload Guest title ID `AZIF00003` only
+- Timing change: HEN's existing title-specific plugin loader invokes the diagnostic while Payload Guest starts, before manual payload selection
+- Read range: `kernel_base + 0x02680800`, exactly `0x1380` bytes
+- Persistent writes: uniquely named snapshot, log, and completion marker only under `/mnt/usb0/ps4-re-output`
+- Excluded actions: no flash access, kernel write, hook installation, secure-module respawn, or undocumented mailbox request
+- Configuration rule: install only in the `[AZIF00003]` section; never enable in `[all]`
+- Rollback: restore the exact pre-deployment `/data/hen/plugins.ini` backup and delete the plugin PRX
+- Current gate: source is prepared, but hardware deployment is prohibited until the reproducible GitHub build, binary audit, transfer round-trip hash, and configuration backup are complete
+- Decision basis: EXP-011 proved that delayed post-launch snapshots only expose four current bytes plus retained signed `8001000B` input history; moving the same passive read to application start is the lowest-risk available timing improvement
