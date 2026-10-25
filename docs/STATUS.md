@@ -35,6 +35,8 @@ No permanent or cold-boot Linux mechanism has been demonstrated. Evidence curren
 
 The next acquisition target remains the decrypted form of Secure Kernel and AuthMgr, but EXP-009 ruled out the ordinary AuthMgr-backed SELF mapper. The next implementation must observe the secure-module spawn/service path or a SAMU-facing DMA buffer and prove that the candidate buffer actually contains plaintext before copying it. Secure Loader remains a later target because its container and boot stage differ. Re-reading flash providers, changing USB paths, or rerunning the rejected mapper cannot supply those runtime images. See [SECURE-BOOT-MODULE-MAP.md](SECURE-BOOT-MODULE-MAP.md).
 
+A bounded 13.50 diagnostic is now prepared for the first observation step. It copies only the 4 KiB kernel-data range containing the `sm_service` request and sector staging area to external USB. It does not trigger a new service load or modify kernel code. The resulting private snapshot will be compared against every privately acquired signed bank entry before any hook or active mailbox experiment is considered.
+
 ## Success criteria
 
 The project goal is reached only when an owned reference console can boot a documented Linux environment after complete power loss without manually repeating the browser jailbreak and payload sequence, with a tested recovery procedure and independently reproducible build instructions.

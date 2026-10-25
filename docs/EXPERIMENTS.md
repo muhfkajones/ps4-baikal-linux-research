@@ -107,3 +107,20 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Kernel trace: the 13.50 Orbis kernel starts AuthMgr with `sceSblServiceSpawn("80010008", ...)` and exchanges requests through `sceSblServiceMailbox`; this is separate from the ordinary x86 SELF mapping path used by v1/v2
 - Conclusion: the signed containers are readable and structurally valid, but the ordinary AuthMgr-backed executable mapper rejects their secure-module ELF machine/type. Retrying paths, flags, USB preparation, or the same mapper cannot expose their plaintext
 - Next target: trace the secure-module spawn/service path and SAMU-facing buffers without modifying flash; do not attempt another ordinary `mmap` decryptor revision
+
+## EXP-010 — Bounded `sm_service` state snapshot, offline audit
+
+- Date: 2026-10-25
+- Hardware status: not executed
+- Target firmware: exactly 13.50
+- Read range: `kernel_base + 0x02680800`, exactly `0x1000` bytes
+- Basis: targeted Ghidra analysis places the `sm_service` control/request records and sector staging buffer inside this range
+- Persistent writes: snapshot, log, and completion marker only under `/mnt/usb0/ps4-re-output`
+- Excluded actions: no flash access, hook installation, secure-module respawn, or undocumented mailbox request
+- ELF build: 37,928 bytes; SHA-256 `996498329D4F58963DFAC32112B7461140F11D596E9E3E92FFF7A842F8E3051D`
+- Flat payload: 15,524 bytes; SHA-256 `2FCB173556A554F272F692E043513A53B11972D4006567D8E3B83F1AA1BE4F78`
+- Reproducibility: two consecutive clean invocations produced identical sizes and hashes
+- Relocation audit: the linked ELF contains zero `SHT_REL`/`SHT_RELA` sections
+- Ghidra audit: 26 functions found; all 26 decompiled successfully
+- Compiled-path audit: all persistent paths are below the declared external-USB output root; no `/dev/` path is present
+- Decision: commit the reviewed source and manifest before transfer; hardware execution remains pending a post-transfer hash match

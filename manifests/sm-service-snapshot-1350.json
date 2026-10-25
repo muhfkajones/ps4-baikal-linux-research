@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedDate": "2026-10-25",
+  "hardwareExecuted": false,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1"
+  },
+  "readBoundary": {
+    "relativeKernelOffset": "0x02680800",
+    "bytes": 4096,
+    "persistentWriteRoot": "/mnt/usb0/ps4-re-output"
+  },
+  "prohibitedActions": [
+    "flash write",
+    "kernel hook",
+    "secure-module respawn",
+    "undocumented mailbox request"
+  ],
+  "toolchain": {
+    "zigVersion": "0.17.0",
+    "ghidraVersion": "12.1.4 PUBLIC",
+    "sdkRepository": "https://github.com/Scene-Collective/ps4-payload-sdk",
+    "sdkRevision": "b7326416c23ce14639e9180a24093bdc5eedb579"
+  },
+  "sources": [
+    {
+      "path": "payloads/sm-service-snapshot/source/main.c",
+      "sha256": "9211EE8FB40E57A0BF9C62B785A22D72D916BEE44F7C7D5B85C7D82D344C7140"
+    },
+    {
+      "path": "payloads/sm-service-snapshot/README.md",
+      "sha256": "C31131FD6B1706ACE9E5FADAE01B32EBDE1E9E6FC5844C7C0D794F369CD53735"
+    },
+    {
+      "path": "scripts/Build-SmServiceSnapshot.ps1",
+      "sha256": "7538145BD829C4D5867248DFF815CAD0AF5DAECDA0D01D0200B9F10BBE390D46"
+    }
+  ],
+  "buildOutputs": {
+    "elf": {
+      "bytes": 37928,
+      "sha256": "996498329D4F58963DFAC32112B7461140F11D596E9E3E92FFF7A842F8E3051D",
+      "relocationSections": 0
+    },
+    "flatBinary": {
+      "bytes": 15524,
+      "sha256": "2FCB173556A554F272F692E043513A53B11972D4006567D8E3B83F1AA1BE4F78"
+    }
+  },
+  "audit": {
+    "consecutiveMatchingBuilds": 2,
+    "ghidraFunctionsFound": 26,
+    "ghidraFunctionsDecompiled": 26,
+    "compiledDevPaths": 0
+  }
+}
