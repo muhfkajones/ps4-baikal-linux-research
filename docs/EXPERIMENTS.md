@@ -179,5 +179,10 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Excluded actions: no flash access, kernel write, hook installation, secure-module respawn, or undocumented mailbox request
 - Configuration rule: install only in the `[AZIF00003]` section; never enable in `[all]`
 - Rollback: restore the exact pre-deployment `/data/hen/plugins.ini` backup and delete the plugin PRX
-- Current gate: source is prepared, but hardware deployment is prohibited until the reproducible GitHub build, binary audit, transfer round-trip hash, and configuration backup are complete
+- Offline build: GitHub Actions run `40244433237` completed successfully; two builds produced byte-identical ELF and PRX files
+- Audited PRX: 53,408 bytes; SHA-256 `82BC5D8039E854377DACE81C74BCEA3231C11D5F6D00E3112CED49F9405D57CE`
+- Callback audit: fixed firmware offsets and exactly two computed `copyout` calls—one 4,992-byte state read and one 8-byte kernel-base report; no other kernel call or write
+- Compiled-path audit: only the three declared external-USB output paths; no `/dev/` path
+- Configuration pre-state: `/data/hen/plugins.ini` absent and `/data/hen/plugins/` empty through PS4-Xplorer FTP
+- Current gate: hardware execution remains prohibited until the staged PRX and new title-specific config are retrieved from the console and match their audited local hashes
 - Decision basis: EXP-011 proved that delayed post-launch snapshots only expose four current bytes plus retained signed `8001000B` input history; moving the same passive read to application start is the lowest-risk available timing improvement

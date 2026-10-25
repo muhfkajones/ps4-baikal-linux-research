@@ -1,0 +1,52 @@
+{
+  "experiment": "EXP-012",
+  "name": "authmgr-early-snapshot-plugin-1350",
+  "hardwareExecuted": false,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "titleId": "AZIF00003",
+    "southbridge": "Baikal B1 (0x30201)"
+  },
+  "source": {
+    "repository": "https://github.com/muhfkajones/ps4-baikal-linux-research",
+    "commit": "9d17a176aa017eb6f971459b0e07c3b2d91432b5",
+    "path": "payloads/authmgr-early-snapshot-plugin"
+  },
+  "build": {
+    "workflowRun": "https://github.com/muhfkajones/ps4-baikal-linux-research/actions/runs/40244433237",
+    "toolchain": "OpenOrbis PS4 Toolchain v0.5.3",
+    "reproducibleBuilds": 2,
+    "elf": {
+      "bytes": 68928,
+      "sha256": "64059F65F0D183CE6CF83A7A1511309E547D01A1648DA43664FCF7725EEAE4A8"
+    },
+    "oelf": {
+      "bytes": 71104,
+      "sha256": "8BBA364B03676D104E42942331A308C5CE6C5864C90BC908E550CCD832D3B56C"
+    },
+    "prx": {
+      "bytes": 53408,
+      "sha256": "82BC5D8039E854377DACE81C74BCEA3231C11D5F6D00E3112CED49F9405D57CE"
+    },
+    "artifactZipSha256": "0508DB11533B4043EF3619EF693E5488906FCA6F66E214004A8C032E6B9EEA63"
+  },
+  "kernelRead": {
+    "baseOffset": "0x02680800",
+    "bytes": 4992,
+    "copyoutOffset": "0x002BD600",
+    "xfastSyscallOffset": "0x000001C0"
+  },
+  "consolePrestate": {
+    "ftpProvider": "PS4-Xplorer 2.08",
+    "pluginsIni": "absent",
+    "pluginsDirectory": "empty"
+  },
+  "deployment": {
+    "prxPath": "/data/hen/plugins/authmgr-early-snapshot.prx",
+    "configPath": "/data/hen/plugins.ini",
+    "configSection": "AZIF00003",
+    "staged": false,
+    "roundTripVerified": false
+  }
+}

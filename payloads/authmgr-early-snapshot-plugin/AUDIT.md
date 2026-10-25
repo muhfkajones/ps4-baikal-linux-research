@@ -14,16 +14,21 @@ This plugin is restricted to the owned PS4 Pro CUH-7215B on firmware 13.50 and t
 6. Returning `1` from `plugin_load` asks the existing HEN plugin loader to call `plugin_unload` and unload the PRX after the snapshot attempt.
 7. Deployment must use only the `[AZIF00003]` section of `/data/hen/plugins.ini`; global enablement is prohibited.
 
-## Required binary checks
+## Offline binary audit result
 
-The plugin is **not approved for hardware yet**. Before deployment, record:
+GitHub Actions run `40244433237` built the plugin twice from commit `9d17a176aa017eb6f971459b0e07c3b2d91432b5`. Both ELF files and both PRX files were byte-identical.
 
-- two-build reproducibility and exact SHA-256 hashes;
-- ELF/PRX header, section, symbol, and relocation reports;
-- disassembly proving the kernel callback has no external calls except the computed `copyout` target;
-- compiled path inventory proving there is no `/dev/` path;
-- retrieved-console SHA-256 matching the audited PRX;
-- exact backup hash for the original `/data/hen/plugins.ini`.
+- ELF: 68,928 bytes; SHA-256 `64059F65F0D183CE6CF83A7A1511309E547D01A1648DA43664FCF7725EEAE4A8`
+- OELF: 71,104 bytes; SHA-256 `8BBA364B03676D104E42942331A308C5CE6C5864C90BC908E550CCD832D3B56C`
+- PRX: 53,408 bytes; SHA-256 `82BC5D8039E854377DACE81C74BCEA3231C11D5F6D00E3112CED49F9405D57CE`
+- Workflow artifact ZIP: SHA-256 `0508DB11533B4043EF3619EF693E5488906FCA6F66E214004A8C032E6B9EEA63`, matching GitHub's artifact digest
+- Expected dynamic relocations: four `R_X86_64_RELATIVE` metadata pointers and seven `R_X86_64_JUMP_SLOT` imports for `memset`, `sceKernelGetSystemSwVersion`, `open`, `close`, `unlink`, `write`, and `mkdir`
+- Kernel-callback disassembly: checks length `0x1380`; reads MSR `0xC0000082`; subtracts `0x1C0`; computes `copyout` at `+0x2BD600`; computes the sole data source at `+0x2680800`; performs one 4,992-byte copyout plus one 8-byte copyout of the kernel-base value
+- Compiled paths: only the three declared `/mnt/usb0/ps4-re-output` paths; no `/dev/` path
+
+The pre-deployment FTP check found `/data/hen/plugins.ini` absent and `/data/hen/plugins/` empty. Therefore rollback for this console is deletion of the newly created config and PRX, not restoration of a prior config file.
+
+The source and binary are approved for reversible staging only. Payload Guest must not be launched until the console-retrieved PRX and `plugins.ini` hashes match the audited local files.
 
 ## Provenance
 
