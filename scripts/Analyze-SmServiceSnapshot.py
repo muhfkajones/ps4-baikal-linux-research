@@ -12,6 +12,7 @@ from pathlib import Path
 
 
 STAGING_OFFSET = 0x3A0
+TRANSFER_SIZE_OFFSET = 0x39C
 EXPECTED_STAGING_SIZE = 0xFE0
 WINDOW_SIZES = (0xC00, 0x800, 0x400, 0x200, 0x100, 0x80, 0x40, 0x20)
 
@@ -47,6 +48,7 @@ def extend_match(
     staging_offset: int,
     candidate_offset: int,
     seed_size: int,
+    snapshot_base: int,
 ) -> dict[str, int]:
     left = 0
     while (
@@ -68,14 +70,16 @@ def extend_match(
     candidate_start = candidate_offset - left
     return {
         "bytes": left + right,
-        "snapshotOffset": STAGING_OFFSET + staging_start,
+        "snapshotOffset": snapshot_base + staging_start,
         "stagingOffset": staging_start,
         "candidateOffset": candidate_start,
         "seedBytes": seed_size,
     }
 
 
-def first_meaningful_match(staging: bytes, candidate: bytes) -> dict[str, int] | None:
+def first_meaningful_match(
+    staging: bytes, candidate: bytes, snapshot_base: int
+) -> dict[str, int] | None:
     for size in WINDOW_SIZES:
         if size > len(staging):
             continue
@@ -86,7 +90,12 @@ def first_meaningful_match(staging: bytes, candidate: bytes) -> dict[str, int] |
             candidate_offset = candidate.find(window)
             if candidate_offset >= 0:
                 return extend_match(
-                    staging, candidate, staging_offset, candidate_offset, size
+                    staging,
+                    candidate,
+                    staging_offset,
+                    candidate_offset,
+                    size,
+                    snapshot_base,
                 )
     return None
 
@@ -106,6 +115,12 @@ def main() -> int:
         raise SystemExit(f"snapshot must be exactly 0x1000 bytes, got 0x{len(snapshot):x}")
 
     staging = snapshot[STAGING_OFFSET:]
+    declared_transfer_bytes = int.from_bytes(
+        snapshot[TRANSFER_SIZE_OFFSET : TRANSFER_SIZE_OFFSET + 4], "little"
+    )
+    current_transfer_bytes = min(declared_transfer_bytes, len(staging))
+    current_transfer = staging[:current_transfer_bytes]
+    retained_history = staging[current_transfer_bytes:]
     results = {
         "snapshot": region_summary(snapshot),
         "controlRegion": region_summary(snapshot[:STAGING_OFFSET]),
@@ -114,6 +129,10 @@ def main() -> int:
         "expectedStagingBytes": EXPECTED_STAGING_SIZE,
         "capturedStagingBytes": len(staging),
         "missingStagingBytes": EXPECTED_STAGING_SIZE - len(staging),
+        "declaredTransferBytes": declared_transfer_bytes,
+        "currentTransferRegion": region_summary(current_transfer),
+        "retainedHistoryRegion": region_summary(retained_history),
+        "scratchTailCleared": not any(retained_history),
         "entries": [],
     }
 
@@ -124,8 +143,14 @@ def main() -> int:
                 "name": entry_path.name,
                 "bytes": len(candidate),
                 "sha256": sha256(candidate),
-                "entireCapturedStagingOffset": candidate.find(staging),
-                "meaningfulMatch": first_meaningful_match(staging, candidate),
+                "currentTransferMatch": first_meaningful_match(
+                    current_transfer, candidate, STAGING_OFFSET
+                ),
+                "retainedHistoryMatch": first_meaningful_match(
+                    retained_history,
+                    candidate,
+                    STAGING_OFFSET + current_transfer_bytes,
+                ),
             }
         )
 

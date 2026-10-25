@@ -31,7 +31,7 @@
     },
     {
       "path": "payloads/sm-service-snapshot/README.md",
-      "sha256": "C31131FD6B1706ACE9E5FADAE01B32EBDE1E9E6FC5844C7C0D794F369CD53735"
+      "sha256": "DEADF5990FC2AAA63265C36B2B0C56D98334CECA1AFFFC8AC045699704862501"
     },
     {
       "path": "scripts/Build-SmServiceSnapshot.ps1",
@@ -61,10 +61,13 @@
     "snapshotSha256": "CBECE299A0B1845620B08D40BED0838394C5445239D9620A63675CAE11CFFCB2",
     "completionMarkerPresent": true,
     "observedServiceId": "8001000B",
+    "currentTransferBytes": 4,
+    "scratchTailCleared": false,
     "capturedStagingBytes": 3168,
     "expectedStagingBytes": 4064,
     "omittedStagingBytes": 896,
-    "exactSignedInputMatch": {
+    "retainedSignedInputMatch": {
+      "classification": "retained-stale-scratch",
       "entry": "bank-a-8001000B",
       "snapshotStart": "0x5E0",
       "snapshotEndExclusive": "0x1000",
@@ -72,6 +75,7 @@
       "entryEndExclusive": "0xD000",
       "bytes": 2592
     },
+    "unmatchedScratchClassification": "unclassified-retained-history-not-proven-samu-output",
     "rawEvidenceCommitted": false
   }
 }

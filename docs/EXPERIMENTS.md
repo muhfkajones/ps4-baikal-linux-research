@@ -127,8 +127,10 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Runtime log: firmware `0x546` (decimal 1350), kernel base `0xffffffffdf46c000`, bounded kernel read result `0`, file write result `0`, and final `PASS`
 - Snapshot: exactly 4,096 bytes; SHA-256 `CBECE299A0B1845620B08D40BED0838394C5445239D9620A63675CAE11CFFCB2`
 - Completion marker: present and contains `complete`
-- Live service record: ASCII service identifier `8001000B` at snapshot offset `0x48`
+- Observed service record: ASCII service identifier `8001000B` at snapshot offset `0x48`
+- Current transfer length: the `sm_service` length field at snapshot offset `0x39C` is `4`; only the first four bytes of the staging area at `0x3A0` belong to the current transfer
 - Bound correction: the staging area begins at snapshot offset `0x3A0`; the 4 KiB snapshot therefore contains only `0xC60` (3,168) of its expected `0xFE0` (4,064) bytes and omits the final `0x380` (896) bytes
-- Exact private comparison: snapshot range `[0x5E0, 0x1000)` is identical to bank-A signed entry `8001000B` range `[0xC5E0, 0xD000)`, an exact 2,592-byte match
+- Scratch-state correction: the staging area is not cleared between transfers, so bytes after the current four-byte transfer are retained history rather than current service output
+- Exact private comparison: snapshot range `[0x5E0, 0x1000)` is identical to bank-A signed entry `8001000B` range `[0xC5E0, 0xD000)`, an exact 2,592-byte retained-history match
 - Cross-entry comparison: no meaningful 32-byte-or-larger match at a 16-byte-aligned snapshot offset was found against the other acquired signed bank entries, including `80010008`
-- Conclusion: the passive post-boot staging state retains signed/encrypted input from service `8001000B`; it did not yield an identifiable decrypted AuthMgr image. The next observation must be tied to the `80010008` load transaction rather than another late passive snapshot
+- Conclusion: the passive post-boot staging state contains four current bytes plus uncleared history. The retained tail includes signed `8001000B` input, but the unmatched prefix is unclassified scratch history and is not evidence of SAMU output. No identifiable decrypted AuthMgr image was acquired. The next observation must distinguish the current transfer from retained history and be tied to the `80010008` lifecycle
