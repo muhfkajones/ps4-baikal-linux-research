@@ -153,6 +153,7 @@ These components enabled local testing or produced research inputs. They are not
 
 ## Analysis and build tools
 
+- [nashsu/llm_wiki](https://github.com/nashsu/llm_wiki), version `v0.6.13` — local knowledge index used to recover documented project context across Codex sessions. GPL-3.0. The application and its generated data are kept outside this repository and are not redistributed here.
 - [Ghidra](https://github.com/NationalSecurityAgency/ghidra), version 12.1.4 PUBLIC — reverse engineering framework maintained by the National Security Agency and contributors; Apache License 2.0. Ghidra itself is not redistributed here.
 - [OpenOrbis PS4 Toolchain](https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain), release `v0.5.3` — PRX compiler, linker support, headers, stubs, and `create-fself` used for EXP-012; GPL-3.0 at that release. The toolchain is downloaded during CI and is not committed.
 - [Zig](https://github.com/ziglang/zig), version 0.17.0 — compiler/toolchain used for the reproducible payload build; MIT License. Zig itself is not redistributed here.
