@@ -25,7 +25,7 @@ if ($LASTEXITCODE -ne 0) {
 $selected = foreach ($relativePath in $tracked) {
     $normalized = $relativePath.Replace('\', '/')
     $include =
-        $normalized -in @('README.md', 'AGENTS.md', 'CREDITS.md', 'CONTRIBUTING.md', 'SECURITY.md') -or
+        $normalized -in @('README.md', 'AGENTS.md', 'CLAUDE.md', 'CREDITS.md', 'CONTRIBUTING.md', 'SECURITY.md') -or
         $normalized -match '^LICENSE(?:\..+)?$' -or
         $normalized -match '^docs/.+\.md$' -or
         $normalized -match '^manifests/.+\.json$' -or
