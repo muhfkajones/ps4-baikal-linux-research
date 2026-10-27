@@ -212,3 +212,6 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Review archive: SHA-256 `32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1`; all five files matched the working copies before documentation reconciliation
 - Evidence boundary: current module presence or absence is observational and cannot prove whether a loader hook ran earlier or a module was transiently present
 - Current gate: offline source/build/post-link review complete; do not deploy until transfer-hash verification is complete and the user explicitly authorizes the hardware run
+- Gate-1 preflight (2026-10-27): PS4-Xplorer exposed its verified FTP service on TCP 2121; the installed HEN reported `2.2.0 BETA`, `enable_plugins = 1`, and included `plugin_server.prx`, but the plugin-server klog port 3232 was not listening
+- Current configuration observation: `/data/hen/plugins.ini` is again present with SHA-256 `B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548`, exactly matching the EXP-012 title-specific config, while `/data/hen/plugins/` is empty; this is a later reintroduction after the documented EXP-012 rollback, not evidence that the rollback record was wrong
+- Capture blocker: do not execute revision 6 while the klog capture service is unavailable; establish a separately reviewed capture route first

@@ -46,3 +46,5 @@ The pinned HEN plugin-server source exposes `/dev/klog` read-only over TCP port 
 ```
 
 If the connection cannot be established, do not launch the payload. The capture stops only after the EXP-013 completion or explicit stop marker and preserves the raw local evidence for the parser.
+
+PS4-Xplorer's FTP server may return only a short prefix from an ordinary retrieval while still supporting `REST`. Use `scripts/Get-Ps4XplorerFile.ps1` with the directory-listed expected length to reconstruct a bounded file read-only; the script refuses to overwrite a local output and fails unless the exact expected byte count is recovered.

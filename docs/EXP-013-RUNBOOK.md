@@ -19,6 +19,17 @@ Assistant work after Gate 1:
 3. Determine whether the pinned plugin-server klog service can be enabled through an already-installed component or whether a separately reviewed deployment would be required.
 4. Do not upload EXP-013 until its destination, rollback, capture route, and transfer verification are all established.
 
+### Gate-1 result — 2026-10-27
+
+- PS4-Xplorer FTP was reachable on TCP port `2121`.
+- The FTP implementation returned only eight bytes per ordinary retrieval but supported `REST`; `scripts/Get-Ps4XplorerFile.ps1` reconstructed bounded files read-only and verified their final lengths and hashes.
+- Installed HEN version: `2.2.0 BETA`; `enable_plugins = 1`.
+- `plugin_server.prx` exists, but its expected klog service on TCP port `3232` was not listening.
+- `/data/hen/plugins.ini` matches the prior EXP-012 config hash, but the referenced custom PRX is absent and `/data/hen/plugins/` is empty.
+- No console file was uploaded, edited, renamed, or deleted.
+
+Gate 1 therefore remains blocked on a reliable capture route. Do not proceed to Gate 2 by merely uploading the payload.
+
 ## Gate 2 — stage only after separate authorization
 
 If Gate 1 proves a safe capture route, the assistant will request authorization for the exact upload paths. After transfer, `scripts/Verify-HenLoaderBoundaryTransfer.ps1` must validate the local and retrieved copies against the audited size and hash.
