@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "experiment": "EXP-013",
+  "revision": 6,
+  "hardwareExecuted": false,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1 (0x30201)"
+  },
+  "behavior": {
+    "outputChannel": "syscall 601 debug channel",
+    "observations": ["process UID", "sandbox state", "loaded module handles", "bounded printable module names"],
+    "moduleCapacity": 256,
+    "kernelMemoryRead": false,
+    "kernelMemoryWrite": false,
+    "filesystemAccess": false,
+    "customPrxLoad": false,
+    "flashAccess": false,
+    "secureModuleRequest": false
+  },
+  "buildOutputs": {
+    "elf": {"bytes": 26376, "sha256": "189F84346FDC410FDFA28B4A7461DB84633912BED402709494379CC970EBF28C"},
+    "flatPayload": {"bytes": 5760, "sha256": "ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8"},
+    "reproducibleBuilds": 2,
+    "toolchain": "Zig 0.17.0",
+    "sdkRevision": "b7326416c23ce14639e9180a24093bdc5eedb579"
+  },
+  "reviewArchive": {
+    "sha256": "32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1",
+    "matchedWorkingFilesBeforeReconciliation": true
+  },
+  "hardwareGate": "Not authorized; requires completed post-link review, transfer-hash verification, and explicit user approval."
+}

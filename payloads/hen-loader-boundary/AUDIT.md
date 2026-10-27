@@ -1,0 +1,34 @@
+# Pre-execution audit
+
+## Scope
+
+EXP-013 revision 6 is restricted to the owned PS4 Pro CUH-7215B on firmware 13.50. It inventories the user-mode modules visible to Payload Guest after EXP-012 produced no plugin entry log during a verified fresh launch.
+
+## Source-level properties
+
+1. Output uses only the previously established syscall-601 debug channel.
+2. The only observations are `getuid`, `is_in_sandbox`, `getLoadedModules`, and `getModuleInfo` results.
+3. Module enumeration is bounded to 256 handles. Execution stops if the result fails, the count is negative, or the count exceeds that bound.
+4. Module names are bounded to the 32-byte SDK field and non-printable bytes are replaced before logging.
+5. The payload performs no kernel-memory read or write and does not call the jailbreak helper.
+6. The payload performs no filesystem I/O, custom PRX load, entry-point call, flash access, hook installation, secure-module spawn, or service-mailbox request.
+7. A missing module name is only an observation about the current process list; it is not proof that a hook never ran or a module was never transiently loaded.
+
+## Reproducible build review
+
+Two consecutive local builds from the current revision-6 source produced identical outputs:
+
+- ELF: 26,376 bytes; SHA-256 `189F84346FDC410FDFA28B4A7461DB84633912BED402709494379CC970EBF28C`
+- Flat payload: 5,760 bytes; SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`
+
+The source and build records contain no `/dev/`, USB-output, plugin-configuration, or custom-PRX path. Generated binaries remain ignored and outside Git.
+
+## Hardware gate
+
+This offline review does not authorize deployment. Before any hardware execution, retain the exact source/build hashes, complete a post-link disassembly/decompilation review, and verify the transferred flat-payload hash. Payload Guest is currently open, but revision 6 must not be sent or launched without the user's explicit approval after reviewing this record.
+
+## Provenance
+
+- Payload SDK: `Scene-Collective/ps4-payload-sdk` revision `b7326416c23ce14639e9180a24093bdc5eedb579`
+- Toolchain: Zig 0.17.0
+- Review ZIP SHA-256: `32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1`

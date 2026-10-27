@@ -1,7 +1,7 @@
 {
   "experiment": "EXP-012",
   "name": "authmgr-early-snapshot-plugin-1350",
-  "hardwareExecuted": false,
+  "hardwareExecuted": true,
   "target": {
     "console": "PS4 Pro CUH-7215B",
     "firmware": "13.50",
@@ -47,7 +47,20 @@
     "configPath": "/data/hen/plugins.ini",
     "configSection": "AZIF00003",
     "configSha256": "B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548",
-    "staged": true,
-    "roundTripVerified": true
+    "staged": false,
+    "roundTripVerified": true,
+    "rolledBack": true
+  },
+  "hardwareResult": {
+    "date": "2026-10-25",
+    "henVersion": "2.2.0 BETA",
+    "enablePlugins": true,
+    "freshLaunchVerified": true,
+    "pluginLoadEntered": false,
+    "snapshotProduced": false,
+    "outputFilesFound": 0,
+    "postLaunchPrxHashVerified": true,
+    "postLaunchConfigHashVerified": true,
+    "conclusion": "The stock HEN per-application loader path did not invoke this custom PRX during the verified fresh Payload Guest launch; do not repeat without loader-boundary instrumentation."
   }
 }

@@ -9,6 +9,14 @@ Before proposing or changing anything:
 3. Treat those files and the current working tree as authoritative. LLM Wiki is a read-only search aid.
 4. Summarize the verified boundary, closed experiments, current blocker, and next safe experiment. Do not ask the user to repeat recorded facts.
 
+## Local continuity tool
+
+- When the user says **Tauri app** or a window is titled **Tauri App**, they mean the local **LLM Wiki v0.6.13** application used by this project.
+- Launch it from `../tools/llm-wiki/0.6.13/LLM Wiki.exe`; its loopback API is `http://127.0.0.1:19828`.
+- Select only the Baikal research wiki at `../llm-wiki-data/ps4-baikal-linux-research/` (project ID `a59a1712-131a-497a-a342-ef13879f96fe`).
+- Do not ask the user for the app name or location again. If the app or API is unavailable, continue from the Git-tracked state documents and report that specific problem.
+- Claude has a separate wiki database outside this project. Never select, search, modify, or merge that database during Baikal/Codex work.
+
 ## Fixed reference system
 
 - Console: PS4 Pro CUH-7215B

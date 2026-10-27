@@ -1,6 +1,6 @@
 # Verified status
 
-Last updated: 2026-10-24
+Last updated: 2026-10-27
 
 ## Confirmed
 
@@ -38,6 +38,10 @@ The next acquisition target remains the decrypted form of Secure Kernel and Auth
 EXP-010 completed the first passive observation step. The observed `sm_service` record names service `8001000B`, but its current transfer-length field is only `4`. The staging area is not cleared between transfers: only its first four bytes are current, while the remainder is retained scratch history. A 2,592-byte tail matches bank-A signed `8001000B` input exactly, but that match is stale input history, not a live transaction or transformed output. The unmatched prefix is unclassified scratch history and is not evidence of SAMU output. No comparable aligned match was found to the acquired `80010008` AuthMgr entry, and no identifiable decrypted AuthMgr image was acquired. The original 4 KiB bound also omitted the final 896 bytes of the staging area. A useful next observation must record the full bounded area, interpret only the declared transfer length as current, and remain read-only until the `80010008` lifecycle and buffer ownership are established.
 
 EXP-011 completed the full bounded baseline capture. Its 4,992-byte snapshot includes the complete `0xFE0` staging area and has SHA-256 `D2B9ED6590C783C1C0824145CF0470FFF8D8964A1C41EFEE2BA04A006C5250FD`. The service field remains `8001000B`; both the request and current-transfer lengths are `4`. Retained range `[0x5E0, 0x1380)` matches 3,488 bytes of bank-A signed `8001000B` input exactly, including all 896 bytes omitted from EXP-010. No AuthMgr match or identifiable plaintext was acquired. Payload Guest displayed an application error after execution, but the diagnostic log, exact-size snapshot, and completion marker all prove the payload itself passed. A delayed passive snapshot is now closed as a useful acquisition branch; the next experiment must observe `80010008` closer to its spawn/driver boundary.
+
+EXP-012 tested the same bounded read as a title-specific HEN plugin during a verified fresh Payload Guest launch. The staged PRX and config matched their audited hashes before and after execution; HEN reported `2.2.0 BETA`, plugins were enabled, the generated app-info record correctly identified `AZIF00003`, and the HEN log proved the old process was killed before a new process was created. No plugin output appeared, including the first-entry log, so `plugin_load` was not reached. The staged files were removed and the exact pre-deployment state was restored. Repeating this uninstrumented stock-loader launch is closed; the next step must instrument or bypass the per-application loader boundary before attempting another early snapshot.
+
+EXP-013 revision 6 is the current prepared diagnostic. It replaces earlier kernel-read/custom-PRX probe drafts with a narrower user-mode module inventory that emits only to the syscall-601 debug channel. The source performs no kernel-memory access, file I/O, custom PRX loading, flash access, or secure-module request. Two local builds were byte-identical; the flat payload is 5,760 bytes with SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`. It has not been executed and is not authorized for hardware until post-link review, transfer verification, and explicit user approval are complete.
 
 ## Success criteria
 

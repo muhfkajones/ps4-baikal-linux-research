@@ -32,7 +32,13 @@ The PRX was staged at `/data/hen/plugins/authmgr-early-snapshot.prx` and retriev
 
 A new title-specific `/data/hen/plugins.ini` was staged and retrieved. Its SHA-256 is `B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548`, exactly matching the local two-line config. It contains only `[AZIF00003]` and the single plugin path; no `[all]` section exists.
 
-The source, binary, and configuration are approved for one hardware launch of Payload Guest. No payload selection is required: the HEN plugin loader should invoke and then unload the plugin automatically during application startup.
+## Hardware result
+
+The controlled hardware launch was completed on 2026-10-25. HEN reported `2.2.0 BETA`, `enable_plugins = 1`, and a fresh Payload Guest app-info record for title `AZIF00003`. The HEN log separately proved that the prior process was killed and a new `AZIF00003` process was created, rather than resumed from suspension.
+
+No declared plugin output appeared—not even the first-entry log created before the firmware query. The on-console PRX and config were then retrieved again and matched the audited hashes above exactly. This establishes that the plugin did not reach `plugin_load`; it does not establish which internal HEN loader stage declined or failed to load the PRX.
+
+The documented rollback was completed. `/data/hen/plugins.ini` and `/data/hen/plugins/authmgr-early-snapshot.prx` were deleted, and a post-delete directory listing confirmed the config absent and the plugin directory empty. Repeating the same uninstrumented launch is not approved because it cannot distinguish loader stages and produced no diagnostic signal.
 
 ## Provenance
 

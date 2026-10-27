@@ -24,9 +24,14 @@ It intentionally excludes binaries, build output, Git internals, untracked files
 
 ## Local layout
 
-- Application: `../tools/llm-wiki/0.6.13/`
-- Wiki data: `../llm-wiki-data/ps4-baikal-linux-research/`
+- Application name: **LLM Wiki v0.6.13**. Its Windows title bar may display the generic name **Tauri App**; these names refer to the same program.
+- Executable: `../tools/llm-wiki/0.6.13/LLM Wiki.exe`
+- Loopback API: `http://127.0.0.1:19828`
+- Baikal/Codex wiki data: `../llm-wiki-data/ps4-baikal-linux-research/`
+- Baikal/Codex project ID: `a59a1712-131a-497a-a342-ef13879f96fe`
 - Export target: `../llm-wiki-data/ps4-baikal-linux-research/raw/sources/repository/`
+
+The separately configured Claude wiki is not part of this research workspace. Baikal/Codex sessions must never select, search, write to, or merge Claude's database. This separation prevents the two assistants from altering each other's derived context.
 
 Keeping wiki data outside this public repository prevents generated pages and local configuration from being committed accidentally.
 
@@ -64,6 +69,8 @@ A new session should:
 3. Read `docs/STATUS.md`, `docs/EXPERIMENTS.md`, and the data/reproducibility policies.
 4. Query the read-only LLM Wiki project when available.
 5. Continue from the verified boundary instead of replaying completed steps.
+
+If the user mentions the **Tauri app**, resolve that name directly to the LLM Wiki executable and Baikal project above. Do not ask the user to identify or locate it again.
 
 ## Version and license
 

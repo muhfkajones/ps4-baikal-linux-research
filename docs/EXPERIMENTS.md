@@ -79,7 +79,7 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 ## EXP-008 — Targeted Secure Kernel and AuthMgr decryptor, offline audit
 
 - Date: 2026-10-24
-- Hardware status: not executed
+- Hardware status: executed; no snapshot was produced
 - Target firmware: exactly 13.50
 - Inputs: A/B copies of signed `80010001` and `80010008`, read only from `/mnt/usb0/ps4-re-input`
 - Outputs: reconstructed ELF32 program segments, log, and completion marker only under `/mnt/usb0/ps4-re-output`
@@ -187,5 +187,27 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Staging: the PRX and new title-specific config were uploaded through PS4-Xplorer FTP, retrieved, and verified byte-for-byte
 - Round-trip PRX SHA-256: `82BC5D8039E854377DACE81C74BCEA3231C11D5F6D00E3112CED49F9405D57CE`
 - Round-trip config SHA-256: `B41B95CB8CCE9C217ABE109D40CFBBD551B8C5081A4C9C151CDDC35927EB4548`
-- Current gate: approved for one Payload Guest launch; the plugin should execute automatically during startup, with no manual payload selection
-- Decision basis: EXP-011 proved that delayed post-launch snapshots only expose four current bytes plus retained signed `8001000B` input history; moving the same passive read to application start is the lowest-risk available timing improvement
+- Runtime preconditions: installed HEN reported `2.2.0 BETA`; `/data/hen/hen.ini` had `enable_plugins = 1`; Payload Guest's generated HEN app-info record identified PID 97, title ID `AZIF00003`, category `gde`, and app version `0.98`
+- Fresh-launch proof: the HEN log recorded the old `AZIF00003` process being killed, followed by a new `createApp AZIF00003` sequence and new `eboot.bin`/`guest.elf` process creation; this was not a suspended-app resume
+- Runtime result: none of the three declared `authmgr-early-state-1350` output files appeared, including the first-entry log; therefore `plugin_load` did not reach its first observable statement
+- Loader evidence: the installed config and PRX were retrieved after the fresh launch and still matched the audited hashes exactly, excluding transfer corruption or title-ID/config mismatch
+- Conclusion: the stock HEN per-application loader path did not invoke this custom PRX on the verified 13.50 Payload Guest launch. Repeating the same launch is not useful. A subsequent experiment must first instrument or bypass the per-app loader boundary rather than changing snapshot offsets
+- Rollback result: `/data/hen/plugins.ini` and `/data/hen/plugins/authmgr-early-snapshot.prx` were deleted; a post-delete listing confirmed the config absent and the plugin directory empty, restoring the documented pre-state
+- Decision basis: EXP-011 proved that delayed post-launch snapshots only expose four current bytes plus retained signed `8001000B` input history; EXP-012 tested the lowest-risk timing improvement and closed the uninstrumented stock-loader branch without modifying kernel or flash state
+
+## EXP-013 — Payload Guest user-mode module inventory
+
+- Date reviewed: 2026-10-27
+- Hardware status: not executed
+- Current source revision: 6
+- Purpose: inventory modules visible to the Payload Guest process without repeating the closed EXP-012 plugin launch
+- Output: syscall-601 debug channel only; no file or completion-marker output
+- Observations: process UID, sandbox state, bounded loaded-module handles, and printable module names
+- Excluded actions: no jailbreak helper, kernel-memory read or write, custom PRX load, filesystem access, flash access, hook installation, or secure-module request
+- Enumeration bound: 256 handles; invalid or truncated counts stop the diagnostic
+- ELF build: 26,376 bytes; SHA-256 `189F84346FDC410FDFA28B4A7461DB84633912BED402709494379CC970EBF28C`
+- Flat payload: 5,760 bytes; SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`
+- Reproducibility: two consecutive local builds produced identical outputs
+- Review archive: SHA-256 `32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1`; all five files matched the working copies before documentation reconciliation
+- Evidence boundary: current module presence or absence is observational and cannot prove whether a loader hook ran earlier or a module was transiently present
+- Current gate: offline review only; do not deploy until post-link review and transfer-hash verification are complete and the user explicitly authorizes the hardware run
