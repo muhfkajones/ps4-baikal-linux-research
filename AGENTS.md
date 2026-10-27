@@ -25,6 +25,12 @@ Before proposing or changing anything:
 - Verified Linux path: external USB after the volatile HEN and Linux-loader path
 - Project goal: investigate a reproducible cold-boot Linux path; no permanent replacement is currently verified
 
+## Operator handoff rule
+
+- Continue all safe digital research, coding, auditing, documentation, GitHub, and read-only Wiki work without handing a pause back to the user.
+- Stop only when the user must physically operate hardware, provide missing authority for a gated action, or make a material experiment choice that cannot safely be inferred.
+- Before stopping, exhaust independent digital work and state the single physical action or exact authorization needed.
+
 ## Research and safety rules
 
 - Label every claim as verified evidence, observation, hypothesis, or proposal when the distinction matters.

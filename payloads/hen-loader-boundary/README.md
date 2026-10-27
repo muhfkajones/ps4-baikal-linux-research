@@ -4,6 +4,8 @@ Revision 6 is a read-only user-mode inventory payload for the owned 13.50 refere
 
 The payload reports through the already-established syscall-601 debug channel. It records the process UID and sandbox state, enumerates the modules visible to the Payload Guest process with `getLoadedModules`, and emits each available module ID and printable module name from `getModuleInfo`.
 
+Revision 6 does **not**:
+
 - read or write kernel memory;
 - call the jailbreak helper;
 - open or write files;
@@ -14,3 +16,13 @@ The payload reports through the already-established syscall-601 debug channel. I
 The result can establish which modules are visible in the current process. Absence from that list cannot by itself prove that a loader hook never ran or that a module was never transiently present.
 
 The earlier revision-5 source remains in the local ignored backup set for evidence preservation. It is not the current build input and must not be substituted without a fresh review.
+
+Before a user-authorized run, compare the local build with the retrieved console-side round-trip copy:
+
+```powershell
+.\scripts\Verify-HenLoaderBoundaryTransfer.ps1 `
+  -Local .\build\HenLoaderBoundary\hen-loader-boundary-1350.bin `
+  -Retrieved C:\path\to\retrieved\hen-loader-boundary-1350.bin
+```
+
+The verifier requires both files to be exactly 5,760 bytes with SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`.
