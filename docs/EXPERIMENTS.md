@@ -208,6 +208,7 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - ELF build: 26,376 bytes; SHA-256 `189F84346FDC410FDFA28B4A7461DB84633912BED402709494379CC970EBF28C`
 - Flat payload: 5,760 bytes; SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`
 - Reproducibility: two consecutive local builds produced identical outputs
+- Ghidra audit: 11 functions found; all 11 decompiled successfully; the reachable revision-6 path contains no kernel-memory access, filesystem operation, custom PRX load, flash access, hook installation, or secure-module/service-mailbox call
 - Review archive: SHA-256 `32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1`; all five files matched the working copies before documentation reconciliation
 - Evidence boundary: current module presence or absence is observational and cannot prove whether a loader hook ran earlier or a module was transiently present
-- Current gate: offline review only; do not deploy until post-link review and transfer-hash verification are complete and the user explicitly authorizes the hardware run
+- Current gate: offline source/build/post-link review complete; do not deploy until transfer-hash verification is complete and the user explicitly authorizes the hardware run

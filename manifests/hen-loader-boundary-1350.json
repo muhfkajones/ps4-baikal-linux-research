@@ -30,5 +30,14 @@
     "sha256": "32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1",
     "matchedWorkingFilesBeforeReconciliation": true
   },
-  "hardwareGate": "Not authorized; requires completed post-link review, transfer-hash verification, and explicit user approval."
+  "postLinkReview": {
+    "tool": "Ghidra 12.1.4 PUBLIC",
+    "language": "x86:LE:64:default",
+    "functionsFound": 11,
+    "functionsDecompiled": 11,
+    "analysisReportSha256": "C1DDEEA1D9AA85430F6A73893B7F1ECCB7FCBF629098EEAB451DA8BB2B032BE5",
+    "decompilationReportSha256": "2DB6D6D7401C65959CD924C796719203F062457C85CE935E59306078E21D03FA",
+    "forbiddenReachableActionsFound": false
+  },
+  "hardwareGate": "Not authorized; requires transfer-hash verification and explicit user approval."
 }

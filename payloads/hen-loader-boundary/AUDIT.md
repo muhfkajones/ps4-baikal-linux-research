@@ -23,9 +23,18 @@ Two consecutive local builds from the current revision-6 source produced identic
 
 The source and build records contain no `/dev/`, USB-output, plugin-configuration, or custom-PRX path. Generated binaries remain ignored and outside Git.
 
+## Post-link Ghidra review
+
+Ghidra 12.1.4 PUBLIC imported the linked ELF as `x86:LE:64:default` and identified 11 functions. All 11 decompiled successfully. The reachable `_main` path contains initialization, `getuid`, `is_in_sandbox`, bounded `getLoadedModules`/`getModuleInfo` calls, and syscall-601 debug output. It contains no kernel-memory read/write helper, filesystem operation, custom PRX load, flash access, hook installation, or secure-module/service-mailbox call.
+
+The linked SDK contributes unused resolver names and function-pointer slots for broader SDK APIs. Their string-table presence is not execution evidence; the decompiled call graph was used to verify the actual revision-6 path.
+
+- Ghidra analysis report SHA-256: `C1DDEEA1D9AA85430F6A73893B7F1ECCB7FCBF629098EEAB451DA8BB2B032BE5`
+- Ghidra decompilation report SHA-256: `2DB6D6D7401C65959CD924C796719203F062457C85CE935E59306078E21D03FA`
+
 ## Hardware gate
 
-This offline review does not authorize deployment. Before any hardware execution, retain the exact source/build hashes, complete a post-link disassembly/decompilation review, and verify the transferred flat-payload hash. Payload Guest is currently open, but revision 6 must not be sent or launched without the user's explicit approval after reviewing this record.
+This offline review does not authorize deployment. Before any hardware execution, verify the transferred flat-payload hash. Payload Guest is currently open, but revision 6 must not be sent or launched without the user's explicit approval after reviewing this record.
 
 ## Provenance
 
