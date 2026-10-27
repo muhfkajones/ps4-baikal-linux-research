@@ -29,7 +29,7 @@ Before proposing or changing anything:
 
 - Continue all safe digital research, coding, auditing, documentation, GitHub, and read-only Wiki work without handing a pause back to the user.
 - Stop only when the user must physically operate hardware, provide missing authority for a gated action, or make a material experiment choice that cannot safely be inferred.
-- Before stopping, exhaust independent digital work and state the single physical action or exact authorization needed.
+- Before stopping, exhaust independent digital work. If control must pass to the user, give the exact action, where to perform it, and the expected visible result; never hand back a bare pause or unexplained approval request.
 
 ## Research and safety rules
 

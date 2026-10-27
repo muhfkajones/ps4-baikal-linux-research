@@ -26,3 +26,13 @@ Before a user-authorized run, compare the local build with the retrieved console
 ```
 
 The verifier requires both files to be exactly 5,760 bytes with SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`.
+
+After an authorized run, save the captured debug stream locally and parse it without publishing the raw log first:
+
+```powershell
+.\scripts\Parse-HenLoaderBoundaryLog.ps1 `
+  -LogPath C:\path\to\captured-kernel-log.txt `
+  -OutputJson C:\private\exp013-v6-result.json
+```
+
+A complete result requires one copy of each numbered observation, a successful bounded enumeration, exactly one record per declared module or module-info failure, no unknown EXP-013 records, and the final `08 complete` marker. Module absence remains observational rather than proof about earlier transient loader activity.
