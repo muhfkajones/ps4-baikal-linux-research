@@ -41,3 +41,20 @@ This offline review does not authorize deployment. Before any hardware execution
 - Payload SDK: `Scene-Collective/ps4-payload-sdk` revision `b7326416c23ce14639e9180a24093bdc5eedb579`
 - Toolchain: Zig 0.17.0
 - Review ZIP SHA-256: `32C902C2E418A9D4C6889FC0AC4167D8F2AB2FBB308E6F0293310CD30F7B6FC1`
+
+## Revision 7 direct-capture fallback
+
+Revision 7 preserves the revision-6 observation set and safety exclusions. Its only added runtime behavior is network initialization, one outbound TCP connection to a privately supplied build-time host address on TCP 9023, complete-line sends, and socket close. It performs no network listen, inbound command handling, filesystem I/O, kernel-memory access, custom PRX load, flash access, hook installation, or secure-module request.
+
+Two consecutive builds using the verified local workstation address were byte-identical:
+
+- ELF: 31,144 bytes; SHA-256 `703E98379FD2148BAA834049A42CD16779D941464C39545DA558016827B62A28`
+- Flat payload: 7,044 bytes; SHA-256 `8270D9C6470E27A51AF2FC37C5B84F7775C14D5D3988A4051BB9AB64B01CCA70`
+
+Ghidra 12.1.4 PUBLIC identified 15 functions and decompiled all 15. The reachable path contains initialization, the outbound connection, UID/sandbox observations, bounded module enumeration, complete-line sends through the resolved `sceNetSend`, socket close, and syscall-601 mirroring. SDK resolver strings for unused APIs are not reachable-action evidence.
+
+- Ghidra analysis report SHA-256: `226921189EC5A19F1BCBBB78BA736A4152749E4C3235A2916B0DF63BBF23C79F`
+- Ghidra decompilation report SHA-256: `B1D1E2B30BB3E28A8345AEDA1F1E07DD825EDEA4EDF9AE0493D73FEF743FF541`
+- Listener/parser integration: localhost capture reached the terminal marker and the strict parser accepted the complete fixture; a truncated fixture was rejected.
+
+This review does not authorize hardware execution. The console-side round-trip copy must match the recorded flat-payload size and hash, the host listener must already be active, and the user must explicitly approve the exact run.

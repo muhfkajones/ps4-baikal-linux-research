@@ -1,8 +1,8 @@
-# EXP-013 revision-6 controlled runbook
+# EXP-013 controlled runbook
 
 ## Current boundary
 
-EXP-013 revision 6 has completed source, reproducible-build, and Ghidra review. Its flat payload is 5,760 bytes with SHA-256 `ADA2FB9F75DAD721BDD4979D9F30BBCD234B4F752A65FD71D4D33F044BEDB2E8`.
+EXP-013 revision 6 completed review, but its syscall-601 capture service was unavailable on the reference console. Revision 7 is the reviewed fallback. It preserves the same bounded user-mode inventory and adds one outbound TCP connection to the host capture listener. Its flat payload is 7,044 bytes with SHA-256 `8270D9C6470E27A51AF2FC37C5B84F7775C14D5D3988A4051BB9AB64B01CCA70`.
 
 No payload transfer or hardware execution is authorized by this document. The operator and assistant proceed one gate at a time. The assistant performs network transfer, hash verification, capture, parsing, documentation, and GitHub work; the operator performs only the explicitly requested console action.
 
@@ -28,19 +28,19 @@ Assistant work after Gate 1:
 - `/data/hen/plugins.ini` matches the prior EXP-012 config hash, but the referenced custom PRX is absent and `/data/hen/plugins/` is empty.
 - No console file was uploaded, edited, renamed, or deleted.
 
-Gate 1 therefore remains blocked on a reliable capture route. Do not proceed to Gate 2 by merely uploading the payload.
+Revision 6 remains blocked on its missing klog route. Revision 7 supplies a separately reviewed route and passed a localhost listener/parser integration test. No payload has been uploaded.
 
 ## Gate 2 — stage only after separate authorization
 
-If Gate 1 proves a safe capture route, the assistant will request authorization for the exact upload paths. After transfer, `scripts/Verify-HenLoaderBoundaryTransfer.ps1` must validate the local and retrieved copies against the audited size and hash.
+After explicit authorization for the exact upload path, the assistant may stage revision 7 while PS4-Xplorer remains open. It must then retrieve a round-trip copy read-only and run `scripts/Verify-HenLoaderBoundaryNetworkTransfer.ps1` against the audited size and hash. A mismatch stops the run and the staged file is not executed.
 
 The operator will then receive one exact action to reopen Payload Guest, with the expected screen. No run occurs at this gate.
 
 ## Gate 3 — single execution only after separate authorization
 
-The assistant starts `scripts/Capture-Exp013Klog.ps1` before execution and confirms that the capture socket is connected. Only then may one Payload Guest execution be authorized.
+The assistant starts `scripts/Listen-Exp013Network.ps1` before execution and confirms that the listener is active. Only then may one Payload Guest execution be authorized. If Windows blocks the inbound connection, do not change security policy or request public-network access; stop and design another reviewed route.
 
-The captured stream is preserved privately and parsed with `scripts/Parse-HenLoaderBoundaryLog.ps1`. Publication is limited to reviewed, non-unique findings and hashes.
+The captured stream is preserved privately and parsed with `scripts/Parse-HenLoaderBoundaryNetworkLog.ps1`. Publication is limited to reviewed, non-unique findings and hashes.
 
 ## Stop conditions
 

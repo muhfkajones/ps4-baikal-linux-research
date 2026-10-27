@@ -34,6 +34,18 @@ Build the provider-inventory diagnostic with:
 
 Do not execute a new inventory build on hardware until its linked ELF has completed the review below.
 
+Build the EXP-013 revision-7 direct-capture fallback with a private local workstation address that is never committed or indexed:
+
+```powershell
+.\scripts\Build-HenLoaderBoundaryNetwork.ps1 `
+  -Zig C:\path\to\zig.exe `
+  -SdkRoot C:\path\to\ps4-payload-sdk `
+  -DebugHost <workstation-LAN-address> `
+  -DebugPort 9023
+```
+
+For the reviewed reference build, the flat payload is 7,044 bytes with SHA-256 `8270D9C6470E27A51AF2FC37C5B84F7775C14D5D3988A4051BB9AB64B01CCA70`. The address changes the binary, so any different private address requires a fresh build hash, post-link review, and transfer verifier update before hardware use.
+
 Validate a retrieved inventory log with `scripts/Parse-SflashInventoryLog.ps1`. A `complete: true` result requires the expected 13.50 firmware marker, all nine provider records, no unexpected lines, and the payload's final completion marker.
 
 ## Required review before hardware execution

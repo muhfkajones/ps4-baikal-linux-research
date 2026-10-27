@@ -17,7 +17,7 @@ See [docs/STATUS.md](docs/STATUS.md) for confirmed results and the current resea
 See [docs/SECURE-BOOT-MODULE-MAP.md](docs/SECURE-BOOT-MODULE-MAP.md) for the evidence-backed map of the acquired signed boot modules and the next acquisition target.
 See [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) for the hardware result from the audited secure-module mapper. The ordinary x86 SELF mapping path was tested and rejected all four Secure Kernel/AuthMgr inputs with `ENOEXEC`; current work has moved to tracing the distinct SAMU-facing secure-module service path.
 See [docs/AUTHMGR-LIFECYCLE.md](docs/AUTHMGR-LIFECYCLE.md) for the 13.50 suspend/resume evidence and the controlled EXP-011 capture sequence.
-See [payloads/hen-loader-boundary/AUDIT.md](payloads/hen-loader-boundary/AUDIT.md) for the offline-only EXP-013 revision-6 user-mode module-inventory review. It has not been authorized or executed on hardware.
+See [payloads/hen-loader-boundary/AUDIT.md](payloads/hen-loader-boundary/AUDIT.md) for the offline-only EXP-013 revision-6 and direct-capture revision-7 user-mode module-inventory reviews. Neither revision has been authorized or executed on hardware.
 See [docs/EXP-013-RUNBOOK.md](docs/EXP-013-RUNBOOK.md) for the gated operator/assistant sequence; each physical console action is handed off with its expected visible result.
 See [docs/KNOWLEDGE-CONTINUITY.md](docs/KNOWLEDGE-CONTINUITY.md) for the local, read-only LLM Wiki index and cross-session Codex workflow.
 

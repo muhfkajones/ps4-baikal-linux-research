@@ -2,6 +2,8 @@
 
 Revision 6 is a read-only user-mode inventory payload for the owned 13.50 reference console. It follows the negative EXP-012 plugin result without repeating that closed launch.
 
+Revision 7 is the reviewed capture-route fallback for the same inventory. Because the installed HEN plugin-server klog service was not listening on TCP 3232, revision 7 sends the same bounded observations directly to a host listener on TCP 9023. The private host address is supplied only at local build time and is not committed or indexed. Revision 7 still emits each line to syscall 601 as a secondary diagnostic channel.
+
 The payload reports through the already-established syscall-601 debug channel. It records the process UID and sandbox state, enumerates the modules visible to the Payload Guest process with `getLoadedModules`, and emits each available module ID and printable module name from `getModuleInfo`.
 
 Revision 6 does **not**:
@@ -12,6 +14,8 @@ Revision 6 does **not**:
 - load, resolve, call, or unload a custom PRX;
 - access flash or send a secure-module request;
 - create a completion marker.
+
+Revision 7 adds only network initialization, one outbound TCP connection, bounded complete-line sends, and socket close. It retains all revision-6 exclusions, including no kernel-memory access, filesystem I/O, custom PRX load, flash access, hook installation, or secure-module request.
 
 The result can establish which modules are visible in the current process. Absence from that list cannot by itself prove that a loader hook never ran or that a module was never transiently present.
 
@@ -48,3 +52,5 @@ The pinned HEN plugin-server source exposes `/dev/klog` read-only over TCP port 
 If the connection cannot be established, do not launch the payload. The capture stops only after the EXP-013 completion or explicit stop marker and preserves the raw local evidence for the parser.
 
 PS4-Xplorer's FTP server may return only a short prefix from an ordinary retrieval while still supporting `REST`. Use `scripts/Get-Ps4XplorerFile.ps1` with the directory-listed expected length to reconstruct a bounded file read-only; the script refuses to overwrite a local output and fails unless the exact expected byte count is recovered.
+
+For revision 7, start `scripts/Listen-Exp013Network.ps1` before an authorized launch, preserve its raw local capture, and validate it with `scripts/Parse-HenLoaderBoundaryNetworkLog.ps1`. Before execution, upload and retrieve the 7,044-byte flat payload and require `scripts/Verify-HenLoaderBoundaryNetworkTransfer.ps1` to confirm SHA-256 `8270D9C6470E27A51AF2FC37C5B84F7775C14D5D3988A4051BB9AB64B01CCA70`. A listener or transfer failure means do not launch.
