@@ -36,3 +36,13 @@ After an authorized run, save the captured debug stream locally and parse it wit
 ```
 
 A complete result requires one copy of each numbered observation, a successful bounded enumeration, exactly one record per declared module or module-info failure, no unknown EXP-013 records, and the final `08 complete` marker. Module absence remains observational rather than proof about earlier transient loader activity.
+
+The pinned HEN plugin-server source exposes `/dev/klog` read-only over TCP port `3232`. Before an authorized launch, start the host capture first:
+
+```powershell
+.\scripts\Capture-Exp013Klog.ps1 `
+  -Address <PS4-LAN-address> `
+  -OutputPath C:\private\exp013-v6-klog.txt
+```
+
+If the connection cannot be established, do not launch the payload. The capture stops only after the EXP-013 completion or explicit stop marker and preserves the raw local evidence for the parser.
