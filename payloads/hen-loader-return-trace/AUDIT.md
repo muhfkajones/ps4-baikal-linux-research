@@ -22,7 +22,7 @@
 - [x] Two clean builds of each component are byte-identical.
 - [x] All linked ELFs contain zero relocations.
 - [x] Post-link Ghidra accounts for every recovered function in all three components.
-- [x] Host parser accepts a complete 15-field fixture and rejects a truncated fixture.
+- [x] Six committed host-parser tests cover a complete record, truncation, bad magic, non-Boolean flags, extra lines, and the network-size bound.
 
 | Component | ELF bytes | ELF SHA-256 | Flat bytes | Flat SHA-256 | Ghidra |
 | --- | ---: | --- | ---: | --- | ---: |

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "experiment": "EXP-014",
+  "hardwareExecuted": false,
+  "consoleRoundTripVerified": true,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1 (0x30201)",
+    "hostApplication": "Payload Guest 0.98 (AZIF00003)"
+  },
+  "source": {
+    "henRevision": "d077fb4031cf0e089fb7a233cebeebcd1ed3c68e",
+    "patchSha256": "F1BED2059C538614779F9CF1F6F4387ADF7465486D0A87AA54C7E4564D4999AC"
+  },
+  "kernelComponent": {
+    "elf": {"bytes": 49096, "sha256": "1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E"},
+    "flatPayload": {"bytes": 35184, "sha256": "AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066"},
+    "reproducibleBuilds": 2,
+    "relocations": 0,
+    "functionsFound": 43,
+    "functionsDecompiled": 43
+  },
+  "minimalInstaller": {
+    "elf": {"bytes": 69984, "sha256": "ABC0E3A1CF1B845C65E559F6B236609400EBEAF58BE4230EEABB30EE2E1DE510"},
+    "flatPayload": {"bytes": 48052, "sha256": "3C7341D407B192FB01E7168F77974899619EFDC055885258694FD929C7571A45"},
+    "reproducibleBuilds": 2,
+    "relocations": 0,
+    "functionsFound": 19,
+    "functionsDecompiled": 19
+  },
+  "privateEndpointCollector": {
+    "elf": {"bytes": 30616, "sha256": "41DED413F30030DB0AD5413052815D867DCE7E2DFC0E80D796CF32AB4AED18BE"},
+    "flatPayload": {"bytes": 6852, "sha256": "B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C"},
+    "reproducibleBuilds": 2,
+    "relocations": 0,
+    "functionsFound": 12,
+    "functionsDecompiled": 12,
+    "endpointExcluded": true
+  },
+  "behavior": {
+    "existingSyscall": 109,
+    "command": 10,
+    "recordBytes": 56,
+    "callerOnly": true,
+    "filesystemAccess": false,
+    "flashAccess": false,
+    "persistentConfigurationChange": false,
+    "kernelAddressesExposed": false,
+    "deviceUniqueValuesExposed": false
+  },
+  "transfer": {
+    "installerRemotePath": "/data/payloads/exp014-minimal-installer-1350.bin",
+    "collectorRemotePath": "/data/payloads/exp014-return-trace-collector-1350.bin",
+    "bothRoundTripVerified": true
+  },
+  "remainingGate": "Explicit one-run execution authorization and a live validated listener are required before either staged file is executed."
+}
