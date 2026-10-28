@@ -246,5 +246,6 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Reproducibility and link audit: two clean builds of every component were byte-identical; all three linked ELFs contain zero relocations
 - Ghidra audit: kernel 43/43, minimal installer 19/19, collector 12/12 functions successfully decompiled
 - Rejected branch: the full stock HEN installer was built only for comparison and is not a deployment candidate because it can skip when HEN is active and includes persistent `/data/hen` setup/config/plugin behavior
-- Remaining gates: private-endpoint collector rebuild and audit, exact transfer/listener/rollback review, console-side round-trip hashes, and explicit authorization for one hardware run
+- Private-endpoint collector: two byte-identical builds; 30,616-byte ELF SHA-256 `41DED413F30030DB0AD5413052815D867DCE7E2DFC0E80D796CF32AB4AED18BE`; 6,852-byte flat SHA-256 `B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C`; zero relocations; Ghidra 12/12; private address excluded from Git and Wiki
+- Remaining gates: explicit authorization, transfer of the two reviewed flat binaries, console-side round-trip hashes, and listener-ready confirmation before one hardware run
 - Closed branches remain closed: do not repeat EXP-012 stock-plugin launch or EXP-013 module inventory

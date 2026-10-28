@@ -32,10 +32,12 @@
 
 The collector hashes above use non-routable documentation address `192.0.2.1`. A hardware candidate must be rebuilt with the private workstation address, audited, and hash-recorded without committing that address.
 
+The private-endpoint collector candidate was also built twice with byte-identical results. Its 30,616-byte ELF has SHA-256 `41DED413F30030DB0AD5413052815D867DCE7E2DFC0E80D796CF32AB4AED18BE`; its 6,852-byte flat binary has SHA-256 `B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C`. The ELF contains zero relocations and Ghidra decompiled all 12 recovered functions. The private address is excluded from Git and the Wiki source set.
+
 ## Remaining hardware gates
 
-- [ ] Rebuild and re-audit the collector with the private capture endpoint.
-- [ ] Review exact transfer, listener, launch, and rollback steps.
+- [x] Rebuild and re-audit the collector with the private capture endpoint.
+- [x] Review exact transfer, listener, launch, and rollback steps in [`docs/EXP-014-RUNBOOK.md`](../../docs/EXP-014-RUNBOOK.md).
 - [ ] Verify every transferred binary by console-side round trip.
 - [ ] Obtain explicit operator authorization for one run.
 
