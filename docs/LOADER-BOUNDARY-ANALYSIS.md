@@ -6,9 +6,9 @@ EXP-013 revision 7 enumerated 21 modules in the running Payload Guest 0.98 proce
 
 This proves only current module visibility. It does not prove that a module was never transiently loaded, that every loader module is visible through this API, or that the kernel hook never ran.
 
-## Public-source path
+## Verified loader path
 
-The following static path is verified against public source, not yet against the exact installed PRX bytes:
+The following static path is verified against the exact source revision embedded in the installed, hash-matched PRXs:
 
 1. Payload Guest revision `f73b7fc701ff1b91e40369486325b440b5816c9e` scans `/data/payloads` and `/mnt/usb*/payloads` for `.bin` and `.elf` files.
 2. When the operator presses Cross, Payload Guest first tries local socket loaders and otherwise reads the selected file into a one-megabyte executable mapping and starts it on a new pthread.
@@ -22,10 +22,10 @@ Payload Guest includes `sce_module/libc.prx`, so the public-source trigger condi
 
 - **H1 — hook not reached or not installed:** the installed HEN build may not patch this Payload Guest launch path on firmware 13.50.
 - **H2 — injection attempted but failed:** the hook may run but fail to load the bootloader or resolve/patch `_init_env`.
-- **H3 — loader modules are transient or omitted:** the bootloader/loader may run and disappear, or may not be reported by `getLoadedModules` at the later payload-thread observation point.
+- **H3 — loader modules are omitted by the API:** the bootloader/loader may not be reported by `getLoadedModules` at the later payload-thread observation point. Transient unload is now unlikely: the exact embedded source keeps both modules loaded on its normal success path and unloads only when a nested `plugin_load` reports a nonzero result.
 - **H4 — installed bytes differ from reviewed public source:** ruled out for the bootloader and loader. Read-only private retrieval showed that both installed PRXs are byte-identical to the official `build_86` release, and both embed source commit `a717ffd0b4699d72d4fd33dab0ca422270fcfd25`.
 
-The current evidence does not select among H1–H3.
+The current evidence does not select among H1–H3, but exact-source module-lifetime behavior weakens the transient-unload form of H3.
 
 ## Installed-component verification
 
@@ -37,6 +37,8 @@ Read-only FTP retrieval and private comparison established:
 - both installed files exactly match their official-release counterparts and embed source commit `a717ffd0b4699d72d4fd33dab0ca422270fcfd25`
 
 The relevant bootloader/loader sources do not differ between that embedded commit and the later inspected revision `49534177d69d17609bcc09cd185c88df42fed8b5`.
+
+Direct Ghidra import of a naively sliced embedded ELF is not accepted as evidence: the fSELF container retains file offsets relative to the full container, so the sliced image produces truncated sections and invalid load segments. Until a format-correct reconstruction is available, the hash-matched release and exact embedded source are the authoritative static evidence.
 
 ## Next safe digital and acquisition steps
 
