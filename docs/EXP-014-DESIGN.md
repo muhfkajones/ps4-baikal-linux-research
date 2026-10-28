@@ -18,7 +18,7 @@ The exact HEN source calls the original syscall-594 implementation for `/data/he
 
 A reviewed diagnostic must emit one bounded record containing:
 
-1. process title ID and matched PRX-path class, without personal or device-unique data;
+1. a firmware-13.50 and exact-title gate for Payload Guest `AZIF00003`, plus the fixed libc PRX-path trigger;
 2. original syscall-594 result and returned application handle;
 3. bootloader-load result and returned bootloader handle;
 4. `_init_env` lookup result and pointer-presence flag;
@@ -40,3 +40,7 @@ No hardware execution is authorized by this design. Before proposing a run, the 
 - include an exact rollback and operator handoff.
 
 EXP-014 must not redeploy the EXP-012 plugin or rerun EXP-013's module inventory.
+
+## Offline implementation status
+
+The source implementation is complete and remains hardware-unauthorized. It extends HEN's existing syscall 109 command path with one caller-only, firmware-locked, fixed-size readback record; no new syscall number is installed. The minimal installer excludes the stock HEN persistence/setup path, and the collector has no filesystem operations. Two clean builds of each component were byte-identical, all three ELFs contain zero relocations, and Ghidra decompiled every recovered function (kernel 43/43, installer 19/19, collector 12/12). Exact hashes and remaining gates are recorded in [`payloads/hen-loader-return-trace/AUDIT.md`](../payloads/hen-loader-return-trace/AUDIT.md).

@@ -229,3 +229,22 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Evidence limit: current absence does not prove that no loader hook ran earlier or that no module was transiently present
 - Launch and completion behavior: Payload Guest displayed `CE-34878-0` before the `.bin` ran. The operator returned to the home screen, reopened Payload Guest, and then ran the `.bin` once, producing the complete 1,606-byte capture. The reintroduced EXP-012 `plugins.ini` targeted a missing PRX; the exact 59-byte config was backed up and hash-verified, then reversibly renamed to `plugins.ini.disabled-exp013-20261027`. No post-run crash was confirmed and no second capture was produced.
 - Decision: EXP-013 is complete; do not repeat the same module inventory without new evidence or a changed loader implementation
+
+## EXP-014 — HEN loader return-code trace, offline implementation audit
+
+- Date reviewed: 2026-10-28
+- Hardware status: not executed; no hardware execution authorized
+- Pinned HEN source: `d077fb4031cf0e089fb7a233cebeebcd1ed3c68e`
+- Patch SHA-256: `F1BED2059C538614779F9CF1F6F4387ADF7465486D0A87AA54C7E4564D4999AC`; applies cleanly to a fresh pinned checkout and exactly matches the reviewed source
+- Scope gates: firmware 13.50, exact Payload Guest title `AZIF00003`, and the existing `/app0/sce_module/libc.prx` hook trigger
+- Evidence: original load result/application handle; bootloader-load result/handle; `_init_env` and `plugin_load` lookup results plus pointer-presence flags; both bounded patch-write results; completion marker
+- Readback: fixed 56-byte record through existing syscall 109 command 10; only the calling process is accepted; no kernel address, raw memory, device identifier, or unique material is exposed
+- Persistence boundary: proposed installer excludes the stock HEN setup/config/plugin-write path and installs only the volatile in-memory component; the collector performs no file I/O
+- Kernel component: 49,096-byte ELF SHA-256 `1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E`; 35,184-byte flat SHA-256 `AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066`
+- Minimal installer: 69,984-byte ELF SHA-256 `ABC0E3A1CF1B845C65E559F6B236609400EBEAF58BE4230EEABB30EE2E1DE510`; 48,052-byte flat SHA-256 `3C7341D407B192FB01E7168F77974899619EFDC055885258694FD929C7571A45`
+- Collector audit build: 30,616-byte ELF SHA-256 `57B9E556B53EF7ED12CBE402180294E97975573A7AAEBF20F774CAEFE17A89B4`; 6,852-byte flat SHA-256 `66D837321B0D1F738B05746DE19BB0446C515E1646E3BA09347538889C5AFAF6`; uses non-routable documentation address `192.0.2.1`, not a private endpoint
+- Reproducibility and link audit: two clean builds of every component were byte-identical; all three linked ELFs contain zero relocations
+- Ghidra audit: kernel 43/43, minimal installer 19/19, collector 12/12 functions successfully decompiled
+- Rejected branch: the full stock HEN installer was built only for comparison and is not a deployment candidate because it can skip when HEN is active and includes persistent `/data/hen` setup/config/plugin behavior
+- Remaining gates: private-endpoint collector rebuild and audit, exact transfer/listener/rollback review, console-side round-trip hashes, and explicit authorization for one hardware run
+- Closed branches remain closed: do not repeat EXP-012 stock-plugin launch or EXP-013 module inventory

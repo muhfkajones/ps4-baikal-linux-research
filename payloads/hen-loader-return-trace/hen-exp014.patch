@@ -1,16 +1,70 @@
+diff --git a/kpayload/include/hooks.h b/kpayload/include/hooks.h
+index 54ec961..851bb85 100644
+--- a/kpayload/include/hooks.h
++++ b/kpayload/include/hooks.h
+@@ -65,6 +65,24 @@ int sys_proc_rw(struct thread *td, struct sys_proc_rw_args *uap);
+ #define SYS_PROC_ELF 7
+ #define SYS_PROC_INFO 8
+ #define SYS_PROC_THRINFO 9
++#define SYS_PROC_EXP014_TRACE 10
++#define EXP014_TRACE_MAGIC 0x34313045u
++struct exp014_trace {
++  uint32_t magic;
++  uint32_t version;
++  uint32_t triggered;
++  int32_t original_result;
++  int32_t app_handle;
++  int32_t bootloader_result;
++  int32_t bootloader_handle;
++  int32_t init_env_result;
++  uint32_t init_env_present;
++  int32_t plugin_load_result;
++  uint32_t plugin_load_present;
++  int32_t patch_jmp_result;
++  int32_t patch_target_result;
++  uint32_t complete;
++} __attribute__((packed));
+ struct sys_proc_alloc_args {
+   uint64_t address;
+   uint64_t length;
 diff --git a/kpayload/source/hooks.c b/kpayload/source/hooks.c
-index d053145..89d3773 100644
+index d053145..f517e5d 100644
 --- a/kpayload/source/hooks.c
 +++ b/kpayload/source/hooks.c
-@@ -273,6 +273,7 @@ PAYLOAD_CODE int sys_dynlib_load_prx_hook(struct thread *td, struct dynlib_load_
+@@ -36,6 +36,9 @@ extern struct sysent *SYSENT PAYLOAD_BSS;
+ 
+ extern int (*sys_dynlib_load_prx)(void *param_1, void *param_2) PAYLOAD_BSS;
+ extern int (*sys_dynlib_dlsym)(void *param_1, void *param_2) PAYLOAD_BSS;
++extern uint16_t fw_version PAYLOAD_BSS;
++
++struct exp014_trace exp014_trace PAYLOAD_BSS;
+ 
+ extern int proc_get_vm_map(struct proc *p, struct proc_vm_map_entry **entries, size_t *num_entries) PAYLOAD_CODE;
+ 
+@@ -247,6 +250,13 @@ PAYLOAD_CODE int sys_proc_cmd(struct thread *td, struct sys_proc_cmd_args *uap)
+   }
+ 
+   switch (uap->cmd) {
++  case SYS_PROC_EXP014_TRACE:
++    if (p != td->td_proc || !uap->data || fw_version != 1350) {
++      r = 1;
++      break;
++    }
++    r = proc_rw_mem(p, uap->data, sizeof(exp014_trace), &exp014_trace, 0, 1);
++    break;
+   case SYS_PROC_VM_MAP:
+     r = sys_proc_vm_map_handle(p, (struct sys_proc_vm_map_args *)uap->data);
+     break;
+@@ -273,6 +283,8 @@ PAYLOAD_CODE int sys_dynlib_load_prx_hook(struct thread *td, struct dynlib_load_
    // https://github.com/OpenOrbis/mira-project/blob/d8cc5790f08f93267354c2370eb3879edba0aa98/kernel/src/Plugins/Substitute/Substitute.cpp#L1003
    const char *titleid = td->td_proc->titleid;
    const char *p = args->prx_path ? args->prx_path : "";
-+  const bool exp014_target = strcmp(titleid, "AZIF00003") == 0;
++  const bool exp014_target = fw_version == 1350 &&
++                             strstr(titleid, "AZIF00003") == titleid && titleid[9] == '\0';
    // printf("%s td_name %s titleid %s prx %s\n", __FUNCTION__, td->td_name, titleid, p);
    const uint8_t jmp[] = {0xff, 0x25, 0x00, 0x00, 0x00, 0x00};
    if (strstr(p, "/app0/sce_module/libc.prx")) {
-@@ -281,14 +282,23 @@ PAYLOAD_CODE int sys_dynlib_load_prx_hook(struct thread *td, struct dynlib_load_
+@@ -281,14 +293,38 @@ PAYLOAD_CODE int sys_dynlib_load_prx_hook(struct thread *td, struct dynlib_load_
      int handle = 0;
      my_args.prx_path = PRX_BOOTLOADER_PATH;
      my_args.handle_out = &handle;
@@ -31,6 +85,21 @@ index d053145..89d3773 100644
 +      patch_target_r = proc_rw_mem(td->td_proc, (void *)(init_env_ptr + sizeof(jmp)), sizeof(plugin_load_ptr), &plugin_load_ptr, 0, 1);
 +    }
 +    if (exp014_target) {
++      memset(&exp014_trace, 0, sizeof(exp014_trace));
++      exp014_trace.magic = EXP014_TRACE_MAGIC;
++      exp014_trace.version = 1;
++      exp014_trace.triggered = 1;
++      exp014_trace.original_result = r;
++      exp014_trace.app_handle = handle_out;
++      exp014_trace.bootloader_result = bootloader_r;
++      exp014_trace.bootloader_handle = handle;
++      exp014_trace.init_env_result = init_env_r;
++      exp014_trace.init_env_present = init_env_ptr != 0;
++      exp014_trace.plugin_load_result = plugin_load_r;
++      exp014_trace.plugin_load_present = plugin_load_ptr != 0;
++      exp014_trace.patch_jmp_result = patch_jmp_r;
++      exp014_trace.patch_target_result = patch_target_r;
++      exp014_trace.complete = 1;
 +      printf("EXP014 title=%s trigger=libc original=%08x app_handle=%08x bootloader=%08x boot_handle=%08x init_sym=%08x init_present=%u load_sym=%08x load_present=%u patch_jmp=%08x patch_target=%08x\n",
 +             titleid, r, handle_out, bootloader_r, handle, init_env_r,
 +             init_env_ptr != 0, plugin_load_r, plugin_load_ptr != 0,
