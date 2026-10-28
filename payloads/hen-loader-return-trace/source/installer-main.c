@@ -2,6 +2,8 @@
 // Copyright (C) 2026 PS4 Baikal Linux Research contributors
 // EXP-014 volatile installer: replaces only the in-memory HEN kernel payload.
 
+#error "REJECTED: live HEN payload replacement powered off the reference console; do not rebuild or execute"
+
 #include <ps4.h>
 
 #include "config_struct.h"

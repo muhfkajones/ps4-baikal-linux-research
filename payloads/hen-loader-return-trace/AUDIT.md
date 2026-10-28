@@ -38,11 +38,15 @@ The collector hashes above use non-routable documentation address `192.0.2.1`. A
 
 The private-endpoint collector candidate was also built twice with byte-identical results. Its 30,616-byte ELF has SHA-256 `41DED413F30030DB0AD5413052815D867DCE7E2DFC0E80D796CF32AB4AED18BE`; its 6,852-byte flat binary has SHA-256 `B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C`. The ELF contains zero relocations and Ghidra decompiled all 12 recovered functions. The private address is excluded from Git and the Wiki source set.
 
-## Remaining hardware gates
+## Hardware result and rejection
 
-- [x] Rebuild and re-audit the collector with the private capture endpoint.
-- [x] Review exact transfer, listener, launch, and rollback steps in [`docs/EXP-014-RUNBOOK.md`](../../docs/EXP-014-RUNBOOK.md).
-- [ ] Verify every transferred binary by console-side round trip.
-- [ ] Obtain explicit operator authorization for one run.
+- Both reviewed flat binaries passed console-side FTP round-trip verification before execution.
+- The minimal installer was executed exactly once while ordinary HEN was active.
+- The display disappeared and the console powered off before the expected result notification.
+- The collector was not executed and no capture was produced.
+- A normal cold start cleared volatile state; the pinned ordinary HEN was restored successfully.
+- Both rejected EXP-014 staging files were removed through FTP and verified absent.
+- Exact-source review confirmed that stock HEN deliberately checks `IS_INSTALLED_PATH` and skips reinstallation. The minimal installer omitted that guard and entered `install_payload()` against a live HEN payload buffer and live hooks. This is the leading failure explanation, not a proven panic trace.
+- The installer source now contains an unconditional compile-time rejection.
 
-Hardware execution is not authorized while any gate remains unchecked.
+This deployment route is closed. No EXP-014 binary from this audit is authorized for transfer or execution.

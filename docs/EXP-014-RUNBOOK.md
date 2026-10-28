@@ -1,8 +1,10 @@
 # EXP-014 one-run operator handoff
 
+> **REJECTED:** The reviewed minimal installer powered off the reference console during its single run while ordinary HEN was active. Do not follow this runbook. It is retained only as the exact historical handoff for the failed attempt.
+
 ## Authorization boundary
 
-This runbook does not authorize a transfer or hardware execution. The assistant must first verify the exact candidate hashes below, start the bounded listener, and obtain explicit user approval for the transfer and one run. Do not repeat EXP-012 or EXP-013.
+This runbook no longer authorizes any action. Do not rebuild, transfer, or execute either candidate.
 
 ## Audited candidates
 

@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "experiment": "EXP-014",
-  "hardwareExecuted": false,
+  "hardwareExecuted": true,
+  "executionCount": 1,
   "consoleRoundTripVerified": true,
   "target": {
     "console": "PS4 Pro CUH-7215B",
@@ -52,7 +53,16 @@
   "transfer": {
     "installerRemotePath": "/data/payloads/exp014-minimal-installer-1350.bin",
     "collectorRemotePath": "/data/payloads/exp014-return-trace-collector-1350.bin",
-    "bothRoundTripVerified": true
+    "bothRoundTripVerified": true,
+    "stagedFilesRemovedAfterFailure": true
   },
-  "remainingGate": "Explicit one-run execution authorization and a live validated listener are required before either staged file is executed."
+  "hardwareResult": {
+    "installerExecuted": true,
+    "collectorExecuted": false,
+    "captureProduced": false,
+    "observed": "Display disappeared and console powered off before the expected installer result notification.",
+    "coldStartRecovered": true,
+    "normalPinnedHenRestored": true
+  },
+  "decision": "Rejected. Live HEN payload replacement is closed and the installer source is compile-time blocked."
 }
