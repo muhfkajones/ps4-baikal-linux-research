@@ -2,6 +2,8 @@
 // Copyright (C) 2026 PS4 Baikal Linux Research contributors
 // EXP-014 initial-load-only installer. Never run after HEN is active.
 
+#error "Rejected after EXP-015 initial-load hardware shutdown; do not rebuild or execute"
+
 #include <ps4.h>
 
 #include "common.h"

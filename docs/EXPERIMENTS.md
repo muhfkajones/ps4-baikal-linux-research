@@ -276,3 +276,19 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Collector rebuild: two uniquely named builds were byte-identical; ELF 30,664 bytes SHA-256 `93B0F550B8A06563A87939698981A4141491349FB573378F05448D70B305D518`; flat payload 6,852 bytes SHA-256 `B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C`
 - Collector audit continuity: the rebuilt flat payload is byte-identical to the prior private collector that completed zero-relocation and Ghidra 12/12 review; the private endpoint remains outside Git and Wiki
 - Current gate: hardware remains unauthorized and offline only. Require console-side collector round-trip verification, actual LAN served-hash verification, listener-ready confirmation, and explicit authorization
+- Hardware attempt (2026-10-28): the uniquely named collector passed console FTP round-trip verification; the host served exact normal-HEN and candidate hashes; the listener was ready; the exact initial-load candidate then executed once after a full shutdown
+- Host evidence: the exploit completed 54/54 checks, fetched the 55,044-byte candidate, and recorded `PAYLOAD-RUNNING`
+- Result: the console shut down before any installer notification, Payload Guest launch, collector execution, or capture
+- Recovery result: the first power-on attempt failed; the second boot displayed `CE-36329-0` and then allowed the operator to continue to the home screen; this distinguishes the event from an ordinary shutdown but does not identify the exact kernel fault
+- Revised analysis: the initial-load failure refutes the earlier assumption that active-HEN replacement alone explains EXP-014; the shared instrumented component/install path is the common failure boundary across both attempts
+- Rollback: the candidate host copy was removed and the normal 500,448-byte HEN was re-verified as SHA-256 `C05F6097DBC0707E8EC2FB5443EE507DA6AC6E79C6FA8E9F78544658710EFEFF`
+- Decision: compile-time block EXP-015 and close it against repetition; a successor requires a non-executing/offline isolation of the shared component before any new hardware proposal
+- Recovery safety incident: the first normal-HEN recovery run reached `PAYLOAD-RUNNING`, but the browser displayed a free-system-memory warning instructing a restart
+- Operator action: the console was restarted as instructed; no payload URL was manually re-entered
+- Automatic repeat: opening the browser retained/reloaded the exploit URL and began another normal-HEN attempt; the host recorded failed `anchor-control-b5` and `anchor-every-byte-unique` proofs with final summary `pass=20 fail=2`
+- Result: the console shut down again as soon as the browser was opened
+- Correction: the memory warning is a hard stop; all exploit-host/capture services were stopped, and browser-based payload recovery is blocked until retained-session behavior and the automatic-run gate are corrected offline
+- Subsequent recovery: the console reached home after displaying `c-36329-3` as transcribed by the operator
+- Host correction: reusable `run=1` was replaced locally with a random single-use token; loopback verification proved that no token, a wrong token, and token reuse all serve only the inert landing page
+- Host regression: no-token, wrong-token, consumed-token, and two-request concurrency cases all passed against the actual patched host; a fresh token served the exploit document exactly once
+- Remaining host gate: keep the server stopped; review PS4 browser/AppCache request behavior and design an inert-session reset procedure before proposing any browser-based run

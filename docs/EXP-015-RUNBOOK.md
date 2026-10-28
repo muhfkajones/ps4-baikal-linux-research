@@ -2,7 +2,7 @@
 
 ## Status
 
-Hardware execution is not authorized. This runbook records the reviewed order and the remaining gates; it is not an instruction to deploy.
+The single authorized hardware attempt ended in an abnormal shutdown before any capture. EXP-015 is closed and this runbook is retained only as a record; do not repeat it.
 
 ## Host selection and rollback
 
@@ -28,8 +28,8 @@ For a future separately authorized run, the assistant must complete these prereq
 
 Only after those gates pass and the user explicitly authorizes the exact run may the physical sequence begin: cold start, open the exact candidate URL once, wait for the shell restart, open Payload Guest once to trigger the title-locked hook, then run the uniquely named collector once. Any unexpected result stops the experiment; do not retry.
 
-## Remaining gate
+## Recorded result
 
 The uniquely named collector was rebuilt twice from source with byte-identical outputs. Its 30,664-byte ELF has SHA-256 `93B0F550B8A06563A87939698981A4141491349FB573378F05448D70B305D518`; its 6,852-byte flat payload has SHA-256 `B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C`. The executed flat bytes are identical to the prior private collector that completed zero-relocation and Ghidra 12/12 review; the private build-time address remains excluded from Git and the Wiki.
 
-The host substitution, rollback design, collector rebuild, and collector ordering are reviewed. Hardware remains blocked on console-side collector round-trip verification, live-LAN served-hash verification, listener-ready confirmation, and explicit authorization.
+All preflight gates passed. The host recorded 54/54 checks and `PAYLOAD-RUNNING`, then the console shut down before the installer notification. The collector never executed and no capture was produced. The host candidate was removed and normal HEN was restored. Recovery required two power-on attempts; the second boot displayed `CE-36329-0` before continuing to home. Do not repeat this runbook.

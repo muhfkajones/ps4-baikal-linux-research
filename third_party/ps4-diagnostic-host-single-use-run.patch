@@ -1,0 +1,38 @@
+--- a/serve.py
++++ b/serve.py
+@@
+-import http.server, socketserver, os, sys, datetime, urllib.parse, threading
++import http.server, socketserver, os, sys, datetime, urllib.parse, threading, secrets
+@@
+-PORT = 8000
++PORT = int(os.environ.get("PS4_HOST_PORT", "8000"))
++BIND = os.environ.get("PS4_HOST_BIND", "0.0.0.0")
++RUN_TOKEN = os.environ.get("PS4_RUN_TOKEN") or secrets.token_urlsafe(16)
+ LOGFILE = os.path.join(ROOT, "ps4-run.log")
+ _lock = threading.Lock()
++_run_lock = threading.Lock()
++_run_consumed = False
+@@
+     def do_GET(self):
+-        # Never let the PS4 browser's session/AppCache silently rerun an old
+-        # exploit URL after a reboot.  A deliberate run must include run=1.
++        global _run_consumed
+         parsed = urllib.parse.urlsplit(self.path)
+         if parsed.path == "/jb.html":
+             query = urllib.parse.parse_qs(parsed.query)
+-            if query.get("run") != ["1"]:
++            allowed = False
++            with _run_lock:
++                if query.get("run") == [RUN_TOKEN] and not _run_consumed:
++                    _run_consumed = True
++                    allowed = True
++            if not allowed:
+                 self.path = "/index.html"
+         return super().do_GET()
+@@
+-    print("serving %s on 0.0.0.0:%d" % (ROOT, PORT), flush=True)
++    print("serving %s on %s:%d" % (ROOT, BIND, PORT), flush=True)
++    print("single-use run token: %s" % RUN_TOKEN, flush=True)
+     print("step log -> %s" % LOGFILE, flush=True)
+-    Server(("0.0.0.0", PORT), Handler).serve_forever()
++    Server((BIND, PORT), Handler).serve_forever()

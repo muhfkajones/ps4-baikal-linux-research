@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "experiment": "EXP-015",
-  "hardwareExecuted": false,
+  "hardwareExecuted": true,
+  "executionCount": 1,
   "target": {
     "console": "PS4 Pro CUH-7215B",
     "firmware": "13.50",
@@ -44,5 +45,33 @@
     "flatBytesMatchPriorAuditedCollector": true,
     "privateEndpointRecorded": false
   },
-  "hardwareGate": "Not authorized; require console-side collector round-trip verification, actual LAN served hashes, listener-ready confirmation, and explicit authorization."
+  "hardwareResult": {
+    "hostExploitChecksPassed": 54,
+    "payloadRunningRecorded": true,
+    "installerNotificationObserved": false,
+    "shutdown": true,
+    "collectorExecuted": false,
+    "captureProduced": false,
+    "recoveryPowerOnAttempts": 2,
+    "recoveryError": "CE-36329-0",
+    "reachedHomeScreen": true,
+    "normalHenHostRestored": true,
+    "normalHenRuntimeRestored": false
+  },
+  "recoverySafetyIncident": {
+    "normalHenPayloadRunningRecorded": true,
+    "browserMemoryWarning": true,
+    "restartRequestedByBrowser": true,
+    "urlManuallyReentered": false,
+    "automaticBrowserRepeat": true,
+    "repeatExploitChecksPassed": 20,
+    "repeatExploitChecksFailed": 2,
+    "repeatShutdown": true,
+    "subsequentRecoveryError": "c-36329-3 (operator transcription)",
+    "reachedHomeAfterRepeatShutdown": true,
+    "hostServicesStopped": true,
+    "singleUseRunTokenOfflineTested": true,
+    "concurrentDuplicateServedExploitExactlyOnce": true
+  },
+  "decision": "Rejected and compile-time blocked; do not rebuild, transfer, or execute this candidate again."
 }

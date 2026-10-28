@@ -31,8 +31,14 @@ The installed hook remains exact-title locked to Payload Guest `AZIF00003` and f
 - Ghidra decompilation SHA-256: `42CF180C88E710382BC62360E9FCF1A63CB878CFAC4C9E26DD0ADF03BF27E7B7`
 - Reachable filesystem behavior: read-only `file_exists()` marker check plus SDK libc resolution; no reachable write, unlink, rename, mkdir, configuration, or plugin-install routine
 
-## Gate
+## Hardware result
 
-Hardware execution is not authorized. The host substitution and restoration design is now reviewed: a validated, uniquely named `payloadfile` override selects the candidate without replacing `hen.bin`, and rollback is the unchanged normal URL. An isolated loopback audit hash-verified both served payloads while the pinned normal HEN remained unchanged. See [EXP-015-RUNBOOK.md](EXP-015-RUNBOOK.md).
+The candidate was executed once through the reviewed initial-load URL after a full shutdown. The exploit host fetched the exact 55,044-byte payload, completed all 54 checks, and recorded `PAYLOAD-RUNNING`. The console then shut down before any installer notification, Payload Guest launch, collector execution, or capture.
 
-The uniquely named collector was rebuilt twice with byte-identical outputs. Its 6,852-byte flat payload is byte-identical to the previously audited private collector, so the existing zero-relocation and Ghidra 12/12 review applies to the exact executable bytes. Remaining gates are console-side collector round-trip verification, verification of both payload hashes over the actual LAN service, listener-ready confirmation, and explicit authorization for the exact hardware run.
+Recovery required two power-on attempts. The second boot displayed `CE-36329-0` before allowing the operator to continue to the home screen. This is evidence of an abnormal system-software failure, not a normal shutdown, but it does not identify the exact kernel fault.
+
+This initial-load result refutes the earlier assumption that EXP-014 failed solely because it replaced active HEN. The instrumented component and its shared installation path are now the common failure boundary across both attempts. No panic trace was captured, so the exact cause remains unproven.
+
+EXP-015 is closed against repetition. The source is compile-time blocked, the host staging copy was removed, and the normal pinned HEN URL was hash-verified after rollback.
+
+The first normal-HEN recovery attempt later reached `PAYLOAD-RUNNING` but the browser displayed a free-system-memory warning instructing a restart. That warning was incorrectly treated as non-blocking. After the restart, merely opening the browser automatically began another exploit attempt from the retained URL. The host recorded two failed anchor proofs (`pass=20 fail=2`) before another shutdown. This third shutdown was not an EXP-015 execution; it was an unsafe automatic repeat of the normal-HEN exploit while the browser/session state remained unstable. The host and capture services were stopped before further recovery.
