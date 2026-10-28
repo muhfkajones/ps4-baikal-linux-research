@@ -22,6 +22,14 @@
     "functionsFound": 43,
     "functionsDecompiled": 43
   },
+  "buildProvenanceCorrection": {
+    "upstreamDeclaredCompiler": "gcc",
+    "reviewedBuildCompiler": "Zig 0.17.0",
+    "committedComponentBuildScriptAtExecution": false,
+    "observedLinkerDeltaSha256": "5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955",
+    "compilerLinkerParityEstablished": false,
+    "status": "leading unproven failure hypothesis after EXP-014 and EXP-015 shutdowns"
+  },
   "minimalInstaller": {
     "elf": {"bytes": 69984, "sha256": "ABC0E3A1CF1B845C65E559F6B236609400EBEAF58BE4230EEABB30EE2E1DE510"},
     "flatPayload": {"bytes": 48052, "sha256": "3C7341D407B192FB01E7168F77974899619EFDC055885258694FD929C7571A45"},

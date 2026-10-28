@@ -24,6 +24,12 @@
 - [x] Post-link Ghidra accounts for every recovered function in all three components.
 - [x] Eight committed host tests cover a complete record, truncation, bad magic, non-Boolean flags, extra lines, one-shot reception, and oversized network input.
 
+## Build-provenance correction after hardware failure
+
+The kernel component was built with Zig 0.17.0 rather than the pinned source tree's declared `gcc`. The preserved build tree also changed `kpayload/linker.x` from a catch-all discard to a narrow discard so Zig-emitted orphan sections remained linked. That delta was not part of `hen-exp014.patch`, and there was no committed kernel-component build script. The exact observed linker change is now preserved at `third_party/hen-exp014-observed-linker-delta.patch`, SHA-256 `5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955`.
+
+This does not invalidate the recorded hashes, byte-identical rebuilds, relocation count, or Ghidra coverage. It does mean those gates proved internal reproducibility of the custom Zig/linker pipeline, not equivalence to the upstream GCC build path. After both EXP-014 and EXP-015 shut down before installer return, compiler/linker parity is a leading unproven failure hypothesis. See `docs/EXP-015-FAILURE-ANALYSIS.md`.
+
 ## Negative-capability post-link review
 
 The minimal installer's 19 recovered reachable functions contain no `write`, `fopen`, `unlink`, `rename`, `mkdir`, configuration, or plugin-install routine. Its only file primitives are `open`, `read`, `lseek`, and `close` in the SDK initialization path that resolves the system libc. Strings for `/data/hen/plugin_mono.prx`, `plugin_bootloader.prx`, and `plugin_server.prx` remain inside the embedded kernel component because those existing HEN hook targets are the behavior under measurement; their presence is not a stock-installer filesystem path. The collector's 12 recovered functions contain socket send/connect/close behavior and no reachable filesystem primitive.

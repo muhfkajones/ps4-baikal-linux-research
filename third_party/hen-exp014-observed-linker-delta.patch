@@ -1,0 +1,5 @@
+--- a/kpayload/linker.x
++++ b/kpayload/linker.x
+@@
+-	/DISCARD/ : { *(*) }
++	/DISCARD/ : { *(.comment .note* .eh_frame* .rela* .rel*) }

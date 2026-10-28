@@ -31,6 +31,13 @@
     "decompilationReportSha256": "42CF180C88E710382BC62360E9FCF1A63CB878CFAC4C9E26DD0ADF03BF27E7B7",
     "reachablePersistentWrite": false
   },
+  "buildProvenanceCorrection": {
+    "upstreamDeclaredCompiler": "gcc",
+    "reviewedBuildCompiler": "Zig 0.17.0",
+    "committedComponentBuildScriptAtExecution": false,
+    "observedLinkerDeltaSha256": "5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955",
+    "compilerLinkerParityEstablished": false
+  },
   "hostPreflight": {
     "selection": "validated unique-filename payloadfile override; normal hen.bin is not replaced",
     "normalHen": {"bytes": 500448, "sha256": "C05F6097DBC0707E8EC2FB5443EE507DA6AC6E79C6FA8E9F78544658710EFEFF"},

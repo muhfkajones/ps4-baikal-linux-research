@@ -45,6 +45,8 @@ From the repository root:
 
 The script overwrites current allowlisted files but does not delete destination files. Review `SOURCE-MANIFEST.json` after each run. If a previously exported source is removed from Git, remove its stale mirror manually after verifying the exact destination path.
 
+After every export, require `SOURCE-MANIFEST.json.git_head` to equal the repository `HEAD`. The generated `wiki/` pages and hybrid-search summaries may lag behind the safe source mirror. If search returns a conclusion that conflicts with the matching Git-tracked file or the manifest head, label the generated result stale and use Git. The read-only Codex bridge deliberately cannot trigger a rescan or rewrite generated pages.
+
 ## Codex MCP policy
 
 Expose only these LLM Wiki tools to Codex:

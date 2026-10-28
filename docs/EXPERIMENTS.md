@@ -292,3 +292,7 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Host correction: reusable `run=1` was replaced locally with a random single-use token; loopback verification proved that no token, a wrong token, and token reuse all serve only the inert landing page
 - Host regression: no-token, wrong-token, consumed-token, and two-request concurrency cases all passed against the actual patched host; a fresh token served the exploit document exactly once
 - Remaining host gate: keep the server stopped; review PS4 browser/AppCache request behavior and design an inert-session reset procedure before proposing any browser-based run
+- Offline provenance correction: the shared failed kernel component was built with Zig 0.17.0 and an observed linker-script delta that was not included in the published EXP-014 patch; no dedicated component build script had been committed
+- ELF layout evidence: the reviewed component contains an orphan executable `.text` section at `0x3670` of size `0x108`, followed by `.payload_rdata` at `0x3780`; the exact linker delta is now preserved separately
+- Hypothesis: compiler/linker parity is the strongest newly identified build gap, but no panic trace proves it caused either shutdown
+- Next safe work: scripted upstream-GCC stock-versus-instrumented comparison only; no hardware compiler-isolation payload

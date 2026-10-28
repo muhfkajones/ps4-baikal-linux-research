@@ -9,6 +9,8 @@ The current payload build has been exercised with:
 - Scene-Collective PS4 Payload SDK
 - Ghidra 12.1.4 PUBLIC for post-link review
 
+The rejected EXP-014/EXP-015 HEN kernel component used a separate custom Zig-driven build of an upstream tree whose Makefile declares GCC. Its observed linker delta and missing committed build script are now recorded as a provenance gap; byte-identical Zig rebuilds did not establish upstream-toolchain equivalence. Do not use that component or infer that zero relocations plus complete decompilation proves runtime compatibility.
+
 The PS4 Payload SDK is pinned to commit `b7326416c23ce14639e9180a24093bdc5eedb579`. Apply `third_party/ps4-payload-sdk-zig-compat.patch` before building its `libPS4-zig.a` archive.
 
 ## Build
