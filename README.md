@@ -20,6 +20,7 @@ See [docs/AUTHMGR-LIFECYCLE.md](docs/AUTHMGR-LIFECYCLE.md) for the 13.50 suspend
 See [payloads/hen-loader-boundary/AUDIT.md](payloads/hen-loader-boundary/AUDIT.md) for the offline-only EXP-013 revision-6 review and the audited revision-7 direct-capture build. Revision 7 completed in one authorized hardware run; its publication-safe result is recorded in [manifests/hen-loader-boundary-network-1350-result.json](manifests/hen-loader-boundary-network-1350-result.json). EXP-013 is closed against identical repetition.
 See [docs/EXP-013-RUNBOOK.md](docs/EXP-013-RUNBOOK.md) for the gated operator/assistant sequence; each physical console action is handed off with its expected visible result.
 See [docs/LOADER-BOUNDARY-ANALYSIS.md](docs/LOADER-BOUNDARY-ANALYSIS.md) for the completed EXP-013 result, the public Payload Guest/HEN load path, and the non-repetitive next evidence needed.
+See [docs/EXP-014-DESIGN.md](docs/EXP-014-DESIGN.md) for the gated successor design that records the currently discarded HEN loader-hook return codes without repeating closed experiments.
 See [docs/KNOWLEDGE-CONTINUITY.md](docs/KNOWLEDGE-CONTINUITY.md) for the local, read-only LLM Wiki index and cross-session Codex workflow.
 
 ## Repository policy

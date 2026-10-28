@@ -45,6 +45,8 @@ EXP-013 revision 7 completed in one authorized hardware run. Its 1,606-byte dire
 
 Read-only retrieval then confirmed that the installed HEN bootloader and plugin loader are byte-identical to the official `build_86` release and embed source commit `a717ffd0b4699d72d4fd33dab0ca422270fcfd25`. Installed-component drift is therefore ruled out as the explanation for EXP-012/EXP-013. The exact embedded source keeps both modules loaded on its normal success path, weakening a transient-unload explanation. The remaining loader-boundary hypotheses are that the hook was not reached/installed, injection failed, or loaded modules were omitted from the later module inventory API result.
 
+Exact-source review identified the next evidence gap: the ordinary syscall-594 application hook discards the bootloader-load, `_init_env` lookup, and `plugin_load` lookup return values. [EXP-014](EXP-014-DESIGN.md) is therefore limited to a firmware- and title-locked, bounded return-code trace. It is a design only; no hardware execution is authorized.
+
 ## Success criteria
 
 The project goal is reached only when an owned reference console can boot a documented Linux environment after complete power loss without manually repeating the browser jailbreak and payload sequence, with a tested recovery procedure and independently reproducible build instructions.
