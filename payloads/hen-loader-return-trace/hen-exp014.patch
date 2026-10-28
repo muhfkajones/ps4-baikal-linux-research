@@ -1,0 +1,41 @@
+diff --git a/kpayload/source/hooks.c b/kpayload/source/hooks.c
+index d053145..89d3773 100644
+--- a/kpayload/source/hooks.c
++++ b/kpayload/source/hooks.c
+@@ -273,6 +273,7 @@ PAYLOAD_CODE int sys_dynlib_load_prx_hook(struct thread *td, struct dynlib_load_
+   // https://github.com/OpenOrbis/mira-project/blob/d8cc5790f08f93267354c2370eb3879edba0aa98/kernel/src/Plugins/Substitute/Substitute.cpp#L1003
+   const char *titleid = td->td_proc->titleid;
+   const char *p = args->prx_path ? args->prx_path : "";
++  const bool exp014_target = strcmp(titleid, "AZIF00003") == 0;
+   // printf("%s td_name %s titleid %s prx %s\n", __FUNCTION__, td->td_name, titleid, p);
+   const uint8_t jmp[] = {0xff, 0x25, 0x00, 0x00, 0x00, 0x00};
+   if (strstr(p, "/app0/sce_module/libc.prx")) {
+@@ -281,14 +282,23 @@ PAYLOAD_CODE int sys_dynlib_load_prx_hook(struct thread *td, struct dynlib_load_
+     int handle = 0;
+     my_args.prx_path = PRX_BOOTLOADER_PATH;
+     my_args.handle_out = &handle;
+-    sys_dynlib_load_prx(td, &my_args);
++    const int bootloader_r = sys_dynlib_load_prx(td, &my_args);
+     uintptr_t init_env_ptr = 0;
+-    dlsym_wrap(td, handle_out, "_init_env", &init_env_ptr);
++    const int init_env_r = dlsym_wrap(td, handle_out, "_init_env", &init_env_ptr);
+     uintptr_t plugin_load_ptr = 0;
+-    dlsym_wrap(td, handle, "plugin_load", &plugin_load_ptr);
++    const int plugin_load_r = dlsym_wrap(td, handle, "plugin_load", &plugin_load_ptr);
++    int patch_jmp_r = -1;
++    int patch_target_r = -1;
+     if (init_env_ptr && plugin_load_ptr) {
+-      proc_rw_mem(td->td_proc, (void *)init_env_ptr, sizeof(jmp), (void *)jmp, 0, 1);
+-      proc_rw_mem(td->td_proc, (void *)(init_env_ptr + sizeof(jmp)), sizeof(plugin_load_ptr), &plugin_load_ptr, 0, 1);
++      patch_jmp_r = proc_rw_mem(td->td_proc, (void *)init_env_ptr, sizeof(jmp), (void *)jmp, 0, 1);
++      patch_target_r = proc_rw_mem(td->td_proc, (void *)(init_env_ptr + sizeof(jmp)), sizeof(plugin_load_ptr), &plugin_load_ptr, 0, 1);
++    }
++    if (exp014_target) {
++      printf("EXP014 title=%s trigger=libc original=%08x app_handle=%08x bootloader=%08x boot_handle=%08x init_sym=%08x init_present=%u load_sym=%08x load_present=%u patch_jmp=%08x patch_target=%08x\n",
++             titleid, r, handle_out, bootloader_r, handle, init_env_r,
++             init_env_ptr != 0, plugin_load_r, plugin_load_ptr != 0,
++             patch_jmp_r, patch_target_r);
++      printf("EXP014 complete\n");
+     }
+   }
+   const bool isPartyDaemon = strstr(td->td_name, "ScePartyDaemonMain") != NULL;
