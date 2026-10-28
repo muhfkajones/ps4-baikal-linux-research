@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "installedHenVersion": "2.2.0 BETA"
+  },
+  "acquisition": {
+    "method": "read-only PS4-Xplorer FTP retrieval",
+    "privateBytesPublished": false
+  },
+  "officialReference": {
+    "repository": "https://github.com/Scene-Collective/ps4-hen-plugins",
+    "releaseTag": "build_86",
+    "releaseUrl": "https://github.com/Scene-Collective/ps4-hen-plugins/releases/tag/build_86",
+    "publishedAt": "2025-08-08T13:08:02Z",
+    "pluginsZipSha256": "196E3F8D854CCBC9654C9836F9E73784C39C0E4B88AF64DEE8BC85087F08E7BC",
+    "embeddedSourceCommit": "a717ffd0b4699d72d4fd33dab0ca422270fcfd25"
+  },
+  "components": [
+    {
+      "path": "/data/hen/plugin_bootloader.prx",
+      "bytes": 54496,
+      "sha256": "34A38C8ECEC62904DD206F8BEC8F29962E04FF3D934C8C479C3C33C6C10A47D7",
+      "officialReleaseExactMatch": true,
+      "embeddedBuildTime": "2025-08-08 13:07:24"
+    },
+    {
+      "path": "/data/hen/plugin_loader.prx",
+      "bytes": 55296,
+      "sha256": "EBE69D421642C95E1FC94D0AB647A68A49D2D593E797FE76831CC2A18700B77C",
+      "officialReleaseExactMatch": true,
+      "embeddedBuildTime": "2025-08-08 13:07:29"
+    }
+  ],
+  "conclusion": "The installed bootloader and loader are byte-identical to the official build_86 release, so installed-component drift does not explain the EXP-012/EXP-013 loader-boundary result."
+}

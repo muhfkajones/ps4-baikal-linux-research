@@ -23,15 +23,25 @@ Payload Guest includes `sce_module/libc.prx`, so the public-source trigger condi
 - **H1 — hook not reached or not installed:** the installed HEN build may not patch this Payload Guest launch path on firmware 13.50.
 - **H2 — injection attempted but failed:** the hook may run but fail to load the bootloader or resolve/patch `_init_env`.
 - **H3 — loader modules are transient or omitted:** the bootloader/loader may run and disappear, or may not be reported by `getLoadedModules` at the later payload-thread observation point.
-- **H4 — installed bytes differ from reviewed public source:** the console's installed bootloader/loader may not match the public revisions used for static analysis.
+- **H4 — installed bytes differ from reviewed public source:** ruled out for the bootloader and loader. Read-only private retrieval showed that both installed PRXs are byte-identical to the official `build_86` release, and both embed source commit `a717ffd0b4699d72d4fd33dab0ca422270fcfd25`.
 
-The current evidence does not select among these hypotheses.
+The current evidence does not select among H1–H3.
+
+## Installed-component verification
+
+Read-only FTP retrieval and private comparison established:
+
+- `/data/hen/plugin_bootloader.prx`: 54,496 bytes; SHA-256 `34A38C8ECEC62904DD206F8BEC8F29962E04FF3D934C8C479C3C33C6C10A47D7`
+- `/data/hen/plugin_loader.prx`: 55,296 bytes; SHA-256 `EBE69D421642C95E1FC94D0AB647A68A49D2D593E797FE76831CC2A18700B77C`
+- official `build_86` `plugins.zip`: SHA-256 `196E3F8D854CCBC9654C9836F9E73784C39C0E4B88AF64DEE8BC85087F08E7BC`
+- both installed files exactly match their official-release counterparts and embed source commit `a717ffd0b4699d72d4fd33dab0ca422270fcfd25`
+
+The relevant bootloader/loader sources do not differ between that embedded commit and the later inspected revision `49534177d69d17609bcc09cd185c88df42fed8b5`.
 
 ## Next safe digital and acquisition steps
 
-1. Acquire only lengths and SHA-256 hashes for the installed `/data/hen/plugin_bootloader.prx` and `/data/hen/plugin_loader.prx`, preserving the binaries privately and outside Git/LLM Wiki.
-2. Compare those hashes with locally reproducible builds or exact public release artifacts before applying source conclusions to the installed components.
-3. Inspect the exact installed or hash-matched bootloader/loader in Ghidra to confirm the trigger, `_init_env` patch target, module lifetime, and failure logging.
-4. Design a successor diagnostic only after that comparison. Prefer a read-only observation of loader return codes or module lifecycle; do not repeat current-process enumeration or the closed stock plugin launch.
+1. Inspect the exact hash-matched source and release containers to confirm the trigger, `_init_env` patch target, module lifetime, and failure logging.
+2. Determine whether existing HEN diagnostics can expose the hook/load return codes without installing another title-specific plugin.
+3. Design a successor diagnostic only after that comparison. Prefer a read-only observation of loader return codes or module lifecycle; do not repeat current-process enumeration or the closed stock plugin launch.
 
 No new hardware payload is proposed by this document.

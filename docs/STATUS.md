@@ -43,6 +43,8 @@ EXP-012 tested the same bounded read as a title-specific HEN plugin during a ver
 
 EXP-013 revision 7 completed in one authorized hardware run. Its 1,606-byte direct capture has SHA-256 `84F6F5530CEE77124AFE4DFE8DD58DAC362E8A79D40F4BF8C28D3DB3735BC4AE` and passed the strict parser: UID `0`, sandboxed, enumeration result `0`, 21 modules, zero module-info failures, and the final completion marker. The current process contained `guest.elf`, `libkernel_sys.sprx`, and 19 ordinary system/runtime modules; the missing EXP-012 custom plugin was not present. This is observational and cannot prove that no loader hook ran earlier or that no module was transiently present. A startup `CE-34878-0` was cleared by reversibly disabling the reintroduced EXP-012 config that targeted an absent PRX. EXP-013 is now closed against identical repetition; a useful successor must inspect or instrument the loader implementation rather than repeat current-process enumeration.
 
+Read-only retrieval then confirmed that the installed HEN bootloader and plugin loader are byte-identical to the official `build_86` release and embed source commit `a717ffd0b4699d72d4fd33dab0ca422270fcfd25`. Installed-component drift is therefore ruled out as the explanation for EXP-012/EXP-013. The remaining loader-boundary hypotheses are that the hook was not reached/installed, injection failed, or the loader modules were transient or omitted from the later module inventory.
+
 ## Success criteria
 
 The project goal is reached only when an owned reference console can boot a documented Linux environment after complete power loss without manually repeating the browser jailbreak and payload sequence, with a tested recovery procedure and independently reproducible build instructions.
