@@ -270,4 +270,9 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Flat payload: 55,044 bytes; SHA-256 `FA3ED59E61653613E415022D8DDBC5DF1DD5901761466FA30C4EE9D2492301C6`
 - Link audit: zero relocations
 - Ghidra audit: 22/22 functions decompiled; no reachable persistent-write, configuration, or plugin-install routine
-- Current gate: offline only. Review exact host substitution/restoration, served-file hash, and initial-load collector ordering before any hardware proposal
+- Host audit: the exploit page's validated `payloadfile` override initially was not applied to the fetch target; the local host correction now selects `PAYLOAD_OVERRIDE || "hen.bin"`
+- Isolated HTTP result: the unchanged 500,448-byte normal HEN served as SHA-256 `C05F6097DBC0707E8EC2FB5443EE507DA6AC6E79C6FA8E9F78544658710EFEFF`; the uniquely named 55,044-byte candidate served as SHA-256 `FA3ED59E61653613E415022D8DDBC5DF1DD5901761466FA30C4EE9D2492301C6`
+- Rollback design: normal `hen.bin` is never replaced; omitting the override selects pinned normal HEN on the next cold start
+- Collector rebuild: two uniquely named builds were byte-identical; ELF 30,664 bytes SHA-256 `93B0F550B8A06563A87939698981A4141491349FB573378F05448D70B305D518`; flat payload 6,852 bytes SHA-256 `B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C`
+- Collector audit continuity: the rebuilt flat payload is byte-identical to the prior private collector that completed zero-relocation and Ghidra 12/12 review; the private endpoint remains outside Git and Wiki
+- Current gate: hardware remains unauthorized and offline only. Require console-side collector round-trip verification, actual LAN served-hash verification, listener-ready confirmation, and explicit authorization

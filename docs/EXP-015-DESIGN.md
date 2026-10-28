@@ -33,4 +33,6 @@ The installed hook remains exact-title locked to Payload Guest `AZIF00003` and f
 
 ## Gate
 
-Hardware execution is not authorized. Before a proposal, the exact exploit-host substitution and restoration procedure must be reviewed, the served candidate must be hash-verified over HTTP, the normal pinned HEN must remain immediately restorable, and the collector/listener sequence must be updated for initial-load ordering.
+Hardware execution is not authorized. The host substitution and restoration design is now reviewed: a validated, uniquely named `payloadfile` override selects the candidate without replacing `hen.bin`, and rollback is the unchanged normal URL. An isolated loopback audit hash-verified both served payloads while the pinned normal HEN remained unchanged. See [EXP-015-RUNBOOK.md](EXP-015-RUNBOOK.md).
+
+The uniquely named collector was rebuilt twice with byte-identical outputs. Its 6,852-byte flat payload is byte-identical to the previously audited private collector, so the existing zero-relocation and Ghidra 12/12 review applies to the exact executable bytes. Remaining gates are console-side collector round-trip verification, verification of both payload hashes over the actual LAN service, listener-ready confirmation, and explicit authorization for the exact hardware run.

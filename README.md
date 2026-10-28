@@ -23,6 +23,7 @@ See [docs/LOADER-BOUNDARY-ANALYSIS.md](docs/LOADER-BOUNDARY-ANALYSIS.md) for the
 See [docs/EXP-014-DESIGN.md](docs/EXP-014-DESIGN.md) for the gated successor design that records the currently discarded HEN loader-hook return codes without repeating closed experiments.
 
 EXP-014's live-HEN replacement route failed and is closed. See [docs/EXP-015-DESIGN.md](docs/EXP-015-DESIGN.md) for the offline-only initial-load correction; it has not been transferred or executed.
+See [docs/EXP-015-RUNBOOK.md](docs/EXP-015-RUNBOOK.md) for the reviewed unique-filename host selection, hash-verified rollback design, initial-load ordering, and remaining hardware gates.
 See [docs/KNOWLEDGE-CONTINUITY.md](docs/KNOWLEDGE-CONTINUITY.md) for the local, read-only LLM Wiki index and cross-session Codex workflow.
 
 ## Repository policy

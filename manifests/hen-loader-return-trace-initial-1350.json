@@ -30,5 +30,19 @@
     "decompilationReportSha256": "42CF180C88E710382BC62360E9FCF1A63CB878CFAC4C9E26DD0ADF03BF27E7B7",
     "reachablePersistentWrite": false
   },
-  "hardwareGate": "Not authorized; exploit-host substitution, served-hash verification, rollback, and initial-load collector ordering require separate review."
+  "hostPreflight": {
+    "selection": "validated unique-filename payloadfile override; normal hen.bin is not replaced",
+    "normalHen": {"bytes": 500448, "sha256": "C05F6097DBC0707E8EC2FB5443EE507DA6AC6E79C6FA8E9F78544658710EFEFF"},
+    "isolatedHttpAudit": true,
+    "normalHenUnchanged": true,
+    "hardwareTransfer": false
+  },
+  "collector": {
+    "elf": {"bytes": 30664, "sha256": "93B0F550B8A06563A87939698981A4141491349FB573378F05448D70B305D518"},
+    "flatPayload": {"bytes": 6852, "sha256": "B7AA8E305FB05E0EA03DAAEE3E358DB25F80BE198F6180DBF73D8F930C188B8C"},
+    "reproducibleBuilds": 2,
+    "flatBytesMatchPriorAuditedCollector": true,
+    "privateEndpointRecorded": false
+  },
+  "hardwareGate": "Not authorized; require console-side collector round-trip verification, actual LAN served hashes, listener-ready confirmation, and explicit authorization."
 }
