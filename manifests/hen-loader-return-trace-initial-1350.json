@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "experiment": "EXP-015",
+  "hardwareExecuted": false,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1 (0x30201)",
+    "hostApplication": "Payload Guest 0.98 (AZIF00003)"
+  },
+  "deployment": {
+    "phase": "initial HEN load after cold start",
+    "activeHenGuard": true,
+    "livePayloadReplacement": false,
+    "filesystemWrites": false,
+    "flashAccess": false
+  },
+  "build": {
+    "elf": {"bytes": 77240, "sha256": "B61BF1E0003E024E1FF50FCB40BFBA1C239DED966D1F607F96FDB8A8C0A8E8FA"},
+    "flatPayload": {"bytes": 55044, "sha256": "FA3ED59E61653613E415022D8DDBC5DF1DD5901761466FA30C4EE9D2492301C6"},
+    "reproducibleBuilds": 2,
+    "relocations": 0,
+    "toolchain": "Zig 0.17.0"
+  },
+  "postLinkReview": {
+    "tool": "Ghidra 12.1.4 PUBLIC",
+    "functionsFound": 22,
+    "functionsDecompiled": 22,
+    "analysisReportSha256": "E1D000BAFFAF6CDF81E8F1942DF5389A6264554013E2B360D10390F173097C52",
+    "decompilationReportSha256": "42CF180C88E710382BC62360E9FCF1A63CB878CFAC4C9E26DD0ADF03BF27E7B7",
+    "reachablePersistentWrite": false
+  },
+  "hardwareGate": "Not authorized; exploit-host substitution, served-hash verification, rollback, and initial-load collector ordering require separate review."
+}

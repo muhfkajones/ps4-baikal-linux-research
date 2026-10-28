@@ -256,3 +256,18 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Recovery: a normal cold start cleared volatile state; the pinned ordinary HEN was restored successfully; both EXP-014 staging files were removed through FTP and verified absent
 - Failure analysis: stock HEN deliberately checks its installed marker and skips reinstallation. The minimal installer omitted that guard and called the payload replacement path while the prior HEN payload and hooks were live. This is the leading explanation for the shutdown, but no panic trace was captured
 - Decision: reject and compile-time block the live-HEN replacement installer. Do not rebuild, transfer, or execute either audited EXP-014 binary. A successor must operate during initial HEN installation or avoid overwriting active HEN
+
+## EXP-015 — Initial-load HEN loader trace, offline candidate
+
+- Date reviewed: 2026-10-28
+- Hardware status: not executed; not authorized
+- Purpose: retain the bounded EXP-014 return-code trace while eliminating live HEN replacement
+- Deployment phase: initial HEN load from the established Beast exploit host after a cold start and before any HEN payload or hook exists
+- Active-HEN guard: checks stock HEN's installed marker and stops before patching if HEN is already active
+- Behavior: applies required installer-side patches once, installs the instrumented component with normal internal patches and plugin hooks enabled, and performs no configuration/plugin/marker/flash write
+- Reproducibility: two byte-identical builds
+- ELF: 77,240 bytes; SHA-256 `B61BF1E0003E024E1FF50FCB40BFBA1C239DED966D1F607F96FDB8A8C0A8E8FA`
+- Flat payload: 55,044 bytes; SHA-256 `FA3ED59E61653613E415022D8DDBC5DF1DD5901761466FA30C4EE9D2492301C6`
+- Link audit: zero relocations
+- Ghidra audit: 22/22 functions decompiled; no reachable persistent-write, configuration, or plugin-install routine
+- Current gate: offline only. Review exact host substitution/restoration, served-file hash, and initial-load collector ordering before any hardware proposal
