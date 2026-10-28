@@ -19,6 +19,7 @@ See [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) for the hardware result from the 
 See [docs/AUTHMGR-LIFECYCLE.md](docs/AUTHMGR-LIFECYCLE.md) for the 13.50 suspend/resume evidence and the controlled EXP-011 capture sequence.
 See [payloads/hen-loader-boundary/AUDIT.md](payloads/hen-loader-boundary/AUDIT.md) for the offline-only EXP-013 revision-6 and direct-capture revision-7 user-mode module-inventory reviews. Neither revision has been authorized or executed on hardware.
 See [docs/EXP-013-RUNBOOK.md](docs/EXP-013-RUNBOOK.md) for the gated operator/assistant sequence; each physical console action is handed off with its expected visible result.
+See [docs/LOADER-BOUNDARY-ANALYSIS.md](docs/LOADER-BOUNDARY-ANALYSIS.md) for the completed EXP-013 result, the public Payload Guest/HEN load path, and the non-repetitive next evidence needed.
 See [docs/KNOWLEDGE-CONTINUITY.md](docs/KNOWLEDGE-CONTINUITY.md) for the local, read-only LLM Wiki index and cross-session Codex workflow.
 
 ## Repository policy

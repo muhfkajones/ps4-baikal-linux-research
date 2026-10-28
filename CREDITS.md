@@ -60,6 +60,14 @@ These components enabled local testing or produced research inputs. They are not
 - License: MIT; copyright © 2025 **illusiony**. The upstream license and copyright notice control.
 - Distribution rule here: not vendored; runtime packages are not redistributed.
 
+### Al-Azif/ps4-payload-guest
+
+- Source: <https://github.com/Al-Azif/ps4-payload-guest>
+- Inspected revision: `f73b7fc701ff1b91e40369486325b440b5816c9e`
+- Use here: verified payload discovery, local socket-loader fallback, executable mapping, and pthread launch behavior for the EXP-013 loader-boundary analysis.
+- License: GPL-3.0; the upstream license and contributor notices control.
+- Distribution rule here: source is referenced, not vendored; application binaries and bundled runtime modules are not redistributed.
+
 ### john-tornblom/tiny-ps4-shell
 
 - Source: <https://github.com/john-tornblom/tiny-ps4-shell>
