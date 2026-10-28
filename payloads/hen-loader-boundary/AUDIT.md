@@ -58,3 +58,9 @@ Ghidra 12.1.4 PUBLIC identified 15 functions and decompiled all 15. The reachabl
 - Listener/parser integration: localhost capture reached the terminal marker and the strict parser accepted the complete fixture; a truncated fixture was rejected.
 
 This review does not authorize hardware execution. The console-side round-trip copy must match the recorded flat-payload size and hash, the host listener must already be active, and the user must explicitly approve the exact run.
+
+## Revision 7 hardware result
+
+The console-side round-trip copy matched the audited payload. After explicit authorization, revision 7 executed once and produced a complete 1,606-byte capture with SHA-256 `84F6F5530CEE77124AFE4DFE8DD58DAC362E8A79D40F4BF8C28D3DB3735BC4AE`. The strict parser accepted 21 module records, zero module-info failures, and the final completion marker. Runtime output confirmed the payload remained sandboxed and attempted no kernel read or file write.
+
+The current module list contained only Payload Guest and ordinary runtime/system modules; it did not contain the missing EXP-012 custom plugin. This absence is observational rather than proof about earlier hooks or transient modules. Identical repetition is closed.

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "experiment": "EXP-013",
+  "revision": 7,
+  "hardwareExecuted": true,
+  "executionCount": 1,
+  "target": {
+    "console": "PS4 Pro CUH-7215B",
+    "firmware": "13.50",
+    "southbridge": "Baikal B1 (0x30201)",
+    "hostApplication": "Payload Guest 0.98 (AZIF00003)"
+  },
+  "build": {
+    "elf": {"bytes": 31144, "sha256": "703E98379FD2148BAA834049A42CD16779D941464C39545DA558016827B62A28"},
+    "flatPayload": {"bytes": 7044, "sha256": "8270D9C6470E27A51AF2FC37C5B84F7775C14D5D3988A4051BB9AB64B01CCA70"},
+    "consoleRoundTripVerified": true
+  },
+  "capture": {
+    "bytes": 1606,
+    "sha256": "84F6F5530CEE77124AFE4DFE8DD58DAC362E8A79D40F4BF8C28D3DB3735BC4AE",
+    "complete": true,
+    "uid": 0,
+    "sandboxed": true,
+    "moduleCount": 21,
+    "moduleInfoFailures": 0,
+    "terminalMarkerPresent": true
+  },
+  "modules": [
+    {"id": "0x00000000", "name": "guest.elf"},
+    {"id": "0x00002001", "name": "libkernel_sys.sprx"},
+    {"id": "0x00000002", "name": "libSceLibcInternal.sprx"},
+    {"id": "0x00000012", "name": "libSceSysmodule.sprx"},
+    {"id": "0x00000014", "name": "libSceIpmi.sprx"},
+    {"id": "0x00000015", "name": "libSceRegMgr.sprx"},
+    {"id": "0x00000016", "name": "libSceSystemService.sprx"},
+    {"id": "0x00000026", "name": "libSceMbus.sprx"},
+    {"id": "0x00000027", "name": "libSceAvSetting.sprx"},
+    {"id": "0x00000028", "name": "libSceVideoOut.sprx"},
+    {"id": "0x00000029", "name": "libSceNet.sprx"},
+    {"id": "0x00000038", "name": "libSceUserService.sprx"},
+    {"id": "0x00000039", "name": "libScePad.sprx"},
+    {"id": "0x0000003a", "name": "libSceSysUtil.sprx"},
+    {"id": "0x0000003b", "name": "libSceRazorCpu.sprx"},
+    {"id": "0x0000003c", "name": "libSceGnmDriver.sprx"},
+    {"id": "0x0000003e", "name": "libSceNetCtl.sprx"},
+    {"id": "0x00000040", "name": "libSceRtc.sprx"},
+    {"id": "0x00000041", "name": "libSceSsl2.sprx"},
+    {"id": "0x00000043", "name": "libSceHttp.sprx"},
+    {"id": "0x00000050", "name": "libSceFreeTypeOl.sprx"}
+  ],
+  "finding": "The current Payload Guest process exposed 21 ordinary application/runtime modules and no module-info failures. The missing EXP-012 custom plugin was not present in the live module list. This is observational and does not prove that no loader hook ran earlier or that no module was transiently present.",
+  "safety": {
+    "kernelMemoryRead": false,
+    "kernelMemoryWrite": false,
+    "filesystemAccess": false,
+    "customPrxLoad": false,
+    "flashAccess": false,
+    "secureModuleRequest": false
+  }
+}

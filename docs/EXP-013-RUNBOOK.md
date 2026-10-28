@@ -44,6 +44,8 @@ The assistant starts `scripts/Listen-Exp013Network.ps1` before execution and con
 
 The captured stream is preserved privately and parsed with `scripts/Parse-HenLoaderBoundaryNetworkLog.ps1`. Publication is limited to reviewed, non-unique findings and hashes.
 
+Gate-3 result (2026-10-27): after the stale EXP-012 config was backed up and reversibly disabled, Payload Guest opened and revision 7 executed once. The listener captured 1,606 bytes, the strict parser accepted all 21 module records with zero failures, and the completion marker was present. EXP-013 is complete and must not be repeated unchanged.
+
 ## Stop conditions
 
 - FTP or the intended capture route is unavailable.
