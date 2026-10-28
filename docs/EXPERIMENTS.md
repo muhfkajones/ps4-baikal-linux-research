@@ -220,3 +220,6 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Revision-7 Ghidra audit: 15 functions found and all 15 decompiled; reachable behavior is initialization, one outbound capture connection, the revision-6 observations, complete-line sends, socket close, and syscall-601 mirroring
 - Revision-7 host tooling: bounded listener and strict parser passed localhost integration; the parser accepted a complete fixture and rejected a truncated fixture
 - Current gate: revision 7 has not been transferred or executed; require console-side round-trip hash verification, an active listener, and explicit user approval before launch
+- Transfer gate result (2026-10-27): revision 7 was uploaded to `/data/payloads/hen-loader-boundary-network-1350.bin`, retrieved read-only in full despite PS4-Xplorer's short ordinary transfers, and matched the audited 7,044-byte SHA-256 `8270D9C6470E27A51AF2FC37C5B84F7775C14D5D3988A4051BB9AB64B01CCA70`
+- Transfer correction: the first raw-socket upload retained only 16 bytes; that exact incomplete new staging file was removed, the upload method was corrected, and the final console-side round trip passed; no payload was executed during either transfer
+- Remaining gate: start and confirm the host listener, then obtain explicit authorization for one hardware execution

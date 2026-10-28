@@ -34,6 +34,8 @@ Revision 6 remains blocked on its missing klog route. Revision 7 supplies a sepa
 
 After explicit authorization for the exact upload path, the assistant may stage revision 7 while PS4-Xplorer remains open. It must then retrieve a round-trip copy read-only and run `scripts/Verify-HenLoaderBoundaryNetworkTransfer.ps1` against the audited size and hash. A mismatch stops the run and the staged file is not executed.
 
+Gate-2 result (2026-10-27): the corrected upload was retrieved in full and matched the audited 7,044-byte size and SHA-256. An initial 16-byte incomplete staging attempt was removed before retrying. The final staged file has not been executed.
+
 The operator will then receive one exact action to reopen Payload Guest, with the expected screen. No run occurs at this gate.
 
 ## Gate 3 — single execution only after separate authorization
