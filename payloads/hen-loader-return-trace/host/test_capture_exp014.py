@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import importlib.util
+import socket
+import threading
 import unittest
 from pathlib import Path
 
@@ -47,6 +49,42 @@ class CaptureParserTests(unittest.TestCase):
 
     def test_fixture_is_within_network_bound(self):
         self.assertLess(len(fixture()), CAPTURE.MAX_CAPTURE)
+
+
+class ListenerTests(unittest.TestCase):
+    def run_listener(self, payload):
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        listener.bind(("127.0.0.1", 0))
+        listener.listen(1)
+        port = listener.getsockname()[1]
+        result = {}
+
+        def target():
+            try:
+                result["data"] = CAPTURE.receive_connection(listener)
+            except Exception as error:
+                result["error"] = error
+            finally:
+                listener.close()
+
+        thread = threading.Thread(target=target)
+        thread.start()
+        with socket.create_connection(("127.0.0.1", port), timeout=1) as connection:
+            connection.sendall(payload)
+        thread.join(timeout=2)
+        self.assertFalse(thread.is_alive(), "listener did not terminate")
+        return result
+
+    def test_receives_one_complete_bounded_capture(self):
+        data = fixture()
+        result = self.run_listener(data)
+        self.assertNotIn("error", result)
+        self.assertEqual(result["data"], data)
+
+    def test_rejects_capture_over_network_bound(self):
+        result = self.run_listener(b"A" * (CAPTURE.MAX_CAPTURE + 1))
+        self.assertIsInstance(result.get("error"), ValueError)
 
 
 if __name__ == "__main__":

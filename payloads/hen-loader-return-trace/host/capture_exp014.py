@@ -62,24 +62,28 @@ def parse_capture(data: bytes) -> dict[str, int]:
     return values
 
 
+def receive_connection(listener: socket.socket) -> bytes:
+    connection, _ = listener.accept()
+    with connection:
+        chunks: list[bytes] = []
+        size = 0
+        while True:
+            chunk = connection.recv(2048)
+            if not chunk:
+                break
+            size += len(chunk)
+            if size > MAX_CAPTURE:
+                raise ValueError("capture exceeds the 8192-byte bound")
+            chunks.append(chunk)
+    return b"".join(chunks)
+
+
 def receive_once(bind: str, port: int) -> bytes:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
         listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         listener.bind((bind, port))
         listener.listen(1)
-        connection, _ = listener.accept()
-        with connection:
-            chunks: list[bytes] = []
-            size = 0
-            while True:
-                chunk = connection.recv(2048)
-                if not chunk:
-                    break
-                size += len(chunk)
-                if size > MAX_CAPTURE:
-                    raise ValueError("capture exceeds the 8192-byte bound")
-                chunks.append(chunk)
-    return b"".join(chunks)
+        return receive_connection(listener)
 
 
 def main() -> int:

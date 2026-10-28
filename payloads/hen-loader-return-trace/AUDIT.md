@@ -22,7 +22,11 @@
 - [x] Two clean builds of each component are byte-identical.
 - [x] All linked ELFs contain zero relocations.
 - [x] Post-link Ghidra accounts for every recovered function in all three components.
-- [x] Six committed host-parser tests cover a complete record, truncation, bad magic, non-Boolean flags, extra lines, and the network-size bound.
+- [x] Eight committed host tests cover a complete record, truncation, bad magic, non-Boolean flags, extra lines, one-shot reception, and oversized network input.
+
+## Negative-capability post-link review
+
+The minimal installer's 19 recovered reachable functions contain no `write`, `fopen`, `unlink`, `rename`, `mkdir`, configuration, or plugin-install routine. Its only file primitives are `open`, `read`, `lseek`, and `close` in the SDK initialization path that resolves the system libc. Strings for `/data/hen/plugin_mono.prx`, `plugin_bootloader.prx`, and `plugin_server.prx` remain inside the embedded kernel component because those existing HEN hook targets are the behavior under measurement; their presence is not a stock-installer filesystem path. The collector's 12 recovered functions contain socket send/connect/close behavior and no reachable filesystem primitive.
 
 | Component | ELF bytes | ELF SHA-256 | Flat bytes | Flat SHA-256 | Ghidra |
 | --- | ---: | --- | ---: | --- | ---: |

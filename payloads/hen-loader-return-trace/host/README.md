@@ -4,4 +4,4 @@
 
 The listener does not contain a workstation address. Keep private endpoint details and runtime captures outside Git and the LLM Wiki source set.
 
-Run `python -m unittest test_capture_exp014.py` from this directory to exercise the complete, truncated, bad-magic, non-Boolean, and extra-line parser cases.
+Run `python -m unittest test_capture_exp014.py` from this directory to exercise the complete, truncated, bad-magic, non-Boolean, extra-line, one-shot listener, and oversized-network-capture cases.
