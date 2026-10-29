@@ -49,7 +49,7 @@ jobs:
             reports="$GITHUB_WORKSPACE/reports/$tree"
             mkdir -p "$reports"
             set +e
-            "$GITHUB_WORKSPACE/scripts/Build-HenKernelComponentGccAudit.sh" \
+            bash "$GITHUB_WORKSPACE/scripts/Build-HenKernelComponentGccAudit.sh" \
               "$GITHUB_WORKSPACE/$tree" "$reports"
             status=$?
             set -e
