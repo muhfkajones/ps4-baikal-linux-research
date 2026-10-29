@@ -38,7 +38,9 @@
     "observedLinkerDeltaSha256": "5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955",
     "compilerLinkerParityEstablished": false,
     "postFailureExactReconstructionManifest": "manifests/hen-kernel-component-reconstruction.json",
-    "postFailureExactReconstructionPassed": true
+    "postFailureExactReconstructionPassed": true,
+    "upstreamGccComparisonManifest": "manifests/hen-kernel-component-gcc-comparison.json",
+    "toolchainLayoutDivergenceConfirmed": true
   },
   "hostPreflight": {
     "selection": "validated unique-filename payloadfile override; normal hen.bin is not replaced",

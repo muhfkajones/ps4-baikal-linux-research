@@ -25,7 +25,7 @@ The reviewed ELF confirms the consequence of that delta:
 - two loadable segments and no relocation section in the final ELF; and
 - flat extraction ending at `0x8970` after removing `.payload_bss`.
 
-The orphan `.text` contains `sys_proc_info_handle`, `sys_proc_thrinfo_handle`, and `_start`, so simply reverting the linker delta under the Zig build is not a valid correction. The upstream GCC build may inline or place those functions differently. Compiler/linker parity must be established rather than guessed.
+The orphan `.text` contains `sys_proc_info_handle`, `sys_proc_thrinfo_handle`, and `_start`, so simply reverting the linker delta under the Zig build is not a valid correction. The upstream GCC build can inline or place those functions differently; the completed comparison below confirms a materially different output.
 
 ## Exact post-failure reconstruction
 
@@ -43,9 +43,21 @@ The reconstruction identifies the complete previously implicit pipeline:
 
 The publication-safe reconstruction inputs and tool hashes are recorded in `manifests/hen-kernel-component-reconstruction.json`. Exact reconstruction proves what failed; it does not prove why it failed, make the component safe, or establish equivalence to the upstream GCC/catch-all-discard build.
 
+## Upstream-GCC comparison
+
+GitHub Actions run `40811117638` used GCC 11.4, GNU ld/objcopy 2.38, the upstream Makefile, and the original catch-all-discard linker. It built fresh stock and instrumented trees twice each. Both pairs were byte-identical, both ELFs had entrypoint `0x0`, and neither contained relocations.
+
+| Build | ELF bytes | ELF SHA-256 | Flat bytes | Flat SHA-256 |
+| --- | ---: | --- | ---: | --- |
+| GCC stock | 50,216 | `4D09BA44C496CD1F28C8F464978285DC76AAE8D9AFE52ECD44EC3E3CB9FE6FEC` | 32,528 | `CDA34C1865663D5995AEBF021AC4EA683E85E340C34A4810811B3F699D93BD94` |
+| GCC instrumented | 50,248 | `5B511A3CD9E6834ABF2C86443AF4315B73AEFF51C0E12DACD96197EE157DF6C3` | 33,128 | `B726D9ADB8159EDDAD20384429C5059272FB03E4527D1E8F9A613DD0C8835B2C` |
+| Rejected Zig instrumented | 49,096 | `1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E` | 35,184 | `AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066` |
+
+Under GCC, the instrumentation adds 400 bytes of `.payload_code`, 216 bytes of `.payload_rdata`, and 64 bytes of `.payload_bss`; the flat payload grows by 600 bytes. The rejected Zig flat is instead 2,056 bytes larger than the GCC instrumented flat and retains the orphan `.text` section. The previously suspected toolchain/layout difference is therefore verified, while its causal relationship to the shutdowns remains unproven. No binaries were published by the workflow; the publication-safe results are in `manifests/hen-kernel-component-gcc-comparison.json`.
+
 ## Leading hypotheses
 
-1. **Build parity gap:** the rejected Zig-built component is now exactly reproducible, but it has never been shown equivalent to an upstream GCC-built stock HEN component. This remains the strongest newly identified provenance gap.
+1. **Confirmed toolchain/layout divergence:** the rejected Zig component is exactly reproducible and materially different from the reproducible GCC instrumented output. This is verified evidence, but not a panic diagnosis.
 2. **Shared component entry/install path:** both failures occur before the installer returns and before the instrumented hook can collect evidence.
 3. **Instrumentation semantics:** the added trace state and hook code could still be faulty, but the current evidence does not show that code executing before shutdown.
 
@@ -56,6 +68,6 @@ These are hypotheses, not a panic diagnosis.
 - Do not rebuild, transfer, or execute EXP-014 or EXP-015.
 - Do not test a stock component built with the same custom Zig pipeline on hardware merely to isolate the compiler; that would be a new kernel-payload experiment requiring a new design and review.
 - Use the reconstructed failed build only as an offline comparison baseline.
-- Build a scripted stock-versus-instrumented comparison using the upstream-declared GCC/linker path.
-- Require section, segment, symbol, relocation, flat-byte, and entrypoint comparisons before proposing any successor.
+- Use the completed GCC stock-versus-instrumented comparison as the upstream baseline.
+- Require any successor to explain the section, segment, symbol, flat-byte, and entrypoint consequences of its toolchain; zero relocations alone is insufficient.
 - Prefer a non-executing observation method or an emulator/unit boundary for trace logic.

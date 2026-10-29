@@ -56,6 +56,9 @@
   "evidenceBoundary": {
     "customPipelineExactlyReproduced": true,
     "upstreamGccParityEstablished": false,
+    "upstreamGccComparisonCompleted": true,
+    "upstreamGccComparisonManifest": "manifests/hen-kernel-component-gcc-comparison.json",
+    "toolchainLayoutDivergenceConfirmed": true,
     "panicCauseEstablished": false,
     "hardwareSafetyEstablished": false
   },

@@ -30,7 +30,9 @@ The kernel component was built with Zig 0.17.0 rather than the pinned source tre
 
 The post-failure `scripts/Build-HenKernelComponentAudit.ps1` reconstruction now reproduces the recorded 49,096-byte ELF and 35,184-byte flat binary exactly in two clean output directories. Exact reproduction requires Zig without upstream `-masm=intel`, ordinal normalized source ordering with `offsets/` before `offsets_file.c`, the narrow linker delta, and GNU `objcopy` removal of `.payload_bss`. Tool and input hashes are recorded in `manifests/hen-kernel-component-reconstruction.json`.
 
-This confirms the recorded hashes, byte-identical rebuilds, relocation count, and Ghidra coverage as internally reproducible evidence for the rejected custom pipeline. It does not establish equivalence to the upstream GCC build path or prove a panic cause. After both EXP-014 and EXP-015 shut down before installer return, compiler/linker parity remains a leading unproven failure hypothesis. See `docs/EXP-015-FAILURE-ANALYSIS.md`.
+This confirms the recorded hashes, byte-identical rebuilds, relocation count, and Ghidra coverage as internally reproducible evidence for the rejected custom pipeline. Exact reconstruction alone did not establish equivalence to the upstream GCC build path or prove a panic cause. See `docs/EXP-015-FAILURE-ANALYSIS.md`.
+
+The subsequent upstream-GCC comparison completed in GitHub Actions run `40811117638`. Two stock and two instrumented builds through GCC 11.4 and the original linker were byte-identical within each pair and contained zero relocations. The stock flat is 32,528 bytes with SHA-256 `CDA34C1865663D5995AEBF021AC4EA683E85E340C34A4810811B3F699D93BD94`; the instrumented flat is 33,128 bytes with SHA-256 `B726D9ADB8159EDDAD20384429C5059272FB03E4527D1E8F9A613DD0C8835B2C`. The rejected Zig flat is 2,056 bytes larger than that GCC instrumented result. Toolchain/layout divergence is confirmed; panic causality and hardware safety are not. See `manifests/hen-kernel-component-gcc-comparison.json`.
 
 ## Negative-capability post-link review
 

@@ -25,7 +25,7 @@ See [docs/EXP-014-DESIGN.md](docs/EXP-014-DESIGN.md) for the gated successor des
 EXP-014's live-HEN replacement route failed and is closed. Its EXP-015 initial-load correction also caused an abnormal shutdown in one hardware attempt and is compile-time blocked. See [docs/EXP-015-DESIGN.md](docs/EXP-015-DESIGN.md) for the result and revised failure boundary.
 See [docs/EXP-015-RUNBOOK.md](docs/EXP-015-RUNBOOK.md) for the retained preflight record and closed hardware sequence.
 See [docs/HOST-RUN-GATE.md](docs/HOST-RUN-GATE.md) for the retained-browser-URL incident and the offline-tested single-use host-token correction.
-See [docs/EXP-015-FAILURE-ANALYSIS.md](docs/EXP-015-FAILURE-ANALYSIS.md) for the revised common failure boundary, exact offline reconstruction of the rejected Zig-built component, and the remaining upstream-GCC parity gap.
+See [docs/EXP-015-FAILURE-ANALYSIS.md](docs/EXP-015-FAILURE-ANALYSIS.md) for the revised common failure boundary, exact offline reconstruction of the rejected Zig-built component, and the reproducible upstream-GCC comparison that confirms a materially different layout.
 See [docs/KNOWLEDGE-CONTINUITY.md](docs/KNOWLEDGE-CONTINUITY.md) for the local, read-only LLM Wiki index and cross-session Codex workflow.
 
 ## Repository policy

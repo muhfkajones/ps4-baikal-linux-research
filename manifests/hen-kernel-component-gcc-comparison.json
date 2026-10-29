@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "experiment": "EXP-015 post-failure upstream-GCC comparison",
+  "hardwareExecuted": false,
+  "deploymentAuthorized": false,
+  "source": {
+    "henRevision": "d077fb4031cf0e089fb7a233cebeebcd1ed3c68e",
+    "instrumentationPatchSha256": "F1BED2059C538614779F9CF1F6F4387ADF7465486D0A87AA54C7E4564D4999AC",
+    "linkerScriptSha256": "ADAE01EB59B7FB8873ECABD9B475CD96C95B6EFAA1F334A75F5034E730B48EE5",
+    "observedZigLinkerDeltaApplied": false
+  },
+  "environment": {
+    "runner": "GitHub Actions ubuntu-22.04",
+    "gcc": "gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+    "ld": "GNU ld 2.38",
+    "objcopy": "GNU objcopy 2.38",
+    "make": "GNU Make 4.3"
+  },
+  "ci": {
+    "headSha": "828d8fa15de292619481a43a65e766475505e82d",
+    "runId": 40811117638,
+    "runUrl": "https://github.com/muhfkajones/ps4-baikal-linux-research/actions/runs/40811117638",
+    "conclusion": "success",
+    "reportArtifactId": 12870860084,
+    "reportArtifactSha256": "CF862C6276E7BA1D3A9A8073453A0C4B1211BED627858FC73F0093322D051D2B",
+    "binaryArtifactsPublished": false
+  },
+  "stock": {
+    "reproducibleBuilds": 2,
+    "elf": {"bytes": 50216, "sha256": "4D09BA44C496CD1F28C8F464978285DC76AAE8D9AFE52ECD44EC3E3CB9FE6FEC"},
+    "elfWithoutPayloadBss": {"bytes": 44056, "sha256": "F087C1BB1BF4F621D2A567EF63973CBB681C9B6BC2DE315F524800783737E8F9"},
+    "flatPayload": {"bytes": 32528, "sha256": "CDA34C1865663D5995AEBF021AC4EA683E85E340C34A4810811B3F699D93BD94"},
+    "linkMap": {"bytes": 47036, "sha256": "EC6D3525681528AB69972B80CC84A387AD6F4D5136E707014215FE22AF14CB2E"},
+    "layout": {
+      "entrypoint": "0x0",
+      "payloadCodeBytes": 10200,
+      "payloadRdataBytes": 22288,
+      "payloadBssBytes": 472,
+      "relocations": 0
+    }
+  },
+  "instrumented": {
+    "reproducibleBuilds": 2,
+    "elf": {"bytes": 50248, "sha256": "5B511A3CD9E6834ABF2C86443AF4315B73AEFF51C0E12DACD96197EE157DF6C3"},
+    "elfWithoutPayloadBss": {"bytes": 48144, "sha256": "8610F542B1858D6A6CCE0F57F54B058E355DCD76F13E0CED35FE1B0338BA9FFF"},
+    "flatPayload": {"bytes": 33128, "sha256": "B726D9ADB8159EDDAD20384429C5059272FB03E4527D1E8F9A613DD0C8835B2C"},
+    "linkMap": {"bytes": 47206, "sha256": "3ABA995FB51E09ADD3E7E3E323F40BA1798ACEB01C763A1B98C0FA13649CBF30"},
+    "layout": {
+      "entrypoint": "0x0",
+      "payloadCodeBytes": 10600,
+      "payloadRdataBytes": 22504,
+      "payloadBssBytes": 536,
+      "relocations": 0
+    }
+  },
+  "comparison": {
+    "instrumentedFlatGrowthOverStockBytes": 600,
+    "rejectedZigFlatBytes": 35184,
+    "gccInstrumentedFlatBytes": 33128,
+    "rejectedZigFlatExcessOverGccInstrumentedBytes": 2056,
+    "rejectedZigMatchesGccInstrumented": false,
+    "toolchainLayoutDivergenceConfirmed": true,
+    "panicCausalityEstablished": false
+  },
+  "decision": "The upstream-declared GCC path builds the instrumentation reproducibly and differs materially from the rejected Zig component. Retain both as offline evidence; neither comparison output is authorized for hardware."
+}

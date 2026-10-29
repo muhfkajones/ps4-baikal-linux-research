@@ -297,5 +297,9 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Post-failure reconstruction: `scripts/Build-HenKernelComponentAudit.ps1` reproduced the rejected component twice in clean output directories: ELF 49,096 bytes SHA-256 `1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E`; flat 35,184 bytes SHA-256 `AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066`
 - Recovered implicit inputs: Zig omits upstream `-masm=intel`, object paths use ordinal normalized ordering with `offsets/` before `offsets_file.c`, the narrow linker delta remains applied, and GNU `objcopy` removes `.payload_bss`
 - Evidence limit: exact reconstruction proves the rejected custom pipeline, not a panic cause or upstream-GCC equivalence
-- Hypothesis: compiler/linker parity remains the strongest identified build gap, but no panic trace proves it caused either shutdown
-- Next safe work: scripted upstream-GCC stock-versus-instrumented comparison only; no hardware compiler-isolation payload
+- Upstream-GCC comparison: GitHub Actions run `40811117638` built two clean stock trees and two clean instrumented trees with GCC 11.4, GNU ld/objcopy 2.38, the upstream Makefile, and the original catch-all-discard linker; all four builds passed and each pair was byte-identical
+- GCC stock flat: 32,528 bytes SHA-256 `CDA34C1865663D5995AEBF021AC4EA683E85E340C34A4810811B3F699D93BD94`; GCC instrumented flat: 33,128 bytes SHA-256 `B726D9ADB8159EDDAD20384429C5059272FB03E4527D1E8F9A613DD0C8835B2C`
+- GCC layout: instrumentation adds 400 code bytes, 216 read-only-data bytes, and 64 BSS bytes; both stock and instrumented ELFs have zero relocations and entrypoint `0x0`
+- Confirmed divergence: the rejected Zig flat is 2,056 bytes larger than the GCC instrumented flat and is not an upstream-toolchain-equivalent artifact
+- Evidence limit: the toolchain/layout divergence is verified, but no panic trace proves it caused either shutdown; neither GCC comparison output is authorized for hardware
+- Next safe work: static compiler/layout-delta review or a non-executing observation method only; no hardware compiler-isolation payload

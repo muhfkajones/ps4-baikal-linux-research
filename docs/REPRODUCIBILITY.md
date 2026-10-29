@@ -29,6 +29,8 @@ Start from HEN revision `d077fb4031cf0e089fb7a233cebeebcd1ed3c68e`, apply `paylo
 
 The script fails on a hash mismatch. Its normalized ordinal source order and omission of upstream `-masm=intel` are required to reconstruct the rejected Zig build. The result is an offline comparison baseline only; it is compile-time blocked from deployment through the retained installer sources.
 
+The upstream-declared GCC comparison is implemented by `scripts/Build-HenKernelComponentGccAudit.sh` and `.github/workflows/audit-hen-kernel-component-gcc.yml`. Successful run `40811117638` built fresh stock and instrumented trees twice each with GCC 11.4 and GNU Binutils 2.38. Both pairs were byte-identical and relocation-free. The workflow uploads only build logs, hashes, sizes, and ELF layout metadata; it does not publish third-party binaries. Exact results are recorded in `manifests/hen-kernel-component-gcc-comparison.json`.
+
 ## Build
 
 From PowerShell:
