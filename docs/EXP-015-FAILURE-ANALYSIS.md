@@ -13,7 +13,7 @@ The initial-load failure disproves the earlier explanation that active-HEN repla
 
 ## Build-provenance correction
 
-The pinned upstream HEN kernel-component Makefile declares `gcc` and ends its linker script with `/DISCARD/ : { *(*) }`. The reviewed component was instead built with Zig 0.17.0. Preserved build logs contain one unused-argument warning per source file and identify the Zig-driven build, but the repository had no committed script for that component.
+The pinned upstream HEN kernel-component Makefile declares `gcc`, includes `-masm=intel`, and ends its linker script with `/DISCARD/ : { *(*) }`. The reviewed component was instead built with Zig 0.17.0. Preserved build logs contain one unused-argument warning per source file and identify the Zig-driven build, but the repository had no committed script for that component when it was executed.
 
 The preserved build tree also contains a linker-script change from the upstream catch-all discard to a narrow discard of comments, notes, unwind data, and relocations. That exact change is now preserved as `third_party/hen-exp014-observed-linker-delta.patch`, SHA-256 `5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955`; it is not part of `payloads/hen-loader-return-trace/hen-exp014.patch`.
 
@@ -27,9 +27,25 @@ The reviewed ELF confirms the consequence of that delta:
 
 The orphan `.text` contains `sys_proc_info_handle`, `sys_proc_thrinfo_handle`, and `_start`, so simply reverting the linker delta under the Zig build is not a valid correction. The upstream GCC build may inline or place those functions differently. Compiler/linker parity must be established rather than guessed.
 
+## Exact post-failure reconstruction
+
+`scripts/Build-HenKernelComponentAudit.ps1` now reconstructs the rejected custom pipeline without authorizing or producing a hardware candidate. Two clean output directories reproduced both recorded artifacts byte-for-byte:
+
+- 49,096-byte ELF SHA-256 `1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E`;
+- 35,184-byte flat SHA-256 `AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066`.
+
+The reconstruction identifies the complete previously implicit pipeline:
+
+- Zig 0.17.0 compiles 60 C sources for `x86_64-freebsd` without upstream `-masm=intel`; retaining that flag makes Zig reject the sources' AT&T inline assembly.
+- Source paths are normalized to `/` and linked in ordinal order. This places `offsets/*.c` before `offsets_file.c`, matching the preserved link map; PowerShell's default culture-aware sort produces different, same-size artifacts.
+- The narrow linker delta is applied and the link target is `x86_64-freestanding` with no build ID.
+- GNU `objcopy` removes `.payload_bss` before flat extraction. Zig 0.17.0's `objcopy` does not support section removal and is not a substitute for this step.
+
+The publication-safe reconstruction inputs and tool hashes are recorded in `manifests/hen-kernel-component-reconstruction.json`. Exact reconstruction proves what failed; it does not prove why it failed, make the component safe, or establish equivalence to the upstream GCC/catch-all-discard build.
+
 ## Leading hypotheses
 
-1. **Build parity gap:** the Zig-built component plus the observed linker delta has never been shown equivalent to an upstream GCC-built stock HEN component on hardware. This is the strongest newly identified provenance gap.
+1. **Build parity gap:** the rejected Zig-built component is now exactly reproducible, but it has never been shown equivalent to an upstream GCC-built stock HEN component. This remains the strongest newly identified provenance gap.
 2. **Shared component entry/install path:** both failures occur before the installer returns and before the instrumented hook can collect evidence.
 3. **Instrumentation semantics:** the added trace state and hook code could still be faulty, but the current evidence does not show that code executing before shutdown.
 
@@ -39,6 +55,7 @@ These are hypotheses, not a panic diagnosis.
 
 - Do not rebuild, transfer, or execute EXP-014 or EXP-015.
 - Do not test a stock component built with the same custom Zig pipeline on hardware merely to isolate the compiler; that would be a new kernel-payload experiment requiring a new design and review.
-- Reconstruct a complete, scripted stock-versus-instrumented build comparison using the upstream-declared compiler/linker path.
+- Use the reconstructed failed build only as an offline comparison baseline.
+- Build a scripted stock-versus-instrumented comparison using the upstream-declared GCC/linker path.
 - Require section, segment, symbol, relocation, flat-byte, and entrypoint comparisons before proposing any successor.
 - Prefer a non-executing observation method or an emulator/unit boundary for trace logic.

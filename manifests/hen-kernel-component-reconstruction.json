@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "experiment": "EXP-015 post-failure offline reconstruction",
+  "hardwareExecuted": false,
+  "deploymentAuthorized": false,
+  "source": {
+    "henRevision": "d077fb4031cf0e089fb7a233cebeebcd1ed3c68e",
+    "sourceFiles": 60,
+    "instrumentationPatch": {
+      "path": "payloads/hen-loader-return-trace/hen-exp014.patch",
+      "sha256": "F1BED2059C538614779F9CF1F6F4387ADF7465486D0A87AA54C7E4564D4999AC"
+    },
+    "observedLinkerDelta": {
+      "path": "third_party/hen-exp014-observed-linker-delta.patch",
+      "sha256": "5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955"
+    },
+    "resultingLinkerScriptSha256": "E5128A511F31949686CBA672A4700590331130181089318721F493AC4CDDC502"
+  },
+  "script": {
+    "path": "scripts/Build-HenKernelComponentAudit.ps1",
+    "gitBlobSha256": "DC4C6B0AE9C1E8989086332C2DD211C5D065A9D888E6BAD1E85679852633350E",
+    "failClosedExpectedHashes": true
+  },
+  "toolchain": {
+    "compiler": {
+      "name": "Zig",
+      "version": "0.17.0",
+      "executableSha256": "F54B14F02A4D7D8AC62A94A0663486EB166BBA3745D85B466238C1B93E723D46",
+      "compileTarget": "x86_64-freebsd",
+      "upstreamMasmIntelOmitted": true
+    },
+    "linkTarget": "x86_64-freestanding",
+    "buildId": false,
+    "objcopy": {
+      "name": "GNU objcopy",
+      "version": "GNU Binutils 2.47.20260726",
+      "executableSha256": "401392BE9196347552E5E6F2E2AA34866E8FB27B71986C43CB92D1BA44621EB8",
+      "payloadBssRemovedBeforeFlatExtraction": true
+    },
+    "sourceOrder": "project-relative forward-slash paths sorted with ordinal comparison"
+  },
+  "reconstruction": {
+    "cleanOutputBuilds": 2,
+    "byteIdenticalAcrossBuilds": true,
+    "elf": {
+      "bytes": 49096,
+      "sha256": "1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E",
+      "matchesRejectedComponent": true
+    },
+    "flatPayload": {
+      "bytes": 35184,
+      "sha256": "AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066",
+      "matchesRejectedComponent": true
+    }
+  },
+  "evidenceBoundary": {
+    "customPipelineExactlyReproduced": true,
+    "upstreamGccParityEstablished": false,
+    "panicCauseEstablished": false,
+    "hardwareSafetyEstablished": false
+  },
+  "decision": "Offline comparison baseline only. EXP-014 and EXP-015 remain closed and compile-time blocked; do not transfer or execute these artifacts."
+}

@@ -9,9 +9,25 @@ The current payload build has been exercised with:
 - Scene-Collective PS4 Payload SDK
 - Ghidra 12.1.4 PUBLIC for post-link review
 
-The rejected EXP-014/EXP-015 HEN kernel component used a separate custom Zig-driven build of an upstream tree whose Makefile declares GCC. Its observed linker delta and missing committed build script are now recorded as a provenance gap; byte-identical Zig rebuilds did not establish upstream-toolchain equivalence. Do not use that component or infer that zero relocations plus complete decompilation proves runtime compatibility.
+The rejected EXP-014/EXP-015 HEN kernel component used a separate custom Zig-driven build of an upstream tree whose Makefile declares GCC. Its observed linker delta and previously implicit build inputs are now recorded. `scripts/Build-HenKernelComponentAudit.ps1` reproduces the rejected outputs exactly, but byte identity within that custom pipeline does not establish upstream-toolchain equivalence. Do not use that component or infer that zero relocations plus complete decompilation proves runtime compatibility.
 
 The PS4 Payload SDK is pinned to commit `b7326416c23ce14639e9180a24093bdc5eedb579`. Apply `third_party/ps4-payload-sdk-zig-compat.patch` before building its `libPS4-zig.a` archive.
+
+## Reconstruct the rejected HEN kernel component offline
+
+Start from HEN revision `d077fb4031cf0e089fb7a233cebeebcd1ed3c68e`, apply `payloads/hen-loader-return-trace/hen-exp014.patch`, then apply `third_party/hen-exp014-observed-linker-delta.patch`. Use Zig 0.17.0 and GNU `objcopy`; Zig 0.17.0's `objcopy` cannot remove `.payload_bss` and is not equivalent for this extraction.
+
+```powershell
+.\scripts\Build-HenKernelComponentAudit.ps1 `
+  -Zig C:\path\to\zig.exe `
+  -Objcopy C:\path\to\gnu-objcopy.exe `
+  -HenSourceRoot C:\path\to\patched-hen `
+  -OutputDirectory .\build\hen-kernel-component-audit `
+  -ExpectedELFSHA256 1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E `
+  -ExpectedBinarySHA256 AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066
+```
+
+The script fails on a hash mismatch. Its normalized ordinal source order and omission of upstream `-masm=intel` are required to reconstruct the rejected Zig build. The result is an offline comparison baseline only; it is compile-time blocked from deployment through the retained installer sources.
 
 ## Build
 

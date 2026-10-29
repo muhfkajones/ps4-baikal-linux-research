@@ -36,7 +36,9 @@
     "reviewedBuildCompiler": "Zig 0.17.0",
     "committedComponentBuildScriptAtExecution": false,
     "observedLinkerDeltaSha256": "5F0D72F3D5FF126A22E65E2F2B5CBF17EAB7372E48759F7B02FD90F9F0173955",
-    "compilerLinkerParityEstablished": false
+    "compilerLinkerParityEstablished": false,
+    "postFailureExactReconstructionManifest": "manifests/hen-kernel-component-reconstruction.json",
+    "postFailureExactReconstructionPassed": true
   },
   "hostPreflight": {
     "selection": "validated unique-filename payloadfile override; normal hen.bin is not replaced",

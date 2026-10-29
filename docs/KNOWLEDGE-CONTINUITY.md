@@ -11,6 +11,8 @@ This project uses Git-tracked documentation as the source of truth and may use [
 - External web search and Deep Research remain disabled for this project index.
 - Use a local Ollama model and local embeddings so indexed material stays on the workstation.
 
+The overall workflow is not read-only. It has two deliberately separate lanes: the allowlisted export script writes current tracked evidence into the Baikal source mirror, while Codex's retrieval bridge can only search and read that mirror. This keeps ordinary research retrieval from mutating generated pages or importing a private path by mistake.
+
 ## Sources allowed into the index
 
 The export script copies only already tracked, text-based project evidence:
@@ -60,7 +62,7 @@ Expose only these LLM Wiki tools to Codex:
 - `llm_wiki_search`
 - `llm_wiki_graph`
 
-Do not expose `llm_wiki_chat`, `llm_wiki_rescan_sources`, `llm_wiki_embed_page`, or `llm_wiki_write_page`. Source refreshes should be deliberate and reproducible through the repository export script.
+Do not expose `llm_wiki_chat`, `llm_wiki_embed_page`, or `llm_wiki_write_page`. Source refreshes should be deliberate and reproducible through the repository export script. A future Baikal-only `llm_wiki_rescan_sources` bridge is acceptable only if it is locked to this project ID, verifies `SOURCE-MANIFEST.json.git_head` against Git `HEAD`, and cannot accept arbitrary filesystem paths. The current bridge does not provide that guarded operation, so generated summaries may lag even when the safe source mirror is current.
 
 ## Session startup
 

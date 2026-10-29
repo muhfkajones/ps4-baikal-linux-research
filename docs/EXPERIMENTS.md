@@ -294,5 +294,8 @@ Experiments are append-only. Corrections receive a new entry; previous conclusio
 - Remaining host gate: keep the server stopped; review PS4 browser/AppCache request behavior and design an inert-session reset procedure before proposing any browser-based run
 - Offline provenance correction: the shared failed kernel component was built with Zig 0.17.0 and an observed linker-script delta that was not included in the published EXP-014 patch; no dedicated component build script had been committed
 - ELF layout evidence: the reviewed component contains an orphan executable `.text` section at `0x3670` of size `0x108`, followed by `.payload_rdata` at `0x3780`; the exact linker delta is now preserved separately
-- Hypothesis: compiler/linker parity is the strongest newly identified build gap, but no panic trace proves it caused either shutdown
+- Post-failure reconstruction: `scripts/Build-HenKernelComponentAudit.ps1` reproduced the rejected component twice in clean output directories: ELF 49,096 bytes SHA-256 `1B9E048A7C8012CCB899EED949FA5AED9472CD9A50BB3E0CCCB640088C11207E`; flat 35,184 bytes SHA-256 `AD5CDD21F5726AF55D9E0C6B3A79283EFFF16E2ECA7B0A0480FE0584D5E61066`
+- Recovered implicit inputs: Zig omits upstream `-masm=intel`, object paths use ordinal normalized ordering with `offsets/` before `offsets_file.c`, the narrow linker delta remains applied, and GNU `objcopy` removes `.payload_bss`
+- Evidence limit: exact reconstruction proves the rejected custom pipeline, not a panic cause or upstream-GCC equivalence
+- Hypothesis: compiler/linker parity remains the strongest identified build gap, but no panic trace proves it caused either shutdown
 - Next safe work: scripted upstream-GCC stock-versus-instrumented comparison only; no hardware compiler-isolation payload
