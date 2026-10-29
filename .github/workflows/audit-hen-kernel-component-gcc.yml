@@ -1,0 +1,103 @@
+name: Audit HEN kernel component with GCC
+
+on:
+  push:
+    paths:
+      - "scripts/Build-HenKernelComponentGccAudit.sh"
+      - "payloads/hen-loader-return-trace/hen-exp014.patch"
+      - ".github/workflows/audit-hen-kernel-component-gcc.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out research source
+        uses: actions/checkout@v4
+
+      - name: Record compiler tools
+        run: |
+          gcc --version | head -n 1
+          ld --version | head -n 1
+          objcopy --version | head -n 1
+          make --version | head -n 1
+
+      - name: Acquire pinned HEN source
+        run: |
+          git init hen-pinned
+          git -C hen-pinned remote add origin https://github.com/Scene-Collective/ps4-hen.git
+          git -C hen-pinned fetch --depth=1 origin d077fb4031cf0e089fb7a233cebeebcd1ed3c68e
+          git -C hen-pinned checkout --detach FETCH_HEAD
+          test "$(git -C hen-pinned rev-parse HEAD)" = d077fb4031cf0e089fb7a233cebeebcd1ed3c68e
+
+      - name: Prepare two stock and two instrumented trees
+        run: |
+          for tree in stock-pass1 stock-pass2 instrumented-pass1 instrumented-pass2; do
+            cp -a hen-pinned "$tree"
+          done
+          for tree in instrumented-pass1 instrumented-pass2; do
+            git -C "$tree" apply "$GITHUB_WORKSPACE/payloads/hen-loader-return-trace/hen-exp014.patch"
+          done
+
+      - name: Build all four comparison trees
+        run: |
+          mkdir -p reports
+          for tree in stock-pass1 stock-pass2 instrumented-pass1 instrumented-pass2; do
+            reports="$GITHUB_WORKSPACE/reports/$tree"
+            mkdir -p "$reports"
+            set +e
+            "$GITHUB_WORKSPACE/scripts/Build-HenKernelComponentGccAudit.sh" \
+              "$GITHUB_WORKSPACE/$tree" "$reports"
+            status=$?
+            set -e
+            echo "$tree build status: $status"
+            if [[ $status -ne 0 ]]; then
+              tail -n 80 "$reports/build.log" || true
+            fi
+          done
+
+      - name: Compare repeat builds and write summary
+        run: |
+          {
+            echo "# HEN GCC comparison"
+            echo
+            echo "Pinned source: \`d077fb4031cf0e089fb7a233cebeebcd1ed3c68e\`"
+            echo
+            for tree in stock-pass1 stock-pass2 instrumented-pass1 instrumented-pass2; do
+              status=$(cat "reports/$tree/build-status.txt")
+              echo "- $tree build status: $status"
+              if [[ $status -eq 0 ]]; then
+                sed 's/^/  - /' "reports/$tree/sha256sums.txt"
+              fi
+            done
+          } | tee reports/SUMMARY.md >>"$GITHUB_STEP_SUMMARY"
+
+          for pair in stock instrumented; do
+            if [[ $(cat "reports/$pair-pass1/build-status.txt") -eq 0 && \
+                  $(cat "reports/$pair-pass2/build-status.txt") -eq 0 ]]; then
+              cmp "$pair-pass1/kpayload/temp.t" "$pair-pass2/kpayload/temp.t"
+              cmp "$pair-pass1/kpayload/temp.u" "$pair-pass2/kpayload/temp.u"
+              cmp "$pair-pass1/kpayload/kpayload.bin" "$pair-pass2/kpayload/kpayload.bin"
+              echo "- $pair repeat builds: byte-identical" | tee -a reports/SUMMARY.md >>"$GITHUB_STEP_SUMMARY"
+            fi
+          done
+
+      - name: Upload publication-safe audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hen-kernel-component-gcc-audit-${{ github.sha }}
+          path: reports/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Require successful reproducible builds
+        run: |
+          for tree in stock-pass1 stock-pass2 instrumented-pass1 instrumented-pass2; do
+            test "$(cat "reports/$tree/build-status.txt")" -eq 0
+          done
+          grep -F -- '- stock repeat builds: byte-identical' reports/SUMMARY.md
+          grep -F -- '- instrumented repeat builds: byte-identical' reports/SUMMARY.md
